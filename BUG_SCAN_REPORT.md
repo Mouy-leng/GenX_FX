@@ -42,7 +42,7 @@ allowed_hosts=["yourdomain.com", "api.yourdomain.com"]
 #### **Hardcoded Credentials (CRITICAL)**
 **File**: `excel_forexconnect_integration.py:36`
 ```python
-self.password = os.getenv('FXCM_PASSWORD', 'cpsj1')
+self.password = os.getenv('FXCM_PASSWORD', '[REDACTED]')
 ```
 **Issue**: Default password in code
 **Risk**: Credential exposure

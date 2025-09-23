@@ -21,7 +21,10 @@ GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
 # === App Credentials ===
 MT5_LOGIN="279023502"
 MT5_SERVER="Exness-MT5Trial8"
-MT5_PASSWORD="Leng12345@#$01"
+if [ -z "$MT5_PASSWORD" ]; then
+  echo -e "${RED}Error: MT5_PASSWORD environment variable is not set.${NC}"
+  exit 1
+fi
 
 # === API Keys (placeholders) ===
 GEMINI_API_KEY="your_gemini_api_key_here"

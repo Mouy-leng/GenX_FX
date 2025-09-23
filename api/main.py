@@ -17,6 +17,10 @@ from .services.trading_service import TradingService
 from .services.ml_service import MLService
 from .services.data_service import DataService
 from .utils.auth import get_current_user
+from .models.schemas import (
+    SystemStatus, TradeSignal, OrderRequest, OrderResponse, PortfolioStatus,
+    PredictionResponse, MarketData, PredictionRequest
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -125,7 +129,7 @@ async def get_portfolio(current_user: dict = Depends(get_current_user)):
 # --- Machine Learning Endpoints ---
 
 @app.post("/ml/predict/{symbol}", response_model=PredictionResponse, tags=["Machine Learning"])
-async def get_prediction(symbol: str, current_user: dict = Depends(get_current_user)):
+async def get_prediction(symbol: str, request: PredictionRequest, current_user: dict = Depends(get_current_user)):
     """Get a prediction for a given symbol."""
     # In a real app, you'd pass real market data
     market_data = await data_service.get_realtime_data(symbol)
@@ -146,10 +150,14 @@ async def get_ml_metrics(current_user: dict = Depends(get_current_user)):
 @app.get("/data/market/{symbol}", response_model=MarketData, tags=["Data"])
 async def get_market_data(symbol: str, current_user: dict = Depends(get_current_user)):
     """Get market data for a given symbol."""
-    data = await data_service.get_market_data(symbol)
-    if not data:
+    data = await data_service.get_realtime_data(symbol)
+    if data is None:
         raise HTTPException(status_code=404, detail="Market data not found")
-    return data
+    # Assuming the service returns a DataFrame, we need to convert it to a dict
+    record = data.to_dict(orient='records')[0]
+    record['symbol'] = symbol
+    record['price'] = record['close']
+    return record
 
 # --- Main execution ---
 if __name__ == "__main__":

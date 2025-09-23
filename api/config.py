@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     EA_SERVER_PORT: int = 5000
     
     # Database Configuration
-    DATABASE_URL: str = "postgresql://genx:password@localhost:5432/genx_trading"
+    DATABASE_URL: str = "sqlite:///./genx_trading.db"
     REDIS_URL: str = "redis://localhost:6379/0"
     
     # Security

@@ -115,7 +115,7 @@ python -c "import sys; print('FC Python:', sys.executable)"
 - ✅ JSON API output
 
 ### **2. ForexConnect Integration**
-- ✅ Demo credentials support (`D27739526` / `cpsj1`)
+- ✅ Demo credentials support (`D27739526` / `[REDACTED]`)
 - ✅ Live market data feeds
 - ✅ Connection management
 - ✅ Error handling and fallbacks
@@ -149,7 +149,7 @@ python genx_cli.py excel demo          # Generate demo signals
 ### **Phase 2: ForexConnect Integration**
 ```bash
 python genx_cli.py config              # Set FXCM credentials
-# Use your demo credentials: D27739526 / cpsj1
+# Use your demo credentials, for example: D27739526 / your_password
 ```
 **Result**: Live market data integration with your existing FXCM demo.
 
