@@ -28,91 +28,17 @@ unzip awscliv2.zip
 mkdir -p /opt/amp-system
 cd /opt/amp-system
 
-# Create environment file
-cat > .env << 'ENVEOF'
-# AMP System Environment Configuration
-AMP_TOKEN=sgamp_user_01K0R2TFXNAWZES7ATM3D84JZW_3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab
+# Create .env file if it does not exist
+if [ ! -f .env ]; then
+  echo "🔧 .env file not found, creating from .env.example..."
+  cp .env.example .env
+fi
 
-# AWS Configuration
-AWS_REGION=us-east-1
-S3_BUCKET=${project_name}-data
-DYNAMODB_TABLE=${project_name}-data
-
-# System Configuration
-AMP_ENV=${environment}
-LOG_LEVEL=INFO
-DEBUG=false
-
-# Port Configuration
-API_PORT=8000
-GRAFANA_PORT=3000
-ENVEOF
-
-# Create docker-compose file
-cat > docker-compose.yml << 'COMPOSEEOF'
-version: '3.8'
-
-services:
-  amp-system:
-    image: keamouyleng/genx-fx:latest
-    container_name: amp-trading-system
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./logs:/app/logs
-      - ./data:/app/data
-      - ./reports:/app/reports
-      - ./.env:/app/.env:ro
-    environment:
-      - PYTHONPATH=/app
-      - AMP_ENV=production
-      - AWS_REGION=us-east-1
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-  redis:
-    image: redis:7-alpine
-    container_name: amp-redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
-  postgres:
-    image: postgres:15-alpine
-    container_name: amp-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: amp_trading
-      POSTGRES_USER: amp_user
-      POSTGRES_PASSWORD: amp_password
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: amp-grafana
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=amp_admin
-    volumes:
-      - grafana_data:/var/lib/grafana
-
-volumes:
-  redis_data:
-  postgres_data:
-  grafana_data:
-COMPOSEEOF
+# Create docker-compose file if it does not exist
+if [ ! -f docker-compose.yml ]; then
+    echo "🔧 docker-compose.yml not found, creating from docker-compose.amp.yml..."
+    cp docker-compose.amp.yml docker-compose.yml
+fi
 
 # Create necessary directories
 mkdir -p logs data reports
@@ -124,7 +50,7 @@ docker-compose up -d
 sleep 30
 
 # Authenticate AMP system
-docker exec -it amp-trading-system amp auth --token "sgamp_user_01K0R2TFXNAWZES7ATM3D84JZW_3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab" || true
+docker exec -it amp-trading-system amp auth --token "$AMP_TOKEN" || true
 
 # Start scheduler
 docker exec -it amp-trading-system amp schedule --start || true
