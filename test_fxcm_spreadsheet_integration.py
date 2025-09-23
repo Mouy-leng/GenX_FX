@@ -44,7 +44,7 @@ class FXCMSpreadsheetIntegrationTest:
                 "enabled": True,
                 "use_mock": True,  # Default to mock for testing
                 "username": os.getenv('FXCM_USERNAME', 'D27739526'),
-                "password": os.getenv('FXCM_PASSWORD', 'cpsj1'),
+                "password": os.getenv('FXCM_PASSWORD'),
                 "connection_type": os.getenv('FXCM_CONNECTION_TYPE', 'Demo'),
                 "url": os.getenv('FXCM_URL', 'http://fxcorporate.com/Hosts.jsp'),
                 "timeout": 30,

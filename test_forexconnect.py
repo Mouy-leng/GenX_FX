@@ -56,7 +56,6 @@ session = fx.O2GSession()
 session_descriptor = fx.O2GSessionDescriptor()
 session_descriptor.setUrl("http://www.fxcorporate.com/Hosts.jsp")  # Demo server
 session_descriptor.setUser("your_username")
-session_descriptor.setPassword("your_password")
 session_descriptor.setConnection("Demo")  # or "Real"
 
 # Login (this would actually connect)

@@ -27,7 +27,7 @@ class ForexConnectExample:
             print(f"✗ Error creating ForexConnect instance: {e}")
             return False
     
-    def configure_connection(self, username, password, connection_type="Demo", server="Real"):
+    def configure_connection(self, username, connection_type="Demo", server="Real"):
         """Configure connection parameters."""
         try:
             print(f"✓ Connection would be configured for {connection_type} environment")
@@ -48,15 +48,19 @@ class ForexConnectExample:
 # To actually connect to FXCM (requires valid credentials):
 
 import forexconnect as fx
+import os
 
 # Create ForexConnect instance
 fx_conn = fx.ForexConnect()
 
 # Login parameters
-username = "your_fxcm_username"
-password = "your_fxcm_password"
+username = os.getenv("FXCM_USERNAME", "your_fxcm_username")
+password = os.getenv("FXCM_PASSWORD") # This should be loaded from a secure source
 connection = "Demo"  # or "Real" for live trading
 server = "Real"      # Server type
+
+if not password:
+    raise ValueError("FXCM_PASSWORD environment variable not set")
 
 # Connect using context manager (recommended)
 with fx_conn:
@@ -204,9 +208,8 @@ def main():
     
     # Demo connection configuration
     demo_username = "your_demo_username"  # Replace with your credentials
-    demo_password = "your_demo_password"  # Replace with your credentials
     
-    if not fx_example.configure_connection(demo_username, demo_password):
+    if not fx_example.configure_connection(demo_username):
         print("Configuration setup failed")
         return
     

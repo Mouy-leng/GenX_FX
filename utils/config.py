@@ -3,11 +3,16 @@ import os
 from typing import Dict, Any
 
 def load_config(config_path: str) -> Dict[str, Any]:
-    """Load configuration from JSON file"""
+    """
+    Load configuration from JSON file.
+
+    For production environments, it is recommended to set the DATABASE_URL
+    as an environment variable.
+    """
     
     # Default configuration
     default_config = {
-        "database_url": os.getenv("DATABASE_URL", "postgresql://user:password@localhost/db"),
+        "database_url": os.getenv("DATABASE_URL", "sqlite:///./default.db"),
         "mongodb_url": os.getenv("MONGODB_URL", "mongodb://localhost:27017/db"),
         "redis_url": os.getenv("REDIS_URL", "redis://localhost:6379"),
         "symbols": ["BTCUSDT", "ETHUSDT"],

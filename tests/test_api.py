@@ -125,5 +125,6 @@ def test_config_loading():
 
 def test_get_prediction_endpoint(mock_auth):
     """Test the /ml/predict/{symbol} endpoint."""
-    response = client.post("/ml/predict/BTCUSDT")
+    request_data = {"symbol": "BTCUSDT", "timeframe": "1h"}
+    response = client.post("/ml/predict/BTCUSDT", json=request_data)
     assert response.status_code == 200

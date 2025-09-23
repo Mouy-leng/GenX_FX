@@ -10,7 +10,10 @@ echo "🚀 Setting up Docker Registry for GenX FX..."
 # Docker Registry Configuration
 DOCKER_REGISTRY="keamouyleng"
 DOCKER_USERNAME="keamouyleng"
-DOCKER_PASSWORD="leng12345@#$%01"
+if [ -z "$DOCKER_PASSWORD" ]; then
+  echo "Error: DOCKER_PASSWORD environment variable is not set."
+  exit 1
+fi
 DOCKER_TOKEN="t_wZXJXn95IiS2n__skVnWsvmcVP8"
 DOCKER_IMAGE="genx-fx-dev"
 DOCKER_TAG="latest"
