@@ -15,9 +15,10 @@
 input string ServerURL = "http://localhost:3000"; // Server URL
 input string EAName = "GenZ_Scalping_Bot"; // EA identification name
 input double LotSize = 0.01; // Trade lot size
+input double RiskPercent = 1.0; // Risk percentage for auto lot sizing
 input int MagicNumber = 12345; // Magic number for trades
 input int MaxSpread = 3; // Maximum spread in pips
-input bool EnableAutoTrading = true; // Enable automatic trading
+input bool EnableTrading = true; // Enable automatic trading
 input int HeartbeatInterval = 30; // Heartbeat interval in seconds
 input int SignalCheckInterval = 5; // Check for signals every X seconds
 
@@ -192,7 +193,7 @@ void ProcessSingleSignal(string signalJson)
     // Validate signal
     if(symbol != Symbol()) return; // Only trade current symbol
     if(confidence < 0.7) return; // Minimum confidence threshold
-    if(!EnableAutoTrading) return;
+    if(!EnableTrading) return; // Minimum confidence threshold
     
     // Check spread
     double spread = (Ask - Bid) / Point;
