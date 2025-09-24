@@ -120,6 +120,51 @@ async def get_mt5_info():
         "status": "configured"
     }
 
+from fastapi.responses import StreamingResponse
+import pandas as pd
+import io
+from datetime import datetime
+import random
+
+@app.get("/api/signals")
+async def get_live_signals_csv():
+    """
+    Generates simulated live trading signals and returns them in CSV format.
+    """
+    # Simulate live data by adding a timestamp and randomizing values slightly
+    now = datetime.utcnow()
+    signals = [
+        {
+            "timestamp": now.isoformat(),
+            "symbol": "EURUSD",
+            "entry": round(1.0850 + random.uniform(-0.0005, 0.0005), 5),
+            "target": round(1.0900 + random.uniform(-0.0005, 0.0005), 5),
+            "stop_loss": round(1.0800 + random.uniform(-0.0005, 0.0005), 5),
+            "confidence": round(random.uniform(0.65, 0.85), 2)
+        },
+        {
+            "timestamp": now.isoformat(),
+            "symbol": "GBPUSD",
+            "entry": round(1.2700 + random.uniform(-0.0005, 0.0005), 5),
+            "target": round(1.2750 + random.uniform(-0.0005, 0.0005), 5),
+            "stop_loss": round(1.2650 + random.uniform(-0.0005, 0.0005), 5),
+            "confidence": round(random.uniform(0.60, 0.80), 2)
+        }
+    ]
+
+    df = pd.DataFrame(signals)
+    stream = io.StringIO()
+    # Reorder columns to have symbol first
+    df = df[['timestamp', 'symbol', 'entry', 'target', 'stop_loss', 'confidence']]
+    df.to_csv(stream, index=False)
+
+    response = StreamingResponse(iter([stream.getvalue()]),
+                                 media_type="text/csv")
+
+    response.headers["Content-Disposition"] = "attachment; filename=signals.csv"
+
+    return response
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8080)
