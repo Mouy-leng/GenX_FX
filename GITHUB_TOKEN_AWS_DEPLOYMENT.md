@@ -120,9 +120,9 @@ python3 deploy/github_aws_deploy.py -e staging -r us-west-2 -t your_token_here
 ## 🔑 Authentication Setup
 
 ### GitHub Token Configuration
-The GitHub token is already configured in all scripts:
+The GitHub token should be set as an environment variable.
 ```bash
-GITHUB_TOKEN="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"
+export GITHUB_TOKEN="your_github_token"
 ```
 
 ### AWS Credentials Setup

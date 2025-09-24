@@ -6,7 +6,7 @@ from googleapiclient.discovery import build
 
 # Google Drive API setup
 SCOPES = ['https://www.googleapis.com/auth/drive']
-CLIENT_SECRET_FILE = 'client_secret_723463751699-ukpjrov1tcb3eas5982g4cmvljt33ut4.apps.googleusercontent.com.json'
+CLIENT_SECRET_FILE = os.getenv('GOOGLE_CLIENT_SECRET_FILE', 'client_secret.json')
 
 def authenticate_google_drive():
     creds = None
@@ -14,6 +14,10 @@ def authenticate_google_drive():
         creds = Credentials.from_authorized_user_file('token.json', SCOPES)
     
     if not creds or not creds.valid:
+        if not os.path.exists(CLIENT_SECRET_FILE):
+            print(f"Error: Client secret file not found at '{CLIENT_SECRET_FILE}'.")
+            print("Please download your credentials from the Google API Console and place it as 'client_secret.json' or set the GOOGLE_CLIENT_SECRET_FILE environment variable.")
+            return None
         flow = Flow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
         flow.redirect_uri = 'http://localhost:8080'
         auth_url, _ = flow.authorization_url(prompt='consent')

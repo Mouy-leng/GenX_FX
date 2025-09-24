@@ -230,7 +230,7 @@ cd /opt/amp-system
 # Create environment file
 cat > .env << 'ENVEOF'
 # AMP System Environment Configuration
-AMP_TOKEN=sgamp_user_01K0R2TFXNAWZES7ATM3D84JZW_3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab
+AMP_TOKEN=${AMP_TOKEN:-""}
 
 # AWS Configuration
 AWS_REGION=us-east-1
