@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import { db } from './db.js';
-import { users, tradingAccounts, positions, notifications, educationalResources } from '../shared/schema.js';
+import { db } from './db';
+import { users, tradingAccounts, positions, notifications } from '../shared/schema';
 import { eq, desc, and, or, ilike, count } from 'drizzle-orm';
 
 export function registerRoutes(app: Express) {
