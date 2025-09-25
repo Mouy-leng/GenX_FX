@@ -1,6 +1,6 @@
 import { Express } from 'express';
 import { db } from './db.js';
-import { users, tradingAccounts, positions, notifications, educationalResources } from '../shared/schema.js';
+import { users, tradingAccounts, positions, notifications } from '../../shared/schema.js';
 import { eq, desc, and, or, ilike, count } from 'drizzle-orm';
 
 export function registerRoutes(app: Express) {
@@ -77,59 +77,6 @@ export function registerRoutes(app: Express) {
         timestamp: new Date().toISOString(),
         error: error.message
       });
-    }
-  });
-
-  // Educational Resources Routes
-  app.get('/api/educational-resources', async (req, res) => {
-    try {
-      const { page = '1', limit = '10', search = '', skillLevel, category } = req.query;
-      const offset = (parseInt(page as string) - 1) * parseInt(limit as string);
-
-      let whereConditions = [];
-
-      if (search) {
-        whereConditions.push(
-          or(
-            ilike(educationalResources.title, `%${search}%`),
-            ilike(educationalResources.description, `%${search}%`)
-          )
-        );
-      }
-
-      if (skillLevel) {
-        whereConditions.push(eq(educationalResources.skillLevel, skillLevel as string));
-      }
-
-      if (category) {
-        whereConditions.push(eq(educationalResources.category, category as string));
-      }
-
-      const resources = await db
-        .select()
-        .from(educationalResources)
-        .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
-        .orderBy(desc(educationalResources.createdAt))
-        .limit(parseInt(limit as string))
-        .offset(offset);
-
-      const totalCount = await db
-        .select({ count: count() })
-        .from(educationalResources)
-        .where(whereConditions.length > 0 ? and(...whereConditions) : undefined);
-
-      res.json({
-        resources,
-        pagination: {
-          page: parseInt(page as string),
-          limit: parseInt(limit as string),
-          total: totalCount[0].count,
-          totalPages: Math.ceil(totalCount[0].count / parseInt(limit as string))
-        }
-      });
-    } catch (error) {
-      console.error('Error fetching educational resources:', error);
-      res.status(500).json({ error: 'Failed to fetch educational resources' });
     }
   });
 
