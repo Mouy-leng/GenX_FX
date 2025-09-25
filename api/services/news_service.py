@@ -12,6 +12,7 @@ import json
 from alpha_vantage.fundamentaldata import FundamentalData
 from newsapi import NewsApiClient
 import finnhub
+from core.secrets import secrets_manager
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +21,11 @@ class NewsService:
     
     def __init__(self):
         # API Keys
-        self.newsdata_key = os.getenv("NEWSDATA_API_KEY")
-        self.alphavantage_key = os.getenv("ALPHAVANTAGE_API_KEY")
-        self.newsapi_key = os.getenv("NEWSAPI_ORG_KEY")
-        self.finnhub_key = os.getenv("FINNHUB_API_KEY")
-        self.fmp_key = os.getenv("FMP_API_KEY")
+        self.newsdata_key = secrets_manager.get_secret("NEWSDATA_API_KEY")
+        self.alphavantage_key = secrets_manager.get_secret("ALPHAVANTAGE_API_KEY")
+        self.newsapi_key = secrets_manager.get_secret("NEWSAPI_ORG_KEY")
+        self.finnhub_key = secrets_manager.get_secret("FINNHUB_API_KEY")
+        self.fmp_key = secrets_manager.get_secret("FMP_API_KEY")
         
         # Initialize clients
         self.newsapi_client = NewsApiClient(api_key=self.newsapi_key) if self.newsapi_key else None

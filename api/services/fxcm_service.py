@@ -437,13 +437,15 @@ class FXCMService:
         return df
 
 
+from core.secrets import secrets_manager
+
 # Factory function for creating FXCM service
 async def create_fxcm_service() -> FXCMService:
     """Create and initialize FXCM service"""
     credentials = FXCMCredentials(
-        api_key=settings.FXCM_API_KEY,
-        access_token=settings.FXCM_ACCESS_TOKEN,
-        account_id=settings.FXCM_ACCOUNT_ID,
+        api_key=secrets_manager.get_secret("FXCM_API_KEY"),
+        access_token=secrets_manager.get_secret("FXCM_ACCESS_TOKEN"),
+        account_id=secrets_manager.get_secret("FXCM_ACCOUNT_ID"),
         environment=settings.FXCM_ENVIRONMENT
     )
     

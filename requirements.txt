@@ -58,6 +58,7 @@ python-binance>=1.0.0,<2.0.0
 
 # AI and ML Services
 google-generativeai>=0.7.0,<1.0.0
+boto3>=1.28.0,<2.0.0
 
 # Data Sources
 praw>=7.7.1,<8.0.0

@@ -15,35 +15,17 @@ from datetime import datetime
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from core.secrets import secrets_manager
+
 class APIKeyValidator:
     """Validates API keys and tests connections"""
     
     def __init__(self):
         self.results = {}
-        self.env_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
         
-    def load_env_file(self) -> bool:
-        """Load environment variables from .env file"""
-        if not os.path.exists(self.env_file):
-            print(f"❌ .env file not found at: {self.env_file}")
-            return False
-            
-        try:
-            with open(self.env_file, 'r') as f:
-                for line in f:
-                    line = line.strip()
-                    if line and not line.startswith('#') and '=' in line:
-                        key, value = line.split('=', 1)
-                        os.environ[key] = value
-            print("✅ Environment variables loaded from .env")
-            return True
-        except Exception as e:
-            print(f"❌ Error loading .env file: {e}")
-            return False
-    
     def check_api_key_exists(self, key_name: str, required: bool = False) -> bool:
-        """Check if API key exists in environment"""
-        value = os.getenv(key_name)
+        """Check if API key exists"""
+        value = secrets_manager.get_secret(key_name)
         if not value or value == f"your-{key_name.lower()}-here":
             if required:
                 print(f"❌ {key_name}: MISSING (Required)")
@@ -58,7 +40,7 @@ class APIKeyValidator:
     async def test_gemini_ai(self) -> bool:
         """Test Gemini AI connection"""
         try:
-            api_key = os.getenv("GEMINI_API_KEY")
+            api_key = secrets_manager.get_secret("GEMINI_API_KEY")
             if not api_key:
                 return False
                 
@@ -84,8 +66,8 @@ class APIKeyValidator:
     async def test_bybit_api(self) -> bool:
         """Test Bybit API connection"""
         try:
-            api_key = os.getenv("BYBIT_API_KEY")
-            api_secret = os.getenv("BYBIT_API_SECRET")
+            api_key = secrets_manager.get_secret("BYBIT_API_KEY")
+            api_secret = secrets_manager.get_secret("BYBIT_API_SECRET")
             
             if not api_key or not api_secret:
                 return False
@@ -121,7 +103,7 @@ class APIKeyValidator:
     async def test_news_api(self) -> bool:
         """Test News API connection"""
         try:
-            api_key = os.getenv("NEWSAPI_ORG_KEY")
+            api_key = secrets_manager.get_secret("NEWSAPI_ORG_KEY")
             if not api_key:
                 return False
             
@@ -146,8 +128,8 @@ class APIKeyValidator:
     async def test_reddit_api(self) -> bool:
         """Test Reddit API connection"""
         try:
-            client_id = os.getenv("REDDIT_CLIENT_ID")
-            client_secret = os.getenv("REDDIT_CLIENT_SECRET")
+            client_id = secrets_manager.get_secret("REDDIT_CLIENT_ID")
+            client_secret = secrets_manager.get_secret("REDDIT_CLIENT_SECRET")
             
             if not client_id or not client_secret:
                 return False
@@ -179,7 +161,7 @@ class APIKeyValidator:
     async def test_telegram_bot(self) -> bool:
         """Test Telegram Bot connection"""
         try:
-            bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+            bot_token = secrets_manager.get_secret("TELEGRAM_BOT_TOKEN")
             if not bot_token:
                 return False
             

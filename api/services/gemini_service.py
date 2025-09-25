@@ -9,6 +9,7 @@ import google.generativeai as genai
 import os
 from datetime import datetime
 import json
+from core.secrets import secrets_manager
 
 logger = logging.getLogger(__name__)
 
@@ -16,9 +17,9 @@ class GeminiService:
     """Service for interacting with Google Gemini AI"""
     
     def __init__(self):
-        self.api_key = os.getenv("GEMINI_API_KEY")
+        self.api_key = secrets_manager.get_secret("GEMINI_API_KEY")
         if not self.api_key:
-            raise ValueError("GEMINI_API_KEY environment variable is required")
+            raise ValueError("GEMINI_API_KEY could not be retrieved")
         
         # Configure Gemini
         genai.configure(api_key=self.api_key)
