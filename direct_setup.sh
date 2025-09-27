@@ -18,16 +18,19 @@ echo -e "${GREEN}🚀 Setting up GenX-FX Trading Platform (Direct Setup)${NC}"
 GITHUB_USERNAME="genxdbxfx1"
 GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
 
-# === App Credentials ===
-MT5_LOGIN="279023502"
-MT5_SERVER="Exness-MT5Trial8"
-MT5_PASSWORD="Leng12345@#$01"
+# === App Credentials (placeholders) ===
+# IMPORTANT: It is strongly recommended to set these as environment variables.
+MT5_LOGIN="${MT5_LOGIN:-"your_mt5_login"}"
+MT5_SERVER="${MT5_SERVER:-"your_mt5_server"}"
+MT5_PASSWORD="${MT5_PASSWORD:-"your_mt5_password"}"
 
 # === API Keys (placeholders) ===
-GEMINI_API_KEY="your_gemini_api_key_here"
-ALPHAVANTAGE_API_KEY="your_alpha_api_key_here"
-NEWS_API_KEY="your_newsapi_key_here"
-NEWSDATA_API_KEY="your_newsdata_key_here"
+# IMPORTANT: Set these as environment variables for security.
+GEMINI_API_KEY="${GEMINI_API_KEY:-"your_gemini_api_key_here"}"
+ALPHAVANTAGE_API_KEY="${ALPHAVANTAGE_API_KEY:-"your_alpha_api_key_here"}"
+NEWS_API_KEY="${NEWS_API_KEY:-"your_newsapi_key_here"}"
+NEWSDATA_API_KEY="${NEWSDATA_API_KEY:-"your_newsdata_key_here"}"
+HEROKU_TOKEN="${HEROKU_TOKEN:-"your_heroku_token_here"}"
 
 # === Backend Config ===
 ENV="development"
@@ -45,12 +48,12 @@ cat > .env << EOF
 GITHUB_USERNAME=$GITHUB_USERNAME
 GITHUB_REPOSITORY=$GITHUB_REPOSITORY
 
-# === App Credentials ===
+# === App Credentials (placeholders - replace with your actual credentials) ===
 MT5_LOGIN=$MT5_LOGIN
 MT5_SERVER=$MT5_SERVER
 MT5_PASSWORD=$MT5_PASSWORD
 
-# === API Keys ===
+# === API Keys (placeholders - replace with your actual keys) ===
 GEMINI_API_KEY=$GEMINI_API_KEY
 ALPHAVANTAGE_API_KEY=$ALPHAVANTAGE_API_KEY
 NEWS_API_KEY=$NEWS_API_KEY
@@ -65,8 +68,8 @@ DATABASE_URL=$DATABASE_URL
 # === Security ===
 SECRET_KEY=$SECRET_KEY
 
-# === Heroku ===
-HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
+# === Heroku (placeholder - replace with your actual token) ===
+HEROKU_TOKEN=$HEROKU_TOKEN
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"
@@ -344,9 +347,9 @@ Credentials:
 - Admin User: admin@genxdbxfx1.com
 
 MT5 Credentials:
-- Login: $MT5_LOGIN
-- Server: $MT5_SERVER
-- Password: $MT5_PASSWORD
+- Login: ${MT5_LOGIN} (set via environment variable)
+- Server: ${MT5_SERVER} (set via environment variable)
+- Password: [NOT SHOWN - SET VIA ENV VAR]
 
 Useful Commands:
 - Start platform: ./start_trading_platform.sh
@@ -372,12 +375,13 @@ Database Tables:
 Next Steps:
 1. Start the platform: ./start_trading_platform.sh
 2. Access API docs: http://localhost:8080/docs
-3. Configure API keys in .env file
-4. Set up MT5 connection
+3. Configure API keys and credentials in the .env file or as environment variables.
+4. Set up MT5 connection.
 EOF
 
 echo -e "${GREEN}✅ Direct setup complete!${NC}"
 echo -e "${GREEN}📝 Deployment information saved to direct_deployment_info.txt${NC}"
+echo -e "${YELLOW}IMPORTANT: Review the generated .env file and replace placeholder values with your actual secrets.${NC}"
 echo -e "${BLUE}🗄️  Database created: genxdb_fx.db${NC}"
 echo -e "${YELLOW}🚀 Start the platform with: ./start_trading_platform.sh${NC}"
 echo -e "${BLUE}📚 API documentation will be available at: http://localhost:8080/docs${NC}"

@@ -18,22 +18,32 @@ echo -e "${GREEN}🚀 Setting up GenX-FX Trading Platform (Simple Setup)${NC}"
 GITHUB_USERNAME="genxdbxfx1"
 GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
 
-# === App Credentials ===
-MT5_LOGIN="279023502"
-MT5_SERVER="Exness-MT5Trial8"
-MT5_PASSWORD="Leng12345@#$01"
+# === App Credentials (placeholders) ===
+# IMPORTANT: Replace these with your actual credentials.
+# It is recommended to use environment variables to set these.
+MT5_LOGIN="${MT5_LOGIN:-"your_mt5_login"}"
+MT5_SERVER="${MT5_SERVER:-"your_mt5_server"}"
+MT5_PASSWORD="${MT5_PASSWORD:-"your_mt5_password"}"
 
 # === API Keys (placeholders) ===
-GEMINI_API_KEY="your_gemini_api_key_here"
-ALPHAVANTAGE_API_KEY="your_alpha_api_key_here"
-NEWS_API_KEY="your_newsapi_key_here"
-NEWSDATA_API_KEY="your_newsdata_key_here"
+# IMPORTANT: Set these as environment variables or replace the placeholders.
+GEMINI_API_KEY="${GEMINI_API_KEY:-"your_gemini_api_key_here"}"
+ALPHAVANTAGE_API_KEY="${ALPHAVANTAGE_API_KEY:-"your_alpha_api_key_here"}"
+NEWS_API_KEY="${NEWS_API_KEY:-"your_newsapi_key_here"}"
+NEWSDATA_API_KEY="${NEWSDATA_API_KEY:-"your_newsdata_key_here"}"
+HEROKU_TOKEN="${HEROKU_TOKEN:-"your_heroku_token_here"}"
+
 
 # === Backend Config ===
 ENV="development"
 PORT="8080"
 DEBUG="true"
-DATABASE_URL="mysql://root:password@localhost:3306/genxdb_fx_db"
+# IMPORTANT: Use environment variables for database credentials in production.
+DB_USER="${DB_USER:-"genx_user"}"
+DB_PASSWORD="${DB_PASSWORD:-"$(openssl rand -hex 16)"}" # Generate a random password
+DB_ROOT_PASSWORD="${DB_ROOT_PASSWORD:-"$(openssl rand -hex 16)"}" # Generate a random password
+DATABASE_URL="mysql://root:${DB_ROOT_PASSWORD}@localhost:3306/genxdb_fx_db"
+
 
 # === Security ===
 SECRET_KEY=$(openssl rand -hex 32)
@@ -50,12 +60,12 @@ cat > .env << EOF
 GITHUB_USERNAME=$GITHUB_USERNAME
 GITHUB_REPOSITORY=$GITHUB_REPOSITORY
 
-# === App Credentials ===
+# === App Credentials (placeholders - replace with your actual credentials) ===
 MT5_LOGIN=$MT5_LOGIN
 MT5_SERVER=$MT5_SERVER
 MT5_PASSWORD=$MT5_PASSWORD
 
-# === API Keys ===
+# === API Keys (placeholders - replace with your actual keys) ===
 GEMINI_API_KEY=$GEMINI_API_KEY
 ALPHAVANTAGE_API_KEY=$ALPHAVANTAGE_API_KEY
 NEWS_API_KEY=$NEWS_API_KEY
@@ -65,13 +75,13 @@ NEWSDATA_API_KEY=$NEWSDATA_API_KEY
 ENV=$ENV
 PORT=$PORT
 DEBUG=$DEBUG
-DATABASE_URL=$DATABASE_URL
+DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@mysql:3306/genxdb_fx_db
 
 # === Security ===
 SECRET_KEY=$SECRET_KEY
 
-# === Heroku ===
-HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
+# === Heroku (placeholder - replace with your actual token) ===
+HEROKU_TOKEN=$HEROKU_TOKEN
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"
@@ -88,10 +98,10 @@ services:
     container_name: genxdb_fx_mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: genxdb_fx_db
-      MYSQL_USER: genx_user
-      MYSQL_PASSWORD: genx_password
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -254,7 +264,8 @@ echo -e "${GREEN}✅ Database initialization script created${NC}"
 
 # Start containers
 echo -e "${YELLOW}Starting containers...${NC}"
-docker-compose -f docker-compose.simple.yml up -d
+# Pass the generated passwords to docker-compose
+DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD} DB_PASSWORD=${DB_PASSWORD} DB_USER=${DB_USER} docker-compose -f docker-compose.simple.yml up -d
 
 # Wait for services to be ready
 echo -e "${YELLOW}Waiting for services to be ready...${NC}"
@@ -267,7 +278,7 @@ docker-compose -f docker-compose.simple.yml ps
 # Test database connection
 echo -e "${YELLOW}Testing database connection...${NC}"
 sleep 10
-docker exec genxdb_fx_mysql mysql -u root -ppassword -e "SELECT 1;" || echo "Database connection test failed"
+docker exec genxdb_fx_mysql mysql -u root -p"${DB_ROOT_PASSWORD}" -e "SELECT 1;" || echo "Database connection test failed"
 
 # Create deployment info file
 cat > simple_deployment_info.txt << EOF
@@ -283,32 +294,34 @@ Services:
 - Monitoring (Grafana): localhost:3001
 
 Credentials:
-- MySQL Root Password: password
+- MySQL Root Password: ${DB_ROOT_PASSWORD} (auto-generated, see .env file if needed)
 - MySQL Database: genxdb_fx_db
-- MySQL User: genx_user
-- MySQL Password: genx_password
-- Grafana Admin Password: admin
+- MySQL User: ${DB_USER}
+- MySQL Password: ${DB_PASSWORD} (auto-generated, see .env file if needed)
+- Grafana Admin Password: admin (default, change in production)
 
 MT5 Credentials:
-- Login: $MT5_LOGIN
-- Server: $MT5_SERVER
-- Password: $MT5_PASSWORD
+- Login: ${MT5_LOGIN}
+- Server: ${MT5_SERVER}
+- Password: [NOT SHOWN - SET VIA ENV VAR]
 
 Useful Commands:
 - View logs: docker-compose -f docker-compose.simple.yml logs
 - Stop services: docker-compose -f docker-compose.simple.yml down
 - Restart services: docker-compose -f docker-compose.simple.yml restart
-- Access MySQL: docker exec -it genxdb_fx_mysql mysql -u root -ppassword genxdb_fx_db
+- Access MySQL: docker exec -it genxdb_fx_mysql mysql -u root -p"${DB_ROOT_PASSWORD}" genxdb_fx_db
 - Access Redis: docker exec -it genxdb_fx_redis redis-cli
 
 Next Steps:
-1. Start the API server: python -m uvicorn api.main:app --host 0.0.0.0 --port 8080
-2. Access monitoring: http://localhost:3001
-3. Connect to database: localhost:3306
+1. Review and update the placeholder values in the .env file with your actual secrets.
+2. Start the API server: python -m uvicorn api.main:app --host 0.0.0.0 --port 8080
+3. Access monitoring: http://localhost:3001
+4. Connect to database: localhost:3306
 EOF
 
 echo -e "${GREEN}✅ Simple container setup complete!${NC}"
 echo -e "${GREEN}📝 Deployment information saved to simple_deployment_info.txt${NC}"
+echo -e "${YELLOW}IMPORTANT: Review the generated .env file and replace placeholder values with your actual secrets.${NC}"
 echo -e "${BLUE}📊 Monitoring dashboard at: http://localhost:3001${NC}"
 echo -e "${BLUE}🗄️  Database ready at localhost:3306${NC}"
 echo -e "${YELLOW}🚀 Next: Start the API server with: python -m uvicorn api.main:app --host 0.0.0.0 --port 8080${NC}"

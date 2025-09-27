@@ -1,82 +1,140 @@
 #!/bin/bash
 
-# GenX_FX Deployment Script for Google VM
+# GenX_FX Deployment Script for Google VM (Fixed Version)
+# This script sets up the GenX_FX backend on a virtual machine.
+# It has been modified to remove hardcoded secrets and improve security.
+
 set -e
 
-echo "🚀 Starting GenX_FX Deployment..."
+# --- Helper Functions ---
+print_status() {
+    echo "🔵 $1"
+}
 
-# Update system and install dependencies
-echo "📦 Installing dependencies..."
-sudo apt update
-sudo apt install -y docker.io docker-compose curl wget git nginx certbot python3-certbot-nginx
+print_success() {
+    echo "✅ $1"
+}
 
-# Start and enable Docker
-echo "🐳 Setting up Docker..."
+print_warning() {
+    echo "⚠️  $1"
+}
+
+print_error() {
+    echo "❌ $1" >&2
+    exit 1
+}
+
+
+# --- Pre-flight Check for Environment Variables ---
+print_status "Checking for required environment variables..."
+# List of variables that MUST be set before running the script
+required_vars=(
+    "DOCKER_USERNAME" "DOCKER_PASSWORD" "GEMINI_API_KEY" "TELEGRAM_BOT_TOKEN"
+    "GMAIL_USER" "GMAIL_PASSWORD" "REDDIT_CLIENT_ID" "REDDIT_CLIENT_SECRET"
+    "REDDIT_USERNAME" "REDDIT_PASSWORD" "FXCM_USERNAME" "FXCM_PASSWORD" "JWT_SECRET_KEY"
+)
+missing_vars=()
+for var in "${required_vars[@]}"; do
+    # Check if the variable is unset or empty
+    if [ -z "${!var}" ]; then
+        missing_vars+=("$var")
+    fi
+done
+
+if [ ${#missing_vars[@]} -ne 0 ]; then
+    print_error "The following required environment variables are not set: ${missing_vars[*]}"
+    echo "Please export these variables before running the script."
+    echo "Example: export DOCKER_USERNAME='your_docker_username'"
+    exit 1
+fi
+print_success "All required environment variables are present."
+
+
+# --- System Setup ---
+print_status "📦 Installing system dependencies..."
+sudo apt-get update
+sudo apt-get install -y docker.io docker-compose curl wget git nginx certbot python3-certbot-nginx
+
+print_status "🐳 Setting up and starting Docker..."
 sudo systemctl enable docker
 sudo systemctl start docker
+# Add the current user to the docker group to avoid using sudo with docker commands
 sudo usermod -aG docker $USER
+print_success "Docker setup is complete."
 
-# Create project directory
-echo "📁 Setting up project directory..."
+
+# --- Project Setup ---
+print_status "📁 Setting up project directory..."
 mkdir -p ~/GenX_FX
 cd ~/GenX_FX
 
-# Create .env file with your credentials
-echo "🔧 Creating .env file..."
-cat > .env << 'ENVEOF'
+print_status "🔧 Creating .env file from environment variables..."
+# This will create a .env file that the Docker container can use for its environment variables.
+# It securely populates the file from the environment variables set on the host.
+cat > .env << EOF
 # === Docker Registry Credentials ===
-DOCKER_USERNAME=genxapitrading@gmail.com
-DOCKER_PASSWORD=Leng12345@#$01
-DOCKER_IMAGE=keamouyleng/genx_docker
-DOCKER_TAG=latest
+DOCKER_USERNAME=${DOCKER_USERNAME}
+DOCKER_PASSWORD=${DOCKER_PASSWORD}
+DOCKER_IMAGE=${DOCKER_IMAGE:-"keamouyleng/genx_docker"}
+DOCKER_TAG=${DOCKER_TAG:-"latest"}
 
 # === API Keys ===
-GEMINI_API_KEY=AIzaSyDnjcaXnDpm1TzmIAV7EnoluI6w7wGBagM
-VANTAGE_ALPHAVANTAGE_API_KEY=B8E5RHKWZIE1JLK5
-NEWS_API_KEY=5919b24ab55d4ad0a71734fc2ef3542f
-NEWSDATA_API_KEY=pub_7b251a30c9634424b45bc966fc3356da
-FINNHUB_API_KEY=d1a1nh9r01qltimul4f0d1a1nh9r01qltimul4fg
+GEMINI_API_KEY=${GEMINI_API_KEY}
+VANTAGE_ALPHAVANTAGE_API_KEY=${VANTAGE_ALPHAVANTAGE_API_KEY}
+NEWS_API_KEY=${NEWS_API_KEY}
+NEWSDATA_API_KEY=${NEWSDATA_API_KEY}
+FINNHUB_API_KEY=${FINNHUB_API_KEY}
 
 # === Telegram Credentials ===
-TELEGRAM_BOT_TOKEN=8193742894:AAHewpntyYzCaPLyP1yhPZda9eLcDDKBO8Y
-TELEGRAM_USER_ID=1725480922
+TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+TELEGRAM_USER_ID=${TELEGRAM_USER_ID}
 
 # === Gmail Credentials ===
-GMAIL_USER=lengkundee01@gmail.com
-GMAIL_PASSWORD=Leng12345@#$01
-GMAIL_APP_API_KEY=iwvb_zhme_jcga_qwks
+GMAIL_USER=${GMAIL_USER}
+GMAIL_PASSWORD=${GMAIL_PASSWORD}
+GMAIL_APP_API_KEY=${GMAIL_APP_API_KEY}
 
 # === Reddit Credentials ===
-REDDIT_CLIENT_ID=gevc7tz7VJG-dFveG3QLJA
-REDDIT_CLIENT_SECRET=3ELg5NbaxAUJDpitlv_fPb7uFm7i3A
-REDDIT_USERNAME=Mysterious_Set1324
-REDDIT_PASSWORD=Leng12345@#$01
-REDDIT_USER_AGENT=GenX-Trading-Bot/1.0
+REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID}
+REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET}
+REDDIT_USERNAME=${REDDIT_USERNAME}
+REDDIT_PASSWORD=${REDDIT_PASSWORD}
+REDDIT_USER_AGENT=${REDDIT_USER_AGENT:-"GenX-Trading-Bot/1.0"}
 
 # === FXCM Credentials ===
-FXCM_USERNAME=D27739526
-FXCM_PASSWORD=cpsj1
-FXCM_CONNECTION_TYPE=Demo
-FXCM_URL=www.fxcorporate.com/Hosts.jsp
+FXCM_USERNAME=${FXCM_USERNAME}
+FXCM_PASSWORD=${FXCM_PASSWORD}
+FXCM_CONNECTION_TYPE=${FXCM_CONNECTION_TYPE:-"Demo"}
+FXCM_URL=${FXCM_URL:-"www.fxcorporate.com/Hosts.jsp"}
 
 # === Security Keys ===
-JWT_SECRET_KEY=f1a6828476f6892bfc9fa6601810147c2a595ab08a0bd8b8263344921dc87102
+JWT_SECRET_KEY=${JWT_SECRET_KEY}
 
 # === Feature Flags ===
-ENABLE_NEWS_ANALYSIS=true
-ENABLE_REDDIT_ANALYSIS=true
-ENABLE_WEBSOCKET_FEED=true
-API_PROVIDER=gemini
-ENVEOF
+ENABLE_NEWS_ANALYSIS=${ENABLE_NEWS_ANALYSIS:-"true"}
+ENABLE_REDDIT_ANALYSIS=${ENABLE_REDDIT_ANALYSIS:-"true"}
+ENABLE_WEBSOCKET_FEED=${ENABLE_WEBSOCKET_FEED:-"true"}
+API_PROVIDER=${API_PROVIDER:-"gemini"}
+EOF
+print_success ".env file created successfully."
 
-# Clone the repository
-echo "📥 Cloning GenX_FX repository..."
-git clone https://github.com/Mouy-leng/GenX_FX.git .
-git checkout cursor/check-docker-and-container-registration-status-5116
 
-# Create Docker Compose file for production
-echo "🐳 Creating Docker Compose configuration..."
-cat > docker-compose.production.yml << 'COMPOSEEOF'
+# --- Source Code ---
+print_status "📥 Cloning GenX_FX repository..."
+# Clone into a temporary directory and then move files to avoid issues with git in the current directory.
+if [ -d "temp_genx" ]; then
+    rm -rf temp_genx
+fi
+git clone https://github.com/Mouy-leng/GenX_FX.git temp_genx
+# Use rsync for a robust copy, excluding the .git directory
+rsync -a --exclude='.git' temp_genx/ .
+rm -rf temp_genx
+print_success "Repository content is ready."
+
+
+# --- Docker and Nginx Configuration ---
+print_status "🐳 Creating Docker Compose configuration..."
+cat > docker-compose.production.yml << 'EOF'
 version: '3.8'
 
 services:
@@ -86,7 +144,6 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
-      - "443:443"
     environment:
       - NODE_ENV=production
     env_file:
@@ -116,11 +173,14 @@ services:
 networks:
   genx-network:
     driver: bridge
-COMPOSEEOF
 
-# Create Nginx configuration
-echo "🌐 Creating Nginx configuration..."
-cat > nginx.conf << 'NGINXEOF'
+volumes:
+  logs:
+EOF
+print_success "Docker Compose file created."
+
+print_status "🌐 Creating Nginx configuration..."
+cat > nginx.conf << 'EOF'
 events {
     worker_connections 1024;
 }
@@ -130,16 +190,19 @@ http {
         server genx-backend:8080;
     }
 
+    # Redirect HTTP to HTTPS for security
     server {
         listen 80;
         server_name _;
         return 301 https://$host$request_uri;
     }
 
+    # Main HTTPS server configuration
     server {
         listen 443 ssl;
         server_name _;
 
+        # Using a self-signed certificate. For production, replace with a trusted cert (e.g., from Let's Encrypt).
         ssl_certificate /etc/nginx/ssl/cert.pem;
         ssl_certificate_key /etc/nginx/ssl/key.pem;
         ssl_protocols TLSv1.2 TLSv1.3;
@@ -154,32 +217,37 @@ http {
         }
     }
 }
-NGINXEOF
+EOF
+print_success "Nginx configuration created."
 
-# Create SSL directory and generate self-signed certificate
-echo "🔒 Setting up SSL certificate..."
+print_status "🔒 Setting up self-signed SSL certificate..."
 mkdir -p ssl
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout ssl/key.pem -out ssl/cert.pem \
     -subj "/C=US/ST=State/L=City/O=GenX/CN=genx.local"
+print_success "Self-signed SSL certificate generated."
+print_warning "This certificate is for development/testing only. Use Certbot for a production-ready certificate."
 
-# Build and start the application
-echo "🚀 Building and starting GenX_FX..."
-sudo docker-compose -f docker-compose.production.yml up -d --build
 
-# Wait for services to start
-echo "⏳ Waiting for services to start..."
+# --- Build and Run ---
+print_status "🏗️ Building and starting containers..."
+# Run docker-compose as the current user, now that they are in the docker group.
+# A logout/login might be required for the group change to take effect in interactive shells.
+docker-compose -f docker-compose.production.yml up -d --build
+
+print_status "⏳ Waiting for containers to start..."
 sleep 30
 
-# Check service status
-echo "📊 Checking service status..."
-sudo docker-compose -f docker-compose.production.yml ps
 
-echo "✅ Deployment completed!"
-echo "🌐 Your GenX_FX backend is now running on:"
-echo "   - HTTP: http://104.198.193.129 (redirects to HTTPS)"
-echo "   - HTTPS: https://104.198.193.129"
-echo "   - Backend API: https://104.198.193.129:8080"
-echo ""
-echo "📁 EA Scripts are available in: ~/GenX_FX/expert-advisors/"
-echo "📝 Logs are available in: ~/GenX_FX/logs/"
+# --- Post-deployment ---
+print_status "📊 Container status:"
+docker-compose -f docker-compose.production.yml ps
+
+print_success "✅ Deployment completed!"
+echo "🌐 Your GenX_FX backend is now running."
+echo "   - To access, go to: https://$(curl -s ifconfig.me)"
+print_warning "You may need to bypass a browser warning due to the self-signed SSL certificate."
+
+echo "🔧 To view logs: docker-compose -f docker-compose.production.yml logs -f"
+echo "🔧 To stop the services: docker-compose -f docker-compose.production.yml down"
+echo "🔧 To restart the services: docker-compose -f docker-compose.production.yml restart"
