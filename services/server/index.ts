@@ -97,8 +97,23 @@ if (process.env.NODE_ENV === 'production') {
   await setupVite(app, server);
 }
 
-// Error handling middleware
-app.use((err, req, res, next) => {
+// Specific error handler for body-parser errors
+app.use((err: any, req: any, res: any, next: any) => {
+  if (err instanceof SyntaxError && 'status' in err && err.status === 400) {
+    console.error('Malformed JSON received:', err.message);
+    res.status(400).json({ error: 'Malformed JSON' });
+    return;
+  }
+  if (err.type === 'entity.too.large') {
+    console.error('Payload too large:', err.message);
+    res.status(413).json({ error: 'Payload too large' });
+    return;
+  }
+  next(err);
+});
+
+// Generic error handling middleware
+app.use((err: any, req: any, res: any, next: any) => {
   console.error('Server error:', err);
   res.status(500).json({
     error: 'Internal server error',
@@ -107,7 +122,7 @@ app.use((err, req, res, next) => {
 });
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({
     error: 'Not found',
     path: req.originalUrl
