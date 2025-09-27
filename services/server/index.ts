@@ -3,8 +3,8 @@ import express from 'express';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
-import { setupVite, serveStatic } from './vite.js';
-import { registerRoutes } from './routes.js';
+import { setupVite, serveStatic } from './vite.ts';
+import { registerRoutes } from './routes.ts';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 
@@ -107,7 +107,7 @@ app.use((err, req, res, next) => {
 });
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use('/*catchall', (req, res) => {
   res.status(404).json({
     error: 'Not found',
     path: req.originalUrl

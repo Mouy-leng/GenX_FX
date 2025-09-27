@@ -1,6 +1,6 @@
 
-import { db } from './db.js';
-import { users, tradingAccounts, positions, notifications, educationalResources } from '../shared/schema.js';
+import { db } from './db.ts';
+import { users, tradingAccounts, positions, notifications, educationalResources } from '../../shared/schema.ts';
 
 export async function testDatabaseConnections() {
   console.log('🧪 Testing database connections...');
