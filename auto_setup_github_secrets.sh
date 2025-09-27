@@ -42,14 +42,12 @@ check_gh_auth() {
     fi
 }
 
-# Setup AMP Token (already provided)
+# Setup AMP Token (user must set manually)
 setup_amp_secret() {
-    print_status "Setting up AMP Token secret..."
-    
-    AMP_TOKEN=${AMP_TOKEN:-""}
-    
-    gh secret set AMP_TOKEN --body "$AMP_TOKEN"
-    print_success "AMP Token secret configured"
+    print_warning "AMP Token needs to be set manually."
+    echo "You can get your token from the AMP system dashboard."
+    echo "Then run the following command:"
+    echo "gh secret set AMP_TOKEN --body \"YOUR_AMP_TOKEN\""
 }
 
 # Setup Docker Hub secrets (using provided username)
@@ -133,6 +131,12 @@ gh secret set FXCM_SECRET_KEY --body "YOUR_FXCM_SECRET_KEY"
 ```
 Get from: https://www.fxcm.com/markets/forex-trading-demo/
 
+### AMP Token
+```bash
+gh secret set AMP_TOKEN --body "YOUR_AMP_TOKEN"
+```
+Get your token from the AMP system dashboard.
+
 ### Optional: AI APIs
 ```bash
 gh secret set GEMINI_API_KEY --body "YOUR_GEMINI_API_KEY"
@@ -143,7 +147,6 @@ Get from:
 - OpenAI: https://platform.openai.com/api-keys
 
 ## ✅ Already Configured
-- AMP_TOKEN
 - DOCKER_USERNAME
 - POSTGRES_PASSWORD
 - REDIS_PASSWORD

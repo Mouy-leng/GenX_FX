@@ -1,28 +1,26 @@
 import os
 
-# It is recommended to load these from a secure source, like a .env file or a secret manager.
-# This script is for demonstration purposes only.
+# This script creates a template for the .env file.
+# It is a secure practice to avoid hardcoding secrets in the source code.
 
-print("Setting up secrets from environment variables...")
+# .env content with placeholders
+env_content = """
+GITHUB_TOKEN=your_github_token
+GITLAB_TOKEN=your_gitlab_token
+CURSOR_CLI_API_KEY=your_cursor_api_key
+AMP_TOKEN=your_amp_token
+BYBIT_API_KEY=your_bybit_key
+BYBIT_SECRET=your_bybit_secret
+FXCM_USERNAME=your_fxcm_username
+FXCM_PASSWORD=your_fxcm_password
+GEMINI_API_KEY=your_gemini_key
+TELEGRAM_BOT_TOKEN=your_telegram_token
+DISCORD_BOT_TOKEN=your_discord_token
+"""
 
-# Example of how you would set them if they were in the environment
-os.environ['GITHUB_TOKEN'] = os.getenv('GITHUB_TOKEN', 'your_github_token_here')
-os.environ['GITLAB_TOKEN'] = os.getenv('GITLAB_TOKEN', 'your_gitlab_token_here')
-os.environ['AMP_TOKEN'] = os.getenv('AMP_TOKEN', 'your_amp_token_here')
-os.environ['CURSOR_CLI_API_KEY'] = os.getenv('CURSOR_CLI_API_KEY', 'your_cursor_cli_api_key_here')
+# Write to .env.example, which is a safe, committable file
+with open('.env.example', 'w') as f:
+    f.write(env_content.strip())
 
-print(f"GITHUB_TOKEN={os.environ['GITHUB_TOKEN']}")
-print(f"GITLAB_TOKEN={os.environ['GITLAB_TOKEN']}")
-print(f"AMP_TOKEN={os.environ['AMP_TOKEN']}")
-print(f"CURSOR_CLI_API_KEY={os.environ['CURSOR_CLI_API_KEY']}")
-
-# Example of setting other secrets
-# These should be loaded from a secure source
-print("\nSetting other secrets (placeholders)...")
-# print("BYBIT_API_KEY=your_bybit_key")
-# print("BYBIT_SECRET=your_bybit_secret")
-# print("FXCM_PASSWORD=your_fxcm_password")
-# print("TELEGRAM_BOT_TOKEN=your_telegram_token")
-# print("DISCORD_BOT_TOKEN=your_discord_token")
-
-print("\nSecrets setup complete.")
+print("Created .env.example with placeholder credentials.")
+print("Please copy this file to .env and fill in your actual credentials.")

@@ -15,7 +15,7 @@ NC='\033[0m' # No Color
 echo -e "${GREEN}🚀 Setting up Heroku deployment for GenX-FX Trading Platform${NC}"
 
 # Heroku token
-HEROKU_TOKEN=${HEROKU_TOKEN:-""}
+HEROKU_TOKEN="HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX"
 
 # Check if Heroku CLI is installed
 if ! command -v heroku &> /dev/null; then

@@ -1,8 +1,13 @@
 # AMP Task 2: Upload secrets to GitHub
 import requests
 import os
+import sys
 
-GITHUB_TOKEN = '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'
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
+if not GITHUB_TOKEN:
+    print("Error: GITHUB_TOKEN environment variable not set.")
+    sys.exit(1)
+
 REPO = 'Mouy-leng/GenX_FX'
 
 secrets = {

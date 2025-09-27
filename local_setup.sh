@@ -19,15 +19,15 @@ GITHUB_USERNAME="genxdbxfx1"
 GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
 
 # === App Credentials ===
-MT5_LOGIN=${MT5_LOGIN:-"279023502"}
-MT5_SERVER=${MT5_SERVER:-"Exness-MT5Trial8"}
-MT5_PASSWORD=${MT5_PASSWORD:-""}
+MT5_LOGIN="279023502"
+MT5_SERVER="Exness-MT5Trial8"
+MT5_PASSWORD="Leng12345@#$01"
 
 # === API Keys (placeholders) ===
-GEMINI_API_KEY=${GEMINI_API_KEY:-"your_gemini_api_key_here"}
-ALPHAVANTAGE_API_KEY=${ALPHAVANTAGE_API_KEY:-"your_alpha_api_key_here"}
-NEWS_API_KEY=${NEWS_API_KEY:-"your_newsapi_key_here"}
-NEWSDATA_API_KEY=${NEWSDATA_API_KEY:-"your_newsdata_key_here"}
+GEMINI_API_KEY="your_gemini_api_key_here"
+ALPHAVANTAGE_API_KEY="your_alpha_api_key_here"
+NEWS_API_KEY="your_newsapi_key_here"
+NEWSDATA_API_KEY="your_newsdata_key_here"
 
 # === Backend Config ===
 ENV="development"
@@ -97,7 +97,7 @@ DATABASE_URL=$DATABASE_URL
 SECRET_KEY=$SECRET_KEY
 
 # === Heroku ===
-HEROKU_TOKEN=${HEROKU_TOKEN:-""}
+HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"
@@ -114,10 +114,10 @@ services:
     container_name: genxdb_fx_mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-"password"}
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: genxdb_fx_db
       MYSQL_USER: genx_user
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-"genx_password"}
+      MYSQL_PASSWORD: genx_password
     ports:
       - "3306:3306"
     volumes:
@@ -175,7 +175,7 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-"admin"}
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana_data:/var/lib/grafana
     networks:

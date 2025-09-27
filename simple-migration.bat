@@ -37,7 +37,7 @@ echo [4/5] Creating credentials files...
 echo # Vultr VPS Credentials > "D:\GenX_FX\credentials\vps_credentials.env"
 echo VULTR_SERVER_IP=192.248.146.114 >> "D:\GenX_FX\credentials\vps_credentials.env"
 echo VULTR_SERVER_USERNAME=root >> "D:\GenX_FX\credentials\vps_credentials.env"
-echo VULTR_SERVER_PASSWORD=your_vultr_server_password >> "D:\GenX_FX\credentials\vps_credentials.env"
+echo VULTR_SERVER_PASSWORD=g-S2iz=e.D9xql6P >> "D:\GenX_FX\credentials\vps_credentials.env"
 echo VULTR_SERVER_OS=Alma Linux 8 x64 >> "D:\GenX_FX\credentials\vps_credentials.env"
 echo VULTR_SERVER_LOCATION=London >> "D:\GenX_FX\credentials\vps_credentials.env"
 

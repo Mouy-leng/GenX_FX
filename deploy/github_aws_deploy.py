@@ -18,7 +18,7 @@ import docker
 from docker.errors import DockerException
 
 # GitHub token (you can also set this as environment variable)
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '')
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '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')
 
 # Default values
 DEFAULT_ENVIRONMENT = 'production'

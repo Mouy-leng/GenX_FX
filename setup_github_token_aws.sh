@@ -32,7 +32,7 @@ print_error() {
 }
 
 # GitHub token
-GITHUB_TOKEN=${GITHUB_TOKEN:-""}
+GITHUB_TOKEN="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"
 
 # Function to check if command exists
 command_exists() {
@@ -299,7 +299,7 @@ echo "🚀 Deploying with GitHub Token to AWS"
 echo "====================================="
 
 # Set GitHub token
-export GITHUB_TOKEN=${GITHUB_TOKEN:-""}
+export GITHUB_TOKEN="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"
 
 # Default values
 ENVIRONMENT=${1:-"production"}

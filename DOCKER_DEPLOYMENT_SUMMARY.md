@@ -39,7 +39,7 @@
 1. Go to: `https://github.com/Mouy-leng/GenX_FX/settings/secrets/actions`
 2. Add secrets:
    - **DOCKER_USERNAME**: `lengkundee01@gmail.com`
-   - **DOCKER_PASSWORD**: `your_docker_password`
+   - **DOCKER_PASSWORD**: `KML12345@#$01`
 
 ### **Step 2: Monitor Build**
 - **Actions URL**: `https://github.com/Mouy-leng/GenX_FX/actions`
