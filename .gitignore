@@ -259,5 +259,3 @@ $RECYCLE.BIN/
 *.tar.gz
 *.rar
 !ta-lib_*.debawscliv2.zip
-
-start_signals.sh
