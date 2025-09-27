@@ -1,14 +1,17 @@
 import os
 
-# This script creates a template for the .env file.
-# It is a secure practice to avoid hardcoding secrets in the source code.
+# Set all environment variables from provided credentials
+os.environ['GITHUB_TOKEN'] = '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'
+os.environ['GITLAB_TOKEN'] = 'glpat-3p76i6YP3Iwiu25bO2QtAm86MQp1OmhsNjlpCw.01.121l499kx'
+os.environ['CURSOR_CLI_API_KEY'] = 'key_03096e697424c5489927db265b35a7ab045502673326d9bf1deb31ee3bfbf80f'
+os.environ['AMP_TOKEN'] = 'sgamp_user_01K1XBP8C5SZXYP88QD166AX1W_72c12a40546c130db17817dc9c92cb3770ecbe93e34a9fd23c8e9a2daa8e942c'
 
-# .env content with placeholders
-env_content = """
-GITHUB_TOKEN=your_github_token
-GITLAB_TOKEN=your_gitlab_token
-CURSOR_CLI_API_KEY=your_cursor_api_key
-AMP_TOKEN=your_amp_token
+# Update .env file with all credentials
+env_content = f"""
+GITHUB_TOKEN={os.environ['GITHUB_TOKEN']}
+GITLAB_TOKEN={os.environ['GITLAB_TOKEN']}
+CURSOR_CLI_API_KEY={os.environ['CURSOR_CLI_API_KEY']}
+AMP_TOKEN={os.environ['AMP_TOKEN']}
 BYBIT_API_KEY=your_bybit_key
 BYBIT_SECRET=your_bybit_secret
 FXCM_USERNAME=your_fxcm_username
@@ -18,9 +21,8 @@ TELEGRAM_BOT_TOKEN=your_telegram_token
 DISCORD_BOT_TOKEN=your_discord_token
 """
 
-# Write to .env.example, which is a safe, committable file
-with open('.env.example', 'w') as f:
+with open('.env', 'w') as f:
     f.write(env_content.strip())
 
-print("Created .env.example with placeholder credentials.")
-print("Please copy this file to .env and fill in your actual credentials.")
+print("All credentials configured in .env file")
+print("GitHub profile setup ready")

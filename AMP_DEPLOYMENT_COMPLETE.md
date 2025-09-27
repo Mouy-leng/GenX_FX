@@ -48,7 +48,7 @@ The AMP (Automated Model Pipeline) system has been successfully configured and i
 
 ### GitHub API Token
 ```
-[YOUR GITHUB TOKEN]
+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
 ```
 
 ### Google Cloud Service Account

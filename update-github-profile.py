@@ -1,11 +1,7 @@
 import requests
 import os
-import sys
 
-GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
-if not GITHUB_TOKEN:
-    print("Error: GITHUB_TOKEN environment variable not set.")
-    sys.exit(1)
+GITHUB_TOKEN = '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'
 USERNAME = 'Mouy-leng'
 
 # Update user profile

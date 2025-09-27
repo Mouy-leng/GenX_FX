@@ -11,10 +11,7 @@ REGION="us-central1"
 SERVICE_NAME="amp-trading-system"
 BUCKET_NAME="amp-trading-system-data"
 AMP_TOKEN="sgamp_user_01K1XBP8C5SZXYP88QD166AX1W_72c12a40546c130db17817dc9c92cb3770ecbe93e34a9fd23c8e9a2daa8e942c"
-if [ -z "$GITHUB_TOKEN" ]; then
-    echo "Error: GITHUB_TOKEN environment variable is not set."
-    exit 1
-fi
+GITHUB_TOKEN="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"
 
 echo "🚀 Quick AMP System GCS Deployment"
 echo "=================================="
