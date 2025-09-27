@@ -15,28 +15,49 @@ NC='\033[0m' # No Color
 echo -e "${GREEN}🚀 Setting up GenX-FX Trading Platform (Final Setup)${NC}"
 
 # === GitHub Configuration ===
-GITHUB_USERNAME="genxdbxfx1"
-GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
-
-# === App Credentials ===
-MT5_LOGIN="279023502"
-MT5_SERVER="Exness-MT5Trial8"
-MT5_PASSWORD="Leng12345@#$01"
-
-# === API Keys (placeholders) ===
-GEMINI_API_KEY="your_gemini_api_key_here"
-ALPHAVANTAGE_API_KEY="your_alpha_api_key_here"
-NEWS_API_KEY="your_newsapi_key_here"
-NEWSDATA_API_KEY="your_newsdata_key_here"
+GITHUB_USERNAME="${GITHUB_USERNAME:-genxdbxfx1}"
+GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git}"
 
 # === Backend Config ===
-ENV="development"
-PORT="8080"
-DEBUG="true"
-DATABASE_URL="sqlite:///./genxdb_fx.db"
+ENV="${ENV:-development}"
+PORT="${PORT:-8080}"
+DEBUG="${DEBUG:-true}"
+DATABASE_URL="${DATABASE_URL:-sqlite:///./genxdb_fx.db}"
 
-# === Security ===
-SECRET_KEY=$(openssl rand -hex 32)
+# Check for .env.secrets and source it if it exists
+if [ -f .env.secrets ]; then
+    echo "🔑 Sourcing secrets from .env.secrets..."
+    set -a
+    source .env.secrets
+    set +a
+else
+    echo "⚠️ .env.secrets file not found. Please create it with your credentials."
+    echo "Example .env.secrets:"
+    echo "export MT5_LOGIN='your_mt5_login'"
+    echo "export MT5_SERVER='your_mt5_server'"
+    echo "export MT5_PASSWORD='your_mt5_password'"
+    echo "export GEMINI_API_KEY='your_gemini_api_key'"
+    echo "export ALPHAVANTAGE_API_KEY='your_alphavantage_api_key'"
+    echo "export NEWS_API_KEY='your_news_api_key'"
+    echo "export NEWSDATA_API_KEY='your_newsdata_api_key'"
+    echo "export SECRET_KEY='your_secret_key'"
+    echo "export HEROKU_TOKEN='your_heroku_token'"
+    exit 1
+fi
+
+# Verify that all required secrets are set
+required_secrets=(
+    MT5_LOGIN MT5_SERVER MT5_PASSWORD
+    GEMINI_API_KEY ALPHAVANTAGE_API_KEY NEWS_API_KEY NEWSDATA_API_KEY
+    SECRET_KEY HEROKU_TOKEN
+)
+
+for secret in "${required_secrets[@]}"; do
+    if [ -z "${!secret}" ]; then
+        echo "❌ Error: Environment variable $secret is not set." >&2
+        exit 1
+    fi
+done
 
 # Create virtual environment
 echo -e "${YELLOW}Creating virtual environment...${NC}"
@@ -71,7 +92,7 @@ DATABASE_URL=$DATABASE_URL
 SECRET_KEY=$SECRET_KEY
 
 # === Heroku ===
-HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
+HEROKU_TOKEN=$HEROKU_TOKEN
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"
