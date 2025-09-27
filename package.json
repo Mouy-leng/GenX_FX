@@ -59,7 +59,7 @@
     "drizzle-kit": "^0.24.0",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.0",
+    "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^15.0.0",
     "postcss": "^8.4.24",
     "supertest": "^7.1.4",
