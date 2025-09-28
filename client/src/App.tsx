@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
+import { AuthProvider, useAuth } from './components/Auth/AuthProvider'
+import { LoginForm } from './components/Auth/LoginForm'
+import { SignupForm } from './components/Auth/SignupForm'
 
-function App() {
+function AuthWrapper() {
   const [health, setHealth] = useState<any>(null)
   const [apiHealth, setApiHealth] = useState<any>(null)
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
+  const { user, loading, signOut } = useAuth()
 
   useEffect(() => {
     const API = 'http://localhost:8081'
@@ -20,12 +25,48 @@ function App() {
       .catch(err => console.error('Python API error:', err))
   }, [])
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        {authMode === 'login' ? (
+          <LoginForm onToggleMode={() => setAuthMode('signup')} />
+        ) : (
+          <SignupForm onToggleMode={() => setAuthMode('login')} />
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-gray-900">
-          🚀 GenX FX Trading Platform
-        </h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900">
+            🚀 GenX FX Trading Platform
+          </h1>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm text-gray-600">
+              Welcome, {user.displayName || user.email}
+            </span>
+            <button
+              onClick={signOut}
+              className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
         
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-white rounded-lg shadow-md p-6">
@@ -88,6 +129,14 @@ function App() {
         </div>
       </div>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AuthWrapper />
+    </AuthProvider>
   )
 }
 
