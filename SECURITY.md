@@ -17,21 +17,13 @@ We take security vulnerabilities seriously. If you discover a security vulnerabi
 
 ### ✅ **DO** report security vulnerabilities privately:
 
-- **Email**: Send details to `security@genx-trading.com`
-2. **Subject**: `[SECURITY] GenX_FX - [Brief Description]`
+1. **Email**: Send details to [your-email@domain.com] (replace with your actual email)
+2. **Subject**: `[SECURITY] docker_jules_orchestrator - [Brief Description]`
 3. **Include**:
    - Description of the vulnerability
    - Steps to reproduce
    - Potential impact
    - Suggested fix (if any)
-
-### Resolved Vulnerabilities
-
-#### CWE-798: Use of Hard-coded Credentials (Resolved 2025-09-27)
-
-*   **Description**: Hardcoded secrets, including API keys and database credentials, were identified in the `deploy_genx.sh` and `deploy_genx_fixed.sh` deployment scripts. This exposed sensitive information and posed a significant security risk.
-*   **Resolution**: The hardcoded secrets were removed from the deployment scripts. The scripts now require a `.env` file to be present, which is loaded at runtime. Users are instructed to create this file manually from the `.env.example` template and populate it with their credentials. This ensures that secrets are not stored in the repository.
-*   **Impact**: This change resolves the 7 secret scanning alerts identified in the GitHub security dashboard and prevents accidental exposure of credentials.
 
 ### 🔒 **What happens next:**
 

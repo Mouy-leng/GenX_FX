@@ -21,12 +21,9 @@ echo "📁 Setting up project directory..."
 mkdir -p ~/GenX_FX
 cd ~/GenX_FX
 
-# Create .env file with your credentials
-echo "⚠️ IMPORTANT: Create a .env file with your credentials."
-echo "You can use .env.example as a template."
-echo "This script will not proceed until a .env file is found."
+# Check for .env file
 if [ ! -f .env ]; then
-    echo "❌ .env file not found. Please create it and run this script again."
+    echo "🛑 .env file not found. Please create one by copying .env.example and filling in your credentials."
     exit 1
 fi
 
