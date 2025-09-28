@@ -45,9 +45,9 @@ check_gh_auth() {
 # Setup AMP Token (already provided)
 setup_amp_secret() {
     print_status "Setting up AMP Token secret..."
-    
+
     AMP_TOKEN="sgamp_user_01K1B28JVS8XWZQ3CEWJP8E5GN_97969aa27077d9e44e82ad554b337f2bda14a5e3eccf15165b1a09c24872495e"
-    
+
     gh secret set AMP_TOKEN --body "$AMP_TOKEN"
     print_success "AMP Token secret configured"
 }

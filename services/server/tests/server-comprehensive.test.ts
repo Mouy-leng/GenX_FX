@@ -247,7 +247,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
       ws.on('open', () => {
         console.log('WebSocket connection opened');
       });
-      
+
       ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
         
@@ -258,7 +258,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
           done();
         }
       });
-      
+
       ws.on('error', (error) => {
         done(error);
       });
@@ -269,7 +269,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
       const testMessage = { action: 'test', data: { value: 123 } };
       
       let welcomeReceived = false;
-      
+
       ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
         
@@ -283,7 +283,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
           done();
         }
       });
-      
+
       ws.on('error', (error) => {
         done(error);
       });
@@ -293,7 +293,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
       const ws = new WebSocket(`ws://localhost:5001`);
       
       let welcomeReceived = false;
-      
+
       ws.on('message', (data) => {
         const message = JSON.parse(data.toString());
         
@@ -306,7 +306,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
           done();
         }
       });
-      
+
       ws.on('error', (error) => {
         done(error);
       });

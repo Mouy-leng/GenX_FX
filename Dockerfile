@@ -1,25 +1,37 @@
-# For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3-slim
+# Stage 1: Build dependencies
+FROM python:3.11-slim as builder
 
-EXPOSE 8080
-
-# Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
-
-# Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
+ENV POETRY_NO_INTERACTION=1
+ENV POETRY_VIRTUALENVS_IN_PROJECT=1
+ENV POETRY_VIRTUALENVS_CREATE=1
 
-# Install pip requirements
-COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
+RUN pip install poetry
 
 WORKDIR /app
-COPY . /app
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --no-root --no-dev
 
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+# Stage 2: Create the final production image
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/app/.venv/bin:$PATH"
+
+WORKDIR /app
+
+# Copy the virtual environment from the builder stage
+COPY --from=builder /app /app
+
+# Copy the application source code
+COPY . .
+
+# Create a non-root user and set permissions
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+# Expose port and define the command to run the application
+EXPOSE 8080
 CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8080} api.main:app"]
