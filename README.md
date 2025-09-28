@@ -484,6 +484,17 @@ Monitor your trading system:
 4. Push to branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
+### **Merging Pull Requests**
+
+To maintain a clean and auditable git history, all pull requests must be merged using the **Squash and Merge** method on GitHub.
+
+#### **Commit Message Standardization**
+
+The squashed commit message should clearly summarize the feature or fix delivered by the PR. This is essential for clean history and regulatory auditing purposes. A good commit message should have:
+
+- A short, descriptive subject line (e.g., `feat: Add new signal generator`).
+- A body that explains the "what" and "why" of the change.
+
 ## 📄 License
 
 <<<<<<< Updated upstream
