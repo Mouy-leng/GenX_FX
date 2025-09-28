@@ -23,52 +23,95 @@ echo "📁 Setting up project directory..."
 mkdir -p ~/GenX_FX
 cd ~/GenX_FX
 
+# Check for .env.secrets and source it if it exists
+if [ -f .env.secrets ]; then
+    echo "🔑 Sourcing secrets from .env.secrets..."
+    set -a
+    source .env.secrets
+    set +a
+else
+    echo "⚠️ .env.secrets file not found. Please create it with your credentials."
+    # Provide a detailed example for the user
+    echo "Example .env.secrets:"
+    echo "export DOCKER_PASSWORD='your_docker_password'"
+    echo "export GEMINI_API_KEY='your_gemini_key'"
+    echo "export VANTAGE_ALPHAVANTAGE_API_KEY='your_alphavantage_key'"
+    echo "export NEWS_API_KEY='your_newsapi_key'"
+    echo "export NEWSDATA_API_KEY='your_newsdata_key'"
+    echo "export FINNHUB_API_KEY='your_finnhub_key'"
+    echo "export TELEGRAM_BOT_TOKEN='your_telegram_token'"
+    echo "export TELEGRAM_USER_ID='your_telegram_user_id'"
+    echo "export GMAIL_PASSWORD='your_gmail_password'"
+    echo "export GMAIL_APP_API_KEY='your_gmail_app_key'"
+    echo "export REDDIT_CLIENT_ID='your_reddit_client_id'"
+    echo "export REDDIT_CLIENT_SECRET='your_reddit_client_secret'"
+    echo "export REDDIT_PASSWORD='your_reddit_password'"
+    echo "export FXCM_PASSWORD='your_fxcm_password'"
+    echo "export JWT_SECRET_KEY='your_jwt_secret'"
+    exit 1
+fi
+
+# Verify that all required secrets are set
+required_secrets=(
+    DOCKER_PASSWORD GEMINI_API_KEY VANTAGE_ALPHAVANTAGE_API_KEY NEWS_API_KEY
+    NEWSDATA_API_KEY FINNHUB_API_KEY TELEGRAM_BOT_TOKEN TELEGRAM_USER_ID
+    GMAIL_PASSWORD GMAIL_APP_API_KEY REDDIT_CLIENT_ID REDDIT_CLIENT_SECRET
+    REDDIT_PASSWORD FXCM_PASSWORD JWT_SECRET_KEY
+)
+
+for secret in "${required_secrets[@]}"; do
+    if [ -z "${!secret}" ]; then
+        echo "❌ Error: Environment variable $secret is not set." >&2
+        exit 1
+    fi
+done
+
 # Create .env file with your credentials
 echo "🔧 Creating .env file..."
-cat > .env << 'EOF'
+cat > .env << EOF
 # === Docker Registry Credentials ===
-DOCKER_USERNAME=genxapitrading@gmail.com
-DOCKER_PASSWORD=Leng12345@#$01
-DOCKER_IMAGE=keamouyleng/genx_docker
-DOCKER_TAG=latest
+DOCKER_USERNAME=${DOCKER_USERNAME:-genxapitrading@gmail.com}
+DOCKER_PASSWORD=${DOCKER_PASSWORD}
+DOCKER_IMAGE=${DOCKER_IMAGE:-keamouyleng/genx_docker}
+DOCKER_TAG=${DOCKER_TAG:-latest}
 
 # === API Keys ===
-GEMINI_API_KEY=AIzaSyDnjcaXnDpm1TzmIAV7EnoluI6w7wGBagM
-VANTAGE_ALPHAVANTAGE_API_KEY=B8E5RHKWZIE1JLK5
-NEWS_API_KEY=5919b24ab55d4ad0a71734fc2ef3542f
-NEWSDATA_API_KEY=pub_7b251a30c9634424b45bc966fc3356da
-FINNHUB_API_KEY=d1a1nh9r01qltimul4f0d1a1nh9r01qltimul4fg
+GEMINI_API_KEY=${GEMINI_API_KEY}
+VANTAGE_ALPHAVANTAGE_API_KEY=${VANTAGE_ALPHAVANTAGE_API_KEY}
+NEWS_API_KEY=${NEWS_API_KEY}
+NEWSDATA_API_KEY=${NEWSDATA_API_KEY}
+FINNHUB_API_KEY=${FINNHUB_API_KEY}
 
 # === Telegram Credentials ===
-TELEGRAM_BOT_TOKEN=8193742894:AAHewpntyYzCaPLyP1yhPZda9eLcDDKBO8Y
-TELEGRAM_USER_ID=1725480922
+TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+TELEGRAM_USER_ID=${TELEGRAM_USER_ID}
 
 # === Gmail Credentials ===
-GMAIL_USER=lengkundee01@gmail.com
-GMAIL_PASSWORD=Leng12345@#$01
-GMAIL_APP_API_KEY=iwvb_zhme_jcga_qwks
+GMAIL_USER=${GMAIL_USER:-lengkundee01@gmail.com}
+GMAIL_PASSWORD=${GMAIL_PASSWORD}
+GMAIL_APP_API_KEY=${GMAIL_APP_API_KEY}
 
 # === Reddit Credentials ===
-REDDIT_CLIENT_ID=gevc7tz7VJG-dFveG3QLJA
-REDDIT_CLIENT_SECRET=3ELg5NbaxAUJDpitlv_fPb7uFm7i3A
-REDDIT_USERNAME=Mysterious_Set1324
-REDDIT_PASSWORD=Leng12345@#$01
-REDDIT_USER_AGENT=GenX-Trading-Bot/1.0
+REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID}
+REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET}
+REDDIT_USERNAME=${REDDIT_USERNAME:-Mysterious_Set1324}
+REDDIT_PASSWORD=${REDDIT_PASSWORD}
+REDDIT_USER_AGENT=${REDDIT_USER_AGENT:-GenX-Trading-Bot/1.0}
 
 # === FXCM Credentials ===
-FXCM_USERNAME=D27739526
-FXCM_PASSWORD=cpsj1
-FXCM_CONNECTION_TYPE=Demo
-FXCM_URL=www.fxcorporate.com/Hosts.jsp
+FXCM_USERNAME=${FXCM_USERNAME:-D27739526}
+FXCM_PASSWORD=${FXCM_PASSWORD}
+FXCM_CONNECTION_TYPE=${FXCM_CONNECTION_TYPE:-Demo}
+FXCM_URL=${FXCM_URL:-www.fxcorporate.com/Hosts.jsp}
 
 # === Security Keys ===
-JWT_SECRET_KEY=f1a6828476f6892bfc9fa6601810147c2a595ab08a0bd8b8263344921dc87102
+JWT_SECRET_KEY=${JWT_SECRET_KEY}
 
 # === Feature Flags ===
-ENABLE_NEWS_ANALYSIS=true
-ENABLE_REDDIT_ANALYSIS=true
-ENABLE_WEBSOCKET_FEED=true
-API_PROVIDER=gemini
+ENABLE_NEWS_ANALYSIS=${ENABLE_NEWS_ANALYSIS:-true}
+ENABLE_REDDIT_ANALYSIS=${ENABLE_REDDIT_ANALYSIS:-true}
+ENABLE_WEBSOCKET_FEED=${ENABLE_WEBSOCKET_FEED:-true}
+API_PROVIDER=${API_PROVIDER:-gemini}
 EOF
 
 # Clone the repository
