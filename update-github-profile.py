@@ -1,20 +1,15 @@
 import requests
 import os
-import sys
 
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
-if not GITHUB_TOKEN:
-    print("Error: GITHUB_TOKEN environment variable is not set.", file=sys.stderr)
-    sys.exit(1)
-
+GITHUB_TOKEN = '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'
 USERNAME = 'Mouy-leng'
 
 # Update user profile
 profile_data = {
-    'blog': 'https://genxfx.org',
-    'company': 'A6..9V',
-    'location': 'Phnompenh, Battambang, Cambodia',
-    'bio': 'Developer'
+    'blog': 'https://genx-fx.vercel.app',
+    'company': 'GenX Trading Systems',
+    'location': 'Cambodia',
+    'bio': 'AI-Powered Forex Trading Platform Developer | GenX-FX Creator'
 }
 
 url = f'https://api.github.com/user'
@@ -24,9 +19,7 @@ response = requests.patch(url, headers=headers, json=profile_data)
 if response.status_code == 200:
     print("Profile updated successfully")
 else:
-    print(f"Error updating profile: {response.status_code}", file=sys.stderr)
-    print(response.text, file=sys.stderr)
-
+    print(f"Error: {response.status_code}")
 
 # Update repository settings
 repo_data = {
@@ -41,9 +34,4 @@ repo_response = requests.patch(repo_url, headers=headers, json=repo_data)
 if repo_response.status_code == 200:
     print("Repository updated successfully")
 else:
-    print(f"Error updating repository: {repo_response.status_code}", file=sys.stderr)
-    print(repo_response.text, file=sys.stderr)
-
-# If either request failed, exit with an error code
-if response.status_code != 200 or repo_response.status_code != 200:
-    sys.exit(1)
+    print(f"Repository error: {repo_response.status_code}")
