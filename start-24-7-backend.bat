@@ -25,12 +25,17 @@ if errorlevel 1 (
     )
 )
 
-REM Set environment variables
-set GEMINI_API_KEY=your_gemini_api_key_here
-set EXNESS_LOGIN=your_exness_login
-set EXNESS_PASSWORD=your_exness_password
-set EXNESS_SERVER=Exness-MT5Trial8
-set SECRET_KEY=your_secret_key_here
+REM Load environment variables from .env file
+if not exist .env (
+    echo ❌ .env file not found. Please create one from .env.example and fill in your credentials.
+    pause
+    exit /b 1
+)
+
+echo 🔑 Loading environment variables from .env...
+for /f "usebackq tokens=1,* delims==" %%a in (".env") do (
+    set "%%a=%%b"
+)
 
 REM Create logs directory
 if not exist "logs" mkdir logs

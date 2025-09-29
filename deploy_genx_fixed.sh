@@ -21,9 +21,14 @@ echo "📁 Setting up project directory..."
 mkdir -p ~/GenX_FX
 cd ~/GenX_FX
 
-# Check for .env file
-if [ ! -f .env ]; then
-    echo "🛑 .env file not found. Please create one by copying .env.example and filling in your credentials."
+# Check for .env file and source it
+if [ -f .env ]; then
+    echo "🔑 Sourcing secrets from .env..."
+    set -a
+    source .env
+    set +a
+else
+    echo "❌ .env file not found. Please create one from .env.example and fill in your credentials."
     exit 1
 fi
 

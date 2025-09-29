@@ -18,17 +18,6 @@ echo -e "${GREEN}🚀 Setting up GenX-FX Trading Platform (Simple Final Setup)${
 GITHUB_USERNAME="genxdbxfx1"
 GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
 
-# === App Credentials ===
-MT5_LOGIN="279023502"
-MT5_SERVER="Exness-MT5Trial8"
-MT5_PASSWORD="Leng12345@#$01"
-
-# === API Keys (placeholders) ===
-GEMINI_API_KEY="your_gemini_api_key_here"
-ALPHAVANTAGE_API_KEY="your_alpha_api_key_here"
-NEWS_API_KEY="your_newsapi_key_here"
-NEWSDATA_API_KEY="your_newsdata_key_here"
-
 # === Backend Config ===
 ENV="development"
 PORT="8080"
@@ -36,37 +25,53 @@ DEBUG="true"
 DATABASE_URL="sqlite:///./genxdb_fx.db"
 
 # === Security ===
-SECRET_KEY=$(openssl rand -hex 32)
+# Note: SECRET_KEY is generated dynamically if not in .env
+SECRET_KEY=${SECRET_KEY:-$(openssl rand -hex 32)}
 
-# Create environment file
-echo -e "${YELLOW}Creating environment file...${NC}"
+# Check for .env file and source it
+if [ -f .env ]; then
+    echo "🔑 Sourcing secrets from .env..."
+    set -a
+    source .env
+    set +a
+else
+    echo "❌ .env file not found. Please create one from .env.example and fill in your credentials."
+    exit 1
+fi
+
+# Create a temporary .env file for docker-compose, if it needs values from sourced env
+# This is only needed if scripts downstream can't access exported env vars.
+# For this script, it seems we are creating other scripts that will need the values.
+# So, let's create a .env file from the sourced variables.
+echo -e "${YELLOW}Creating environment file from sourced variables...${NC}"
 cat > .env << EOF
+# This file is dynamically generated from sourced environment variables
 # === GitHub ===
-GITHUB_USERNAME=$GITHUB_USERNAME
-GITHUB_REPOSITORY=$GITHUB_REPOSITORY
+GITHUB_USERNAME=${GITHUB_USERNAME}
+GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
 
 # === App Credentials ===
-MT5_LOGIN=$MT5_LOGIN
-MT5_SERVER=$MT5_SERVER
-MT5_PASSWORD=$MT5_PASSWORD
+MT5_LOGIN=${MT5_LOGIN}
+MT5_SERVER=${MT5_SERVER}
+MT5_PASSWORD=${MT5_PASSWORD}
 
 # === API Keys ===
-GEMINI_API_KEY=$GEMINI_API_KEY
-ALPHAVANTAGE_API_KEY=$ALPHAVANTAGE_API_KEY
-NEWS_API_KEY=$NEWS_API_KEY
-NEWSDATA_API_KEY=$NEWSDATA_API_KEY
+GEMINI_API_KEY=${GEMINI_API_KEY}
+ALPHAVANTAGE_API_KEY=${ALPHAVANTAGE_API_KEY}
+NEWS_API_KEY=${NEWS_API_KEY}
+NEWSDATA_API_KEY=${NEWSDATA_API_KEY}
 
 # === Backend Config ===
-ENV=$ENV
-PORT=$PORT
-DEBUG=$DEBUG
-DATABASE_URL=$DATABASE_URL
+ENV=${ENV}
+PORT=${PORT}
+DEBUG=${DEBUG}
+DATABASE_URL=${DATABASE_URL}
 
 # === Security ===
-SECRET_KEY=$SECRET_KEY
+SECRET_KEY=${SECRET_KEY}
 
 # === Heroku ===
-HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
+HEROKU_TOKEN=${HEROKU_TOKEN}
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"

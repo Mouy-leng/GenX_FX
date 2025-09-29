@@ -36,13 +36,18 @@ netsh advfirewall firewall add rule name="GenX FX API Port 8080" dir=in action=a
 netsh advfirewall firewall add rule name="GenX FX EA Port 9090" dir=in action=allow protocol=TCP localport=9090 >nul 2>&1
 netsh advfirewall firewall add rule name="GenX FX VPS Outbound" dir=out action=allow protocol=TCP remoteport=8080 remoteip=34.71.143.222 >nul 2>&1
 
-REM Set environment variables
+REM Load environment variables from .env file
 echo [4/4] Setting environment variables...
-set GEMINI_API_KEY=your_gemini_api_key_here
-set EXNESS_LOGIN=your_exness_login
-set EXNESS_PASSWORD=your_exness_password
-set EXNESS_SERVER=Exness-MT5Trial8
-set SECRET_KEY=your_secret_key_here
+if not exist .env (
+    echo ❌ .env file not found. Please create one from .env.example and fill in your credentials.
+    pause
+    exit /b 1
+)
+
+echo 🔑 Loading environment variables from .env...
+for /f "usebackq tokens=1,* delims==" %%a in (".env") do (
+    set "%%a=%%b"
+)
 
 echo.
 echo ========================================
