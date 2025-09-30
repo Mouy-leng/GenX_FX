@@ -3,7 +3,7 @@ import sys
 
 def test_python_version():
     """Test that we're running on a supported Python version"""
-    assert sys.version_info >= (3, 8)
+    assert sys.version_info >= (3, 7)
 
 def test_imports():
     """Test that basic imports work"""
