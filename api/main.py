@@ -1,32 +1,12 @@
-from fastapi import FastAPI, Request, status, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
 import sqlite3
 import os
 from datetime import datetime
-from typing import Any, Dict, List, Optional
-import re
-from api.services import ml_service
-
-# --- Pydantic Models for Request Validation ---
-class PredictionRequest(BaseModel):
-    symbol: str
-    comment: Optional[str] = None
-    data: Optional[Dict[str, Any]] = None
-
-class MarketDataRequest(BaseModel):
-    data: Optional[List[Any]] = None
-    metadata: Optional[Dict[str, Any]] = None
-    symbol: Optional[str] = None
-    value: Optional[float] = None
-
 app = FastAPI(
     title="GenX-FX Trading Platform API",
-    description="Trading platform with ML-powered predictions, updated to pass comprehensive tests.",
-    version="1.2.0",
-    docs_url="/docs",
-    redoc_url="/redoc"
+    description="Trading platform with ML-powered predictions",
+    version="1.0.0"
 )
 
 # Add CORS middleware
@@ -34,69 +14,112 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# --- Dummy ML Service ---
-ml_service_instance = ml_service.MLService()
-
-# --- API Endpoints ---
 @app.get("/")
 async def root():
     return {
         "message": "GenX-FX Trading Platform API",
-        "version": "1.2.0",
-        "status": "active",
-        "docs": "/docs"
+        "version": "1.0.0",
+        "status": "running",
+        "github": "Mouy-leng",
+        "repository": "https://github.com/Mouy-leng/GenX_FX.git"
     }
 
 @app.get("/health")
 async def health_check():
-    db_status = "disconnected"
     try:
-        # A simple check to see if the db file exists
-        if os.path.exists("genxdb_fx.db"):
-            conn = sqlite3.connect("genxdb_fx.db")
-            conn.close()
-            db_status = "connected"
-        else:
-            db_status = "not_found"
-    except Exception:
-        db_status = "error"
+        # Test database connection
+        conn = sqlite3.connect("genxdb_fx.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        conn.close()
         
+        return {
+            "status": "healthy",
+            "database": "connected",
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.get("/api/v1/health")
+async def api_health_check():
     return {
         "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
         "services": {
-            "database": db_status,
             "ml_service": "active",
             "data_service": "active"
-        }
+        },
+        "timestamp": datetime.now().isoformat()
     }
 
-@app.post("/api/v1/predictions/")
-async def create_prediction(request: PredictionRequest):
-    # This endpoint now exists and validates the request body
-    # A real implementation would do more with the data
-    return {"status": "received", "symbol": request.symbol}
+@app.get("/api/v1/predictions")
+async def get_predictions():
+    return {
+        "predictions": [],
+        "status": "ready",
+        "timestamp": datetime.now().isoformat()
+    }
 
-@app.post("/api/v1/market-data/")
-async def add_market_data(request: MarketDataRequest):
-    # This endpoint now exists for handling market data
-    return {"status": "market data received"}
+@app.get("/trading-pairs")
+async def get_trading_pairs():
+    try:
+        conn = sqlite3.connect("genxdb_fx.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT symbol, base_currency, quote_currency FROM trading_pairs WHERE is_active = 1")
+        pairs = cursor.fetchall()
+        conn.close()
 
-# --- Error Handling ---
-@app.exception_handler(Exception)
-async def generic_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"detail": f"An internal server error occurred: {exc}"},
-    )
+        return {
+            "trading_pairs": [
+                {
+                    "symbol": pair[0],
+                    "base_currency": pair[1],
+                    "quote_currency": pair[2]
+                }
+                for pair in pairs
+            ]
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/users")
+async def get_users():
+    try:
+        conn = sqlite3.connect("genxdb_fx.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT username, email, is_active FROM users")
+        users = cursor.fetchall()
+        conn.close()
+
+        return {
+            "users": [
+                {
+                    "username": user[0],
+                    "email": user[1],
+                    "is_active": bool(user[2])
+                }
+                for user in users
+            ]
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/mt5-info")
+async def get_mt5_info():
+    return {
+        "login": "279023502",
+        "server": "Exness-MT5Trial8",
+        "status": "configured"
+    }
 
 if __name__ == "__main__":
     import uvicorn
-    # For local testing, ensure the db exists or handle its creation
-    if not os.path.exists("genxdb_fx.db"):
-        print("Database not found. Please run a setup script if needed.")
     uvicorn.run(app, host="0.0.0.0", port=8080)

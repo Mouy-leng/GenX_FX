@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
 GitHub Token AWS Deployment Script
-Uses GitHub API with token authentication for AWS deployment.
-This script has been updated to securely handle the GitHub token.
+Uses GitHub API with token authentication for AWS deployment
 """
 
 import os
@@ -18,11 +17,8 @@ from botocore.exceptions import ClientError, NoCredentialsError
 import docker
 from docker.errors import DockerException
 
-# --- Configuration ---
-# The GitHub token MUST be loaded from an environment variable for security.
-# Before running, set the token in your shell:
-# export GITHUB_TOKEN='your_personal_access_token_here'
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+# GitHub token (you can also set this as environment variable)
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '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')
 
 # Default values
 DEFAULT_ENVIRONMENT = 'production'
@@ -71,20 +67,21 @@ class GitHubAWSDployer:
 
     def print_error(self, message: str):
         """Print error message with red color"""
-        print(f"{Colors.RED}[ERROR]{Colors.NC} {message}", file=sys.stderr)
+        print(f"{Colors.RED}[ERROR]{Colors.NC} {message}")
 
     def check_github_token(self) -> bool:
         """Check if GitHub token is valid"""
         try:
             response = requests.get('https://api.github.com/user', headers=self.github_headers)
-            response.raise_for_status()
-            user_data = response.json()
-            self.print_success(f"GitHub authentication successful for user: {user_data['login']}")
-            return True
-        except requests.exceptions.RequestException as e:
-            self.print_error(f"GitHub authentication failed: {e}")
-            if e.response is not None:
-                self.print_error(f"Response: {e.response.text}")
+            if response.status_code == 200:
+                user_data = response.json()
+                self.print_success(f"GitHub authentication successful for user: {user_data['login']}")
+                return True
+            else:
+                self.print_error(f"GitHub authentication failed: {response.status_code}")
+                return False
+        except Exception as e:
+            self.print_error(f"Failed to check GitHub token: {e}")
             return False
 
     def check_aws_credentials(self) -> bool:
@@ -96,20 +93,31 @@ class GitHubAWSDployer:
             self.print_success(f"AWS credentials configured for account: {identity['Account']}")
             return True
         except NoCredentialsError:
-            self.print_error("AWS credentials not found. Please configure them (e.g., via `aws configure` or environment variables).")
+            self.print_error("AWS credentials not configured")
             return False
         except Exception as e:
             self.print_error(f"Failed to check AWS credentials: {e}")
             return False
 
     def setup_aws_from_github_secrets(self) -> bool:
-        """Placeholder for setting up AWS creds from GitHub secrets."""
-        self.print_warning("GitHub API does not allow direct reading of secrets for security reasons.")
-        self.print_status("Please ensure AWS credentials are set as environment variables:")
-        self.print_status("  export AWS_ACCESS_KEY_ID='your_access_key'")
-        self.print_status("  export AWS_SECRET_ACCESS_KEY='your_secret_key'")
-        self.print_status("  export AWS_DEFAULT_REGION='us-east-1'")
-        return self.check_aws_credentials()
+        """Setup AWS credentials from GitHub repository secrets"""
+        try:
+            # Get repository secrets (requires admin access)
+            repo_owner = self._get_repo_owner()
+            repo_name = self._get_repo_name()
+
+            # Note: GitHub API doesn't allow reading secrets directly
+            # This would need to be done through GitHub CLI or environment variables
+            self.print_warning("GitHub API doesn't allow direct secret reading")
+            self.print_status("Please set AWS credentials as environment variables:")
+            self.print_status("export AWS_ACCESS_KEY_ID=your_access_key")
+            self.print_status("export AWS_SECRET_ACCESS_KEY=your_secret_key")
+            self.print_status("export AWS_DEFAULT_REGION=us-east-1")
+            return False
+
+        except Exception as e:
+            self.print_error(f"Failed to setup AWS from GitHub secrets: {e}")
+            return False
 
     def _get_repo_owner(self) -> str:
         """Get repository owner from git remote"""
@@ -121,7 +129,7 @@ class GitHubAWSDployer:
                 parts = remote_url.split('github.com/')[-1].split('/')
                 return parts[0]
             return 'unknown'
-        except Exception:
+        except:
             return 'unknown'
 
     def _get_repo_name(self) -> str:
@@ -134,7 +142,7 @@ class GitHubAWSDployer:
                 parts = remote_url.split('github.com/')[-1].split('/')
                 return parts[1].replace('.git', '')
             return 'unknown'
-        except Exception:
+        except:
             return 'unknown'
 
     def create_github_deployment(self) -> Optional[str]:
@@ -143,6 +151,7 @@ class GitHubAWSDployer:
             repo_owner = self._get_repo_owner()
             repo_name = self._get_repo_name()
 
+            # Get current commit SHA
             result = subprocess.run(['git', 'rev-parse', 'HEAD'],
                                   capture_output=True, text=True, check=True)
             commit_sha = result.stdout.strip()
@@ -157,12 +166,15 @@ class GitHubAWSDployer:
 
             url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/deployments'
             response = requests.post(url, headers=self.github_headers, json=deployment_data)
-            response.raise_for_status()
 
-            deployment = response.json()
-            self.deployment_id = str(deployment['id'])
-            self.print_success(f"Created GitHub deployment with ID: {self.deployment_id}")
-            return self.deployment_id
+            if response.status_code == 201:
+                deployment = response.json()
+                self.deployment_id = str(deployment['id'])
+                self.print_success(f"Created GitHub deployment with ID: {self.deployment_id}")
+                return self.deployment_id
+            else:
+                self.print_error(f"Failed to create deployment: {response.status_code} - {response.text}")
+                return None
 
         except Exception as e:
             self.print_error(f"Failed to create GitHub deployment: {e}")
@@ -171,23 +183,30 @@ class GitHubAWSDployer:
     def update_deployment_status(self, state: str, description: str, url: str = None) -> bool:
         """Update GitHub deployment status"""
         if not self.deployment_id:
-            self.print_warning("No deployment ID available, cannot update status.")
+            self.print_warning("No deployment ID available")
             return False
 
         try:
             repo_owner = self._get_repo_owner()
             repo_name = self._get_repo_name()
 
-            status_data = {'state': state, 'description': description}
+            status_data = {
+                'state': state,
+                'description': description
+            }
+
             if url:
                 status_data['environment_url'] = url
 
             status_url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/deployments/{self.deployment_id}/statuses'
             response = requests.post(status_url, headers=self.github_headers, json=status_data)
-            response.raise_for_status()
 
-            self.print_success(f"Updated deployment status to: {state}")
-            return True
+            if response.status_code == 201:
+                self.print_success(f"Updated deployment status to: {state}")
+                return True
+            else:
+                self.print_error(f"Failed to update deployment status: {response.status_code}")
+                return False
 
         except Exception as e:
             self.print_error(f"Failed to update deployment status: {e}")
@@ -196,132 +215,210 @@ class GitHubAWSDployer:
     def build_and_push_docker_images(self) -> bool:
         """Build and push Docker images to ECR"""
         try:
+            # Initialize Docker client
             self.docker_client = docker.from_env()
+
+            # Get ECR registry
             sts_client = self.aws_session.client('sts')
             account_id = sts_client.get_caller_identity()['Account']
             ecr_registry = f"{account_id}.dkr.ecr.{self.region}.amazonaws.com"
+
+            # Initialize ECR client
             self.ecr_client = self.aws_session.client('ecr')
 
+            # Get ECR login token
             auth_response = self.ecr_client.get_authorization_token()
-            auth_data = auth_response['authorizationData'][0]
-            ecr_token = auth_data['authorizationToken']
+            username, password = auth_response['authorizationData'][0]['authorizationToken'].decode('base64').split(':')
 
-            self.docker_client.login(username='AWS', password=ecr_token, registry=ecr_registry)
+            # Login to ECR
+            self.docker_client.login(username=username, password=password, registry=ecr_registry)
 
-            image_tag = subprocess.run(['git', 'rev-parse', '--short', 'HEAD'],
-                                     capture_output=True, text=True, check=True).stdout.strip()
+            # Get current commit SHA for image tag
+            result = subprocess.run(['git', 'rev-parse', '--short', 'HEAD'],
+                                  capture_output=True, text=True, check=True)
+            image_tag = result.stdout.strip()
 
+            # Build and push main API image
             self.print_status("Building main API image...")
-            image, _ = self.docker_client.images.build(path='.', tag=f'{ecr_registry}/genx-api:{image_tag}')
+            image, logs = self.docker_client.images.build(
+                path='.',
+                dockerfile='Dockerfile.production',
+                tag=f'{ecr_registry}/genx-api:{image_tag}'
+            )
+
+            # Tag as latest
             image.tag(f'{ecr_registry}/genx-api', 'latest')
 
+            # Push images
             self.docker_client.images.push(f'{ecr_registry}/genx-api:{image_tag}')
             self.docker_client.images.push(f'{ecr_registry}/genx-api:latest')
 
-            self.print_success("Docker images built and pushed successfully.")
+            self.print_success("Docker images built and pushed successfully")
             return True
 
-        except (DockerException, ClientError, Exception) as e:
+        except DockerException as e:
+            self.print_error(f"Docker error: {e}")
+            return False
+        except Exception as e:
             self.print_error(f"Failed to build and push Docker images: {e}")
             return False
 
     def deploy_to_aws(self) -> bool:
-        """Deploy to AWS using an existing deployment script."""
+        """Deploy to AWS using existing deployment script"""
         try:
             self.print_status(f"Deploying to AWS {self.environment} environment...")
-            script_path = 'deploy/aws-deploy.sh'
-            if not os.path.exists(script_path):
-                self.print_error(f"AWS deployment script not found at {script_path}")
-                return False
 
-            os.chmod(script_path, 0o755)
-            result = subprocess.run([script_path, '--region', self.region, '--environment', self.environment],
-                                  capture_output=True, text=True)
+            # Run the existing AWS deployment script
+            if os.path.exists('deploy/aws-deploy.sh'):
+                os.chmod('deploy/aws-deploy.sh', 0o755)
+                result = subprocess.run([
+                    './deploy/aws-deploy.sh',
+                    '--region', self.region,
+                    '--environment', self.environment
+                ], capture_output=True, text=True)
 
-            if result.returncode == 0:
-                self.print_success(f"AWS deployment script executed successfully:\n{result.stdout}")
-                return True
+                if result.returncode == 0:
+                    self.print_success("AWS deployment completed successfully")
+                    return True
+                else:
+                    self.print_error(f"AWS deployment failed: {result.stderr}")
+                    return False
             else:
-                self.print_error(f"AWS deployment failed:\n{result.stderr}")
+                self.print_error("AWS deployment script not found")
                 return False
 
         except Exception as e:
-            self.print_error(f"Failed to run AWS deployment script: {e}")
+            self.print_error(f"Failed to deploy to AWS: {e}")
             return False
 
     def get_deployment_url(self) -> Optional[str]:
-        """Get the deployment URL from CloudFormation outputs."""
+        """Get the deployment URL from CloudFormation outputs"""
         try:
             stack_name = f"{self.environment}-genx-trading-platform"
             cloudformation = self.aws_session.client('cloudformation')
+
             response = cloudformation.describe_stacks(StackName=stack_name)
 
             for output in response['Stacks'][0]['Outputs']:
                 if output['OutputKey'] == 'LoadBalancerDNS':
-                    self.deployment_url = f"http://{output['OutputValue']}"
+                    alb_dns = output['OutputValue']
+                    self.deployment_url = f"http://{alb_dns}"
                     self.print_success(f"Application URL: {self.deployment_url}")
                     return self.deployment_url
+
+            self.print_warning("Could not retrieve deployment URL")
+            return None
+
+        except ClientError as e:
+            self.print_error(f"AWS CloudFormation error: {e}")
             return None
         except Exception as e:
             self.print_error(f"Failed to get deployment URL: {e}")
             return None
 
     def health_check(self, url: str, max_attempts: int = 30) -> bool:
-        """Perform a health check on the deployed application."""
+        """Perform health check on deployed application"""
         self.print_status(f"Performing health check on {url}...")
-        for attempt in range(max_attempts):
+
+        for attempt in range(1, max_attempts + 1):
             try:
                 response = requests.get(f"{url}/health", timeout=10)
-                if response.ok:
+                if response.status_code == 200:
                     self.print_success("Health check passed!")
                     return True
             except requests.RequestException:
                 pass
+
+            self.print_status(f"Health check attempt {attempt}/{max_attempts} failed, retrying in 10 seconds...")
             time.sleep(10)
-        self.print_error("Health check failed.")
+
+        self.print_error(f"Health check failed after {max_attempts} attempts")
         return False
 
     def deploy(self) -> bool:
         """Main deployment method"""
         self.print_status("Starting GitHub Token AWS Deployment")
+        self.print_status(f"Environment: {self.environment}")
+        self.print_status(f"Region: {self.region}")
+        self.print_status(f"Branch: {self.branch}")
 
-        if not self.check_github_token() or not self.check_aws_credentials():
+        # Step 1: Check GitHub token
+        if not self.check_github_token():
             return False
 
+        # Step 2: Check AWS credentials
+        if not self.check_aws_credentials():
+            if not self.setup_aws_from_github_secrets():
+                return False
+
+        # Step 3: Create GitHub deployment
         if not self.create_github_deployment():
             return False
 
+        # Step 4: Update deployment status to in_progress
         self.update_deployment_status("in_progress", "Starting deployment to AWS")
 
-        if not self.build_and_push_docker_images() or not self.deploy_to_aws():
-            self.update_deployment_status("failure", "Deployment to AWS failed")
+        # Step 5: Build and push Docker images
+        if not self.build_and_push_docker_images():
+            self.update_deployment_status("failure", "Failed to build and push Docker images")
             return False
 
+        # Step 6: Deploy to AWS
+        if not self.deploy_to_aws():
+            self.update_deployment_status("failure", "Failed to deploy to AWS")
+            return False
+
+        # Step 7: Get deployment URL
         deployment_url = self.get_deployment_url()
-        if deployment_url and self.health_check(deployment_url):
-            self.update_deployment_status("success", "Deployment successful and healthy", deployment_url)
-        else:
-            self.update_deployment_status("failure", "Health check failed", deployment_url)
-            return False
 
-        return True
+        # Step 8: Perform health check
+        if deployment_url:
+            if self.health_check(deployment_url):
+                self.update_deployment_status("success", "Deployment successful and healthy", deployment_url)
+                self.print_success("Deployment completed successfully!")
+                self.print_success(f"Application URL: {deployment_url}")
+                return True
+            else:
+                self.update_deployment_status("failure", "Deployment completed but health check failed", deployment_url)
+                self.print_error("Deployment completed but health check failed")
+                return False
+        else:
+            self.update_deployment_status("success", "Deployment completed")
+            self.print_success("Deployment completed successfully!")
+            return True
 
 def main():
     """Main function"""
     parser = argparse.ArgumentParser(description='GitHub Token AWS Deployment Script')
-    parser.add_argument('-e', '--environment', default=DEFAULT_ENVIRONMENT, help='Environment to deploy to')
-    parser.add_argument('-r', '--region', default=DEFAULT_AWS_REGION, help='AWS region')
-    parser.add_argument('-b', '--branch', default=DEFAULT_BRANCH, help='Git branch to deploy')
-    parser.add_argument('-t', '--token', default=GITHUB_TOKEN, help='GitHub personal access token')
+    parser.add_argument('-e', '--environment', default=DEFAULT_ENVIRONMENT,
+                       help=f'Environment to deploy to (default: {DEFAULT_ENVIRONMENT})')
+    parser.add_argument('-r', '--region', default=DEFAULT_AWS_REGION,
+                       help=f'AWS region (default: {DEFAULT_AWS_REGION})')
+    parser.add_argument('-b', '--branch', default=DEFAULT_BRANCH,
+                       help=f'Git branch to deploy (default: {DEFAULT_BRANCH})')
+    parser.add_argument('-t', '--token',
+                       help='GitHub personal access token (default: uses GITHUB_TOKEN env var)')
 
     args = parser.parse_args()
 
-    if not args.token:
-        print(f"{Colors.RED}[ERROR]{Colors.NC} GitHub token not provided. Set GITHUB_TOKEN or use --token.", file=sys.stderr)
+    # Use provided token or environment variable
+    token = args.token or GITHUB_TOKEN
+
+    if not token:
+        print(f"{Colors.RED}[ERROR]{Colors.NC} GitHub token not provided")
+        print("Please provide a token using --token or set GITHUB_TOKEN environment variable")
         sys.exit(1)
 
-    deployer = GitHubAWSDployer(args.environment, args.region, args.branch, args.token)
-    sys.exit(0 if deployer.deploy() else 1)
+    # Create deployer and run deployment
+    deployer = GitHubAWSDployer(
+        environment=args.environment,
+        region=args.region,
+        branch=args.branch,
+        token=token
+    )
+
+    success = deployer.deploy()
+    sys.exit(0 if success else 1)
 
 if __name__ == '__main__':
     main()

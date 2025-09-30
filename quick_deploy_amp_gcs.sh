@@ -5,48 +5,50 @@
 
 set -e
 
-# --- Configuration ---
-# IMPORTANT: Replace these placeholders with your actual project details,
-# or set them as environment variables before running the script.
-PROJECT_ID="${PROJECT_ID:-"your-gcp-project-id"}"
-REGION="${REGION:-"us-central1"}"
-SERVICE_NAME="amp-trading-system"
-BUCKET_NAME="${BUCKET_NAME:-"your-gcs-bucket-name"}"
+# Configuration
+PROJECT_ID="${PROJECT_ID:-fortress-notes-omrjz}"
+REGION="${REGION:-us-central1}"
+SERVICE_NAME="${SERVICE_NAME:-amp-trading-system}"
+BUCKET_NAME="${BUCKET_NAME:-amp-trading-system-data}"
 
-# IMPORTANT: These tokens should be managed securely, for example, via environment variables or a secret manager.
-# DO NOT hardcode them in production scripts.
-AMP_TOKEN="${AMP_TOKEN:-"your_amp_token_here"}"
-GITHUB_TOKEN="${GITHUB_TOKEN:-"your_github_token_here"}"
+# Check for .env.secrets and source it if it exists
+if [ -f .env.secrets ]; then
+    echo "🔑 Sourcing secrets from .env.secrets..."
+    set -a
+    source .env.secrets
+    set +a
+else
+    echo "⚠️ .env.secrets file not found. Please create it with your credentials."
+    echo "Example .env.secrets:"
+    echo "export AMP_TOKEN='your_amp_token'"
+    echo "export GITHUB_TOKEN='your_github_token'"
+    echo "export SERVICE_ACCOUNT_KEY_JSON='{\"type\": \"service_account\", ...}'"
+    exit 1
+fi
+
+# Verify that all required secrets are set
+required_secrets=(
+    AMP_TOKEN GITHUB_TOKEN SERVICE_ACCOUNT_KEY_JSON
+)
+
+for secret in "${required_secrets[@]}"; do
+    if [ -z "${!secret}" ]; then
+        echo "❌ Error: Environment variable $secret is not set." >&2
+        exit 1
+    fi
+done
 
 echo "🚀 Quick AMP System GCS Deployment"
 echo "=================================="
 
-# --- Pre-flight checks ---
-if [ "$PROJECT_ID" = "your-gcp-project-id" ] || [ "$BUCKET_NAME" = "your-gcs-bucket-name" ]; then
-    echo "❌ Error: PROJECT_ID and BUCKET_NAME must be set. Please edit the script or set them as environment variables."
+# Create service account key from environment variable
+if [ -z "$SERVICE_ACCOUNT_KEY_JSON" ]; then
+    echo "❌ SERVICE_ACCOUNT_KEY_JSON environment variable not set."
     exit 1
 fi
+echo "$SERVICE_ACCOUNT_KEY_JSON" > service-account-key.json
 
-# --- Authentication ---
-echo "🔐 Authenticating with Google Cloud..."
-# This script assumes you have authenticated with the gcloud CLI.
-# For automated environments, it is HIGHLY recommended to use a service account:
-# 1. Create a service account with necessary permissions (e.g., Storage Admin, Cloud Run Admin).
-# 2. Download the JSON key file for the service account.
-# 3. Authenticate using the key file. You can either:
-#    a) Set the GOOGLE_APPLICATION_CREDENTIALS environment variable:
-#       export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/keyfile.json"
-#    b) Or activate it directly for this session:
-#       gcloud auth activate-service-account --key-file=/path/to/your/keyfile.json
-#
-# This script will proceed assuming you have already logged in via `gcloud auth login` or a service account.
-if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q .; then
-    echo "🔵 Not authenticated with gcloud. Please run 'gcloud auth login' or configure a service account."
-    gcloud auth login
-fi
-
-gcloud config set project $PROJECT_ID
-echo "✅ Authenticated and project set to '$PROJECT_ID'."
+echo "✅ Service account key created"
 
 # Install gcloud if not available
 if ! command -v gcloud &> /dev/null; then
@@ -57,6 +59,12 @@ if ! command -v gcloud &> /dev/null; then
 fi
 
 echo "✅ Google Cloud CLI ready"
+
+# Authenticate and set project
+gcloud config set project $PROJECT_ID
+gcloud auth activate-service-account --key-file=service-account-key.json
+
+echo "✅ Authenticated with Google Cloud"
 
 # Create GCS bucket
 gsutil mb -p $PROJECT_ID -c STANDARD -l $REGION gs://$BUCKET_NAME 2>/dev/null || echo "ℹ️  Bucket already exists"
