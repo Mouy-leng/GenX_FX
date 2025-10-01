@@ -1,5 +1,5 @@
 # Stage 1: Build dependencies in a lean environment
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 # Set environment variables for Poetry
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -15,10 +15,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends gcc
 # Copy dependency definition files and install dependencies
 WORKDIR /app
 COPY pyproject.toml poetry.lock ./
-RUN poetry install --no-root --no-dev
+RUN poetry install --no-root --without dev
 
 # Stage 2: Create the final, optimized production image
-FROM python:3.11-slim as final
+FROM python:3.11-slim AS final
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
