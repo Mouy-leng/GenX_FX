@@ -21,11 +21,11 @@ FXCM ForexConnect API → Data Provider → Spreadsheet Manager → Excel/CSV Ou
 
 ### Prerequisites
 
-- Python 3.7 (Required by ForexConnect)
+- Python ^3.11 (as defined in `pyproject.toml`)
 - Ubuntu/Debian Linux system
 - FXCM Demo or Live account credentials
 
-### Step 1: Install Python 3.7
+### Step 1: Install Python 3.11
 
 ```bash
 # Install pyenv for Python version management
@@ -42,9 +42,9 @@ sudo apt install -y make build-essential libssl-dev zlib1g-dev \
     libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev \
     liblzma-dev git
 
-# Install Python 3.7
-pyenv install 3.7.17
-pyenv local 3.7.17
+# Install Python 3.11
+pyenv install 3.11.9
+pyenv local 3.11.9
 ```
 
 ### Step 2: Install ForexConnect and Dependencies
@@ -335,7 +335,7 @@ provider.get_supported_timeframes() -> List[str]
 ### Docker Deployment
 
 ```dockerfile
-FROM python:3.7-slim
+FROM python:3.11-slim
 
 # Install ForexConnect dependencies
 RUN apt-get update && apt-get install -y \

@@ -12,9 +12,10 @@ import json
 from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Dict, List, Any
+import argparse
 
 # Add project root to path
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 # Configure logging
 logging.basicConfig(
@@ -43,8 +44,8 @@ class FXCMSpreadsheetIntegrationTest:
             "fxcm_forexconnect": {
                 "enabled": True,
                 "use_mock": True,  # Default to mock for testing
-                "username": os.getenv('FXCM_USERNAME', 'D27739526'),
-                "password": os.getenv('FXCM_PASSWORD', 'cpsj1'),
+                "username": os.getenv('FXCM_USERNAME'),
+                "password": os.getenv('FXCM_PASSWORD'),
                 "connection_type": os.getenv('FXCM_CONNECTION_TYPE', 'Demo'),
                 "url": os.getenv('FXCM_URL', 'http://fxcorporate.com/Hosts.jsp'),
                 "timeout": 30,
@@ -87,6 +88,8 @@ class FXCMSpreadsheetIntegrationTest:
                 self.data_provider = MockFXCMForexConnectProvider(self.config["fxcm_forexconnect"])
                 logger.info("Using Mock FXCM ForexConnect Provider")
             else:
+                if not self.config["fxcm_forexconnect"]["username"] or not self.config["fxcm_forexconnect"]["password"]:
+                    raise ValueError("FXCM_USERNAME and FXCM_PASSWORD must be set for real connection tests.")
                 from core.data_sources.fxcm_forexconnect_provider import FXCMForexConnectProvider
                 self.data_provider = FXCMForexConnectProvider(self.config["fxcm_forexconnect"])
                 logger.info("Using Real FXCM ForexConnect Provider")

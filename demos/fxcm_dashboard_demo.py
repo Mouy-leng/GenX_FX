@@ -13,9 +13,10 @@ from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
 import os
 import sys
 import time
+from pathlib import Path
 
 # Add project root to path
-sys.path.append(str(os.path.dirname(__file__)))
+sys.path.append(str(Path(__file__).parent.parent))
 
 try:
     import forexconnect as fx
@@ -34,10 +35,10 @@ class ForexConnectExcelGenerator:
         
         # FXCM ForexConnect configuration
         self.url = os.getenv('FXCM_URL', 'https://api-demo.fxcm.com')
-        self.username = os.getenv('FXCM_USERNAME', 'demo')
+        self.username = os.getenv('FXCM_USERNAME')
         self.password = os.getenv('FXCM_PASSWORD')
-        if not self.password:
-            raise ValueError("FXCM_PASSWORD environment variable is required")
+        if not self.username or not self.password:
+            raise ValueError("FXCM_USERNAME and FXCM_PASSWORD environment variables are required")
         self.connection_type = os.getenv('FXCM_CONNECTION_TYPE', 'Demo')
         
         # Create output directory
