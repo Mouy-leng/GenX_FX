@@ -102,7 +102,7 @@ dependencies = [
     "pycryptodome (==3.23.0)",
     "pydantic (==2.11.9)",
     "pydantic-settings (==2.11.0)",
-    "pydantic-core (==2.33.2)",
+    "pydantic-core (==2.40.0)",
     "pyflakes (==3.1.0)",
     "pygments (==2.19.2)",
     "pyparsing (==3.2.5)",
