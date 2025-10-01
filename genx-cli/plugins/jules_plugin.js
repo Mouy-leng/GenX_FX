@@ -1,4 +1,4 @@
-function run(config) {
+function run() {
   console.log('Running Jules Plugin...');
   // In the future, this plugin could be used to:
   // - Scan code for issues
