@@ -33,24 +33,13 @@ class FXCMSpreadsheetIntegrationTest:
     """
     
     def __init__(self):
-        self.config = self._load_config()
         self.data_provider = None
         self.spreadsheet_manager = None
-        
-    def _load_config(self) -> Dict[str, Any]:
-        """Load configuration with environment variable substitution"""
-        config = {
-            "fxcm_forexconnect": {
-                "enabled": True,
-                "use_mock": True,  # Default to mock for testing
-                "username": os.getenv('FXCM_USERNAME', 'D27739526'),
-                "password": os.getenv('FXCM_PASSWORD', 'cpsj1'),
-                "connection_type": os.getenv('FXCM_CONNECTION_TYPE', 'Demo'),
-                "url": os.getenv('FXCM_URL', 'http://fxcorporate.com/Hosts.jsp'),
-                "timeout": 30,
-                "retry_attempts": 3,
-                "auto_reconnect": True
-            },
+        self.config = self._default_config()
+
+    def _default_config(self) -> Dict[str, Any]:
+        """Provides default configuration for the test."""
+        return {
             "data_provider": {
                 "symbols": ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD"],
                 "timeframes": ["M15", "H1", "H4", "D1"],
@@ -71,24 +60,17 @@ class FXCMSpreadsheetIntegrationTest:
                 "include_market_data": True
             }
         }
-        
-        logger.info("Configuration loaded")
-        return config
-    
-    async def setup_data_provider(self, use_mock: bool = None):
+
+    async def setup_data_provider(self, use_mock: bool = True):
         """Setup FXCM data provider (real or mock)"""
         try:
-            if use_mock is None:
-                use_mock = self.config["fxcm_forexconnect"]["use_mock"]
-            
-            # Import the appropriate provider
             if use_mock:
                 from core.data_sources.fxcm_forexconnect_provider import MockFXCMForexConnectProvider
-                self.data_provider = MockFXCMForexConnectProvider(self.config["fxcm_forexconnect"])
+                self.data_provider = MockFXCMForexConnectProvider()
                 logger.info("Using Mock FXCM ForexConnect Provider")
             else:
                 from core.data_sources.fxcm_forexconnect_provider import FXCMForexConnectProvider
-                self.data_provider = FXCMForexConnectProvider(self.config["fxcm_forexconnect"])
+                self.data_provider = FXCMForexConnectProvider()
                 logger.info("Using Real FXCM ForexConnect Provider")
             
             # Connect to the provider

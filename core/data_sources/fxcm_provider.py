@@ -15,18 +15,9 @@ import json
 import time
 from dataclasses import dataclass
 
-logger = logging.getLogger(__name__)
+from config.credentials import get_fxcm_config, FXCMConfig
 
-@dataclass
-class FXCMConfig:
-    """FXCM configuration settings"""
-    access_token: str
-    environment: str = "demo"  # "demo" or "real"
-    server_url: str = "https://api-fxpractice.fxcm.com"
-    socket_url: str = "wss://api-fxpractice.fxcm.com/socket.io/"
-    timeout: int = 30
-    retry_attempts: int = 3
-    rate_limit_delay: float = 0.1
+logger = logging.getLogger(__name__)
 
 class FXCMDataProvider:
     """
@@ -34,8 +25,8 @@ class FXCMDataProvider:
     Optimized for trading signal generation
     """
     
-    def __init__(self, config: Dict[str, Any]):
-        self.config = FXCMConfig(**config)
+    def __init__(self, config: FXCMConfig = None):
+        self.config = config or get_fxcm_config()
         self.session = None
         self.websocket = None
         self.is_connected = False
@@ -452,7 +443,7 @@ class FXCMDataProvider:
 class MockFXCMProvider(FXCMDataProvider):
     """Mock FXCM provider for testing and development"""
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: FXCMConfig = None):
         super().__init__(config)
         self.is_connected = True
         logger.info("Mock FXCM Provider initialized")

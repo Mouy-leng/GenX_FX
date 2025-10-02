@@ -15,6 +15,8 @@ from dataclasses import dataclass
 import os
 import sys
 
+from config.credentials import get_fxcm_forexconnect_config, FXCMForexConnectConfig
+
 # Import ForexConnect (ensure virtual environment is activated)
 try:
     import forexconnect as fx
@@ -25,30 +27,17 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-@dataclass
-class FXCMForexConnectConfig:
-    """FXCM ForexConnect configuration settings"""
-    username: str
-    password: str
-    connection_type: str = "Demo"  # "Demo" or "Real"
-    url: str = "http://fxcorporate.com/Hosts.jsp"
-    session_id: Optional[str] = None
-    pin: Optional[str] = None
-    timeout: int = 30
-    retry_attempts: int = 3
-    auto_reconnect: bool = True
-
 class FXCMForexConnectProvider:
     """
     FXCM ForexConnect Provider for real-time and historical market data
     Uses FXCM's native ForexConnect API for direct platform integration
     """
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: FXCMForexConnectConfig = None):
         if not FOREXCONNECT_AVAILABLE:
             raise ImportError("ForexConnect module not available. Please install it first.")
             
-        self.config = FXCMForexConnectConfig(**config)
+        self.config = config or get_fxcm_forexconnect_config()
         self.forex_connect = None
         self.session = None
         self.is_connected = False
@@ -332,9 +321,9 @@ class MockFXCMForexConnectProvider(FXCMForexConnectProvider):
     Simulates real FXCM data without requiring valid credentials
     """
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: FXCMForexConnectConfig = None):
         # Don't call parent __init__ to avoid ForexConnect dependency
-        self.config = FXCMForexConnectConfig(**config)
+        self.config = config or get_fxcm_forexconnect_config()
         self.forex_connect = None
         self.session = None
         self.is_connected = False

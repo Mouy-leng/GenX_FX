@@ -10,6 +10,7 @@
 ## Files Created
 
 ### 🔧 Management Scripts
+- `config/credentials.py` - Centralized credential management for services.
 - `github-secrets-manager.py` - Automated secrets management (needs proper token)
 - `validate-github-secrets.py` - Validation and status checking
 - `update-cicd-pipeline.py` - CI/CD pipeline enhancement
@@ -22,6 +23,20 @@
 ### 🚀 CI/CD Workflows
 - `.github/workflows/ci-cd.yml` - Enhanced main pipeline
 - `.github/workflows/manual-deploy.yml` - Manual deployment workflow
+
+## Centralized Credential Management
+
+A new centralized credential management system has been introduced in `config/credentials.py`. This module is the single source of truth for all service credentials and loads its configuration from environment variables.
+
+### FXCM Integration
+
+The following environment variables are used for FXCM integration:
+
+-   `FXCM_USERNAME`: For the ForexConnect API.
+-   `FXCM_PASSWORD`: For the ForexConnect API.
+-   `FXCM_API_TOKEN`: For the REST/WebSocket API.
+
+This system simplifies credential management and enhances security by removing the need to pass secrets directly in code.
 
 ## Token Issue
 
