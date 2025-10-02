@@ -49,7 +49,7 @@ registerRoutes(app);
 const server = createServer(app);
 
 // WebSocket setup
-const wss = new WebSocketServer({ server });
+export const wss = new WebSocketServer({ server });
 
 wss.on('connection', (ws, req) => {
   console.log('WebSocket connection established from:', req.socket.remoteAddress);

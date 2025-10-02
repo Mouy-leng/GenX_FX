@@ -1,4 +1,6 @@
 import { Express } from 'express';
+import { WebSocket } from 'ws';
+import { wss } from './index.js';
 import { db } from './db.js';
 import { users, tradingAccounts, positions, notifications, educationalResources } from '../shared/schema.js';
 import { eq, desc, and, or, ilike, count } from 'drizzle-orm';
@@ -370,9 +372,19 @@ export function registerRoutes(app: Express) {
         }
       }
 
+      // Also broadcast to all connected WebSocket clients
+      wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({
+            type: 'signal',
+            data: signal
+          }));
+        }
+      });
+
       res.json({ 
         success: true, 
-        message: `Signal broadcasted to ${sentCount} EAs`,
+        message: `Signal broadcasted to ${sentCount} EAs and all WebSocket clients`,
         sentCount 
       });
     } catch (error) {

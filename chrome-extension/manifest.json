@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "GenX FX Trading",
+  "version": "0.1.0",
+  "description": "A Chrome extension for the GenX FX Trading Platform.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost:5000/",
+    "ws://localhost:5000/"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src ws://localhost:5000"
+  }
+}
