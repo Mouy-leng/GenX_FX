@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import request from 'supertest';
-import WebSocket from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import express from 'express';
 import { createServer } from 'http';
 import cors from 'cors';
@@ -22,6 +22,7 @@ vi.mock('../vite.js', () => ({
 describe('GenX FX Server Comprehensive Tests', () => {
   let app: express.Application;
   let server: any;
+  let wss: WebSocketServer;
   let baseURL: string;
 
   beforeAll(async () => {
@@ -52,14 +53,25 @@ describe('GenX FX Server Comprehensive Tests', () => {
 
     // Error handling middleware
     app.use((err: any, req: any, res: any, next: any) => {
+      // Handle JSON parsing errors from express.json()
+      if (err instanceof SyntaxError && 'body' in err) {
+        return res.status(400).json({ error: 'Malformed JSON' });
+      }
+
+      // Handle payload too large errors from express.json()
+      if (err.type === 'entity.too.large') {
+        return res.status(413).json({ error: 'Payload too large' });
+      }
+
+      // Generic server error
       res.status(500).json({
         error: 'Internal server error',
         message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
       });
     });
 
-    // 404 handler
-    app.use('*', (req, res) => {
+    // 404 handler should be last
+    app.use((req, res) => {
       res.status(404).json({
         error: 'Not found',
         path: req.originalUrl
@@ -68,14 +80,31 @@ describe('GenX FX Server Comprehensive Tests', () => {
 
     server = createServer(app);
     const port = 5001; // Use different port for tests
-    server.listen(port);
+
+    // WebSocket setup for tests
+    wss = new WebSocketServer({ server });
+    wss.on('connection', (ws) => {
+      ws.on('message', (data) => {
+        try {
+          const message = JSON.parse(data.toString());
+          ws.send(JSON.stringify({ type: 'echo', data: message, timestamp: new Date().toISOString() }));
+        } catch (error) {
+          ws.send(JSON.stringify({ type: 'error', message: 'Invalid JSON format' }));
+        }
+      });
+      ws.send(JSON.stringify({ type: 'welcome', message: 'Connected to GenZ Trading Bot Pro', timestamp: new Date().toISOString() }));
+    });
+
+    await new Promise<void>(resolve => server.listen(port, resolve));
     baseURL = `http://localhost:${port}`;
   });
 
   afterAll(async () => {
-    if (server) {
-      server.close();
-    }
+    await new Promise<void>(resolve => {
+      wss.close(() => {
+        server.close(() => resolve());
+      });
+    });
   });
 
   describe('HTTP Server Tests', () => {
@@ -241,74 +270,73 @@ describe('GenX FX Server Comprehensive Tests', () => {
   });
 
   describe('WebSocket Tests', () => {
-    it('should establish WebSocket connection and send welcome message', (done) => {
-      const ws = new WebSocket(`ws://localhost:5001`);
-      
-      ws.on('open', () => {
-        console.log('WebSocket connection opened');
-      });
-      
-      ws.on('message', (data) => {
-        const message = JSON.parse(data.toString());
-        
-        if (message.type === 'welcome') {
-          expect(message.message).toBe('Connected to GenZ Trading Bot Pro');
-          expect(message.timestamp).toBeDefined();
-          ws.close();
-          done();
-        }
-      });
-      
-      ws.on('error', (error) => {
-        done(error);
+    it('should establish WebSocket connection and send welcome message', () => {
+      return new Promise((resolve, reject) => {
+        const ws = new WebSocket(`ws://localhost:5001`);
+        ws.on('message', (data) => {
+          try {
+            const message = JSON.parse(data.toString());
+            if (message.type === 'welcome') {
+              expect(message.message).toBe('Connected to GenZ Trading Bot Pro');
+              expect(message.timestamp).toBeDefined();
+              ws.close();
+              resolve(true);
+            }
+          } catch (e) {
+            reject(e);
+          }
+        });
+        ws.on('error', reject);
       });
     });
 
-    it('should echo back valid JSON messages', (done) => {
-      const ws = new WebSocket(`ws://localhost:5001`);
-      const testMessage = { action: 'test', data: { value: 123 } };
-      
-      let welcomeReceived = false;
-      
-      ws.on('message', (data) => {
-        const message = JSON.parse(data.toString());
+    it('should echo back valid JSON messages', () => {
+      return new Promise((resolve, reject) => {
+        const ws = new WebSocket(`ws://localhost:5001`);
+        const testMessage = { action: 'test', data: { value: 123 } };
+        let welcomeReceived = false;
         
-        if (message.type === 'welcome') {
-          welcomeReceived = true;
-          ws.send(JSON.stringify(testMessage));
-        } else if (message.type === 'echo' && welcomeReceived) {
-          expect(message.data).toEqual(testMessage);
-          expect(message.timestamp).toBeDefined();
-          ws.close();
-          done();
-        }
-      });
-      
-      ws.on('error', (error) => {
-        done(error);
+        ws.on('message', (data) => {
+          try {
+            const message = JSON.parse(data.toString());
+            if (message.type === 'welcome') {
+              welcomeReceived = true;
+              ws.send(JSON.stringify(testMessage));
+            } else if (message.type === 'echo' && welcomeReceived) {
+              expect(message.data).toEqual(testMessage);
+              expect(message.timestamp).toBeDefined();
+              ws.close();
+              resolve(true);
+            }
+          } catch (e) {
+            reject(e);
+          }
+        });
+        ws.on('error', reject);
       });
     });
 
-    it('should handle invalid JSON messages gracefully', (done) => {
-      const ws = new WebSocket(`ws://localhost:5001`);
-      
-      let welcomeReceived = false;
-      
-      ws.on('message', (data) => {
-        const message = JSON.parse(data.toString());
-        
-        if (message.type === 'welcome') {
-          welcomeReceived = true;
-          ws.send('{ invalid json }');
-        } else if (message.type === 'error' && welcomeReceived) {
-          expect(message.message).toBe('Invalid JSON format');
-          ws.close();
-          done();
-        }
-      });
-      
-      ws.on('error', (error) => {
-        done(error);
+    it('should handle invalid JSON messages gracefully', () => {
+      return new Promise((resolve, reject) => {
+        const ws = new WebSocket(`ws://localhost:5001`);
+        let welcomeReceived = false;
+
+        ws.on('message', (data) => {
+          try {
+            const message = JSON.parse(data.toString());
+            if (message.type === 'welcome') {
+              welcomeReceived = true;
+              ws.send('{ invalid json }');
+            } else if (message.type === 'error' && welcomeReceived) {
+              expect(message.message).toBe('Invalid JSON format');
+              ws.close();
+              resolve(true);
+            }
+          } catch (e) {
+            reject(e);
+          }
+        });
+        ws.on('error', reject);
       });
     });
   });
