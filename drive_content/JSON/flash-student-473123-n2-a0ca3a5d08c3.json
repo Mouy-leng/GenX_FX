@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "flash-student-473123-n2",
+  "private_key_id": "a0ca3a5d08c3eb7aa0e7147537c16e7d25667af8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDArZ7t+MPAxvUW\nASWvdYo6Y0jPGSJc/BtDC7LmPW2IakVB8p6zPQKigk0afDUqfgyqUyM5IltVRU6C\n6Nmbk+jGQfLGSSRmE1qbVLie1z4o7DhxCT6ALAFJGzVRmdDms/Knb51sw0Nl+4+y\niH1A26yvGnq4cvmzI8+L8UsI88Xbx17rswRZi4M2honBVz2cqxF7XlscHB7Cz2/q\n16s9KyIOqR9ib+h2YXftVmwKgeIGKDVnSeXciK3uLh5hgfIlwV+TxltHA43/yVkp\n9kCQtEUHHqQyfzNukx0uEY8RUUi7vjNcqVTBSeN61ztPCtqyPlV+QXZeuNJgBLCw\n0PaxcAuJAgMBAAECgf9zfVTcs59Y1sPjFcPOozMpsNABLeZvlb+KoqrLFrSDAi/T\nbnm6o3csQ4lqkhHMD6ZaFfHwEaxtEBAWFTvsLhLTwxhYpnWdFPORMI3UOgJMxSXY\nv7ZNplvoDNk/lK5d41DBXfxncEeVwm7a2P4WHZYoukQnCugXfNr4Jrcg2Nio+Wyn\nOlBQn+58DKIQIJ59crC/EFhsmq2lCvI2qzyV1Bf5hWO68nMMCls/0jB3sbvz0iQr\njLmxCCmxzRHrOkmZtjCauxIllF7939dmjTl2DS+Gg6I9uz901HabEFciNY98ncDI\nVRRnOVlzEGHrqyK8s29q7NowjLRVEp9nGo+pbCECgYEA8LCkWGo7T6LPQMlpJQo8\nJJyFXjHf90OvgaLs573+WeaCA/zWf3o5FRi4NTSfQJ8EVYVQS7pGwFW7MV1mMCzE\nEZw31dKSfK2EncFEK8aRUznkljzy7dQGQDOlK+fRvyspmIW9Ts17O/iP9p7dG8Ag\nLQoolLW0FgO0tzvuTKGMBykCgYEAzO8pigzKYgxndKJpEfiJYI4a4hAQqoWyiHjh\npB6C6LhFuJNdHCHcdYhxRYSZZMU4RkMTP5Tp5fLWZ+W7ES10ObAR6HpqyBf5R6+o\nuf4y6AVRn03OqoXGWKG30guIznGhSIPmJVE71iQxFfDj+iZ+/c1v3qNurEqSIKTM\nzDyqTWECgYAiUu589VlT+AHaWV63O4hsKC4UysQHvQ1QTW2/dqbJJ0gvTWVBdKqj\nSY0reT+ktYimsYZL5lqknxU86vbhs+CaKk8EHS1qvkwFO0R/gafD2KOykSqLpAro\nKPVLF5ofywX5jEj87ey/FqlhIDKj/HgaNDKpUmhGI20oHFHVd8xCUQKBgGAJU/YV\nuGHqXjESSxrY1cgh0AdQb/75WIkL3PIEOmTEtiehJ2kflSifIDXrxdardYu3szWA\nm3vfKQrXZarPGkBOepXviErssS0e7Hr83O5OT8nPtKHEvwaaAoK0VRApv+MzrI6g\nWuInY7lcgfmgQLK/q0UyYZLr/z68/BxZ8ZUBAoGBAKnCFqrRE/ZjNRrwYR7/CV7Q\nHzCqLut39eJNJzjJDOYavQHVPdcdfVMhQH3RUIMD04OJ5RcQCFuJ5OfRtSSw+vV1\nv9sEYHEMVZsyJIL7a8tpTBwA9x97rl87pviYQN6FDoR/E+YZqEKGQBF/g8EZoiRD\nNaf+3utFr0m97c4GMtBR\n-----END PRIVATE KEY-----\n",
+  "client_email": "genx-fx-project-yn-901@flash-student-473123-n2.iam.gserviceaccount.com",
+  "client_id": "116534516340075466625",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/genx-fx-project-yn-901%40flash-student-473123-n2.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
