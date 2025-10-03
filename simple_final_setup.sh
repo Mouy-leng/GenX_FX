@@ -66,7 +66,7 @@ DATABASE_URL=$DATABASE_URL
 SECRET_KEY=$SECRET_KEY
 
 # === Heroku ===
-HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
+HEROKU_TOKEN="[REDACTED - Your Heroku Token]"
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"

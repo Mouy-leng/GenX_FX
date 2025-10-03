@@ -10,8 +10,8 @@ import sys
 import os
 
 # FXCM Credentials from environment variables
-FXCM_USERNAME = os.getenv('FXCM_USERNAME', 'YOUR_USERNAME_HERE')
-FXCM_PASSWORD = os.getenv('FXCM_PASSWORD', 'YOUR_PASSWORD_HERE')
+FXCM_USERNAME = os.getenv('FXCM_USERNAME')
+FXCM_PASSWORD = os.getenv('FXCM_PASSWORD')
 FXCM_CONNECTION_TYPE = os.getenv('FXCM_CONNECTION_TYPE', 'Demo')
 FXCM_URL = os.getenv('FXCM_URL', 'http://fxcorporate.com/Hosts.jsp')
 
@@ -29,7 +29,7 @@ class FXCMConnectionTest:
             print(f"URL: {FXCM_URL}")
             print()
             
-            if FXCM_USERNAME == 'YOUR_USERNAME_HERE':
+            if not FXCM_USERNAME or not FXCM_PASSWORD:
                 print("⚠️  Please set environment variables:")
                 print("   export FXCM_USERNAME='your_username'")
                 print("   export FXCM_PASSWORD='your_password'")

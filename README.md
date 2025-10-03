@@ -53,16 +53,23 @@ wget https://github.com/Mouy-leng/GenX_FX/raw/main/expert-advisors/GenX_Gold_Mas
 
 ### **Option 2: Full System Setup (For Developers)**
 ```bash
-# 1. Clone repository
+# 1. Clone the repository
 git clone https://github.com/Mouy-leng/GenX_FX.git
 cd GenX_FX
 
-# 2. Install all dependencies (requires Python 3.9+)
+# 2. Set up your environment variables
+# Copy the example file to a new .env file
+cp .env.example .env
+
+# 3. Add your credentials to the .env file
+# Open .env in a text editor and fill in your API keys and secrets.
+# IMPORTANT: Do not commit the .env file to Git.
+
+# 4. Install dependencies (requires Python 3.9+)
 # This installs all packages from pyproject.toml
 pip install .
 
-# 3. (Optional) Install CLI for advanced management
-# The main dependencies should already be installed
+# 5. (Optional) Install CLI for advanced management
 chmod +x genx
 ./genx --help
 ```

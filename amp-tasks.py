@@ -2,7 +2,8 @@
 import requests
 import os
 
-GITHUB_TOKEN = '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'
+import os
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 REPO = 'Mouy-leng/GenX_FX'
 
 secrets = {

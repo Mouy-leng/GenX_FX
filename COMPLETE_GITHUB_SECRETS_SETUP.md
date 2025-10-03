@@ -10,7 +10,7 @@ Your GitHub token doesn't have admin permissions for repository secrets, so you'
 
 #### **✅ Already Available**
 ```
-AMP_TOKEN = sgamp_user_01K1B28JVS8XWZQ3CEWJP8E5GN_97969aa27077d9e44e82ad554b337f2bda14a5e3eccf15165b1a09c24872495e
+AMP_TOKEN = "[REDACTED - Your AMP Token]"
 ```
 
 #### **🔑 Critical Secrets (Must Configure)**
@@ -95,7 +95,7 @@ Value: [Your AWS Secret Access Key]
 #### **AMP Token (Already Provided)**
 ```
 Name: AMP_TOKEN
-Value: sgamp_user_01K1B28JVS8XWZQ3CEWJP8E5GN_97969aa27077d9e44e82ad554b337f2bda14a5e3eccf15165b1a09c24872495e
+Value: [REDACTED - Your AMP Token, already provided]
 ```
 
 #### **Database Secrets (Generate Secure Passwords)**

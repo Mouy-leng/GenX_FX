@@ -20,7 +20,7 @@ AWS_SECRET_ACCESS_KEY = [Your AWS Secret Access Key]
 
 #### **AMP System Secret**
 ```
-AMP_TOKEN = sgamp_user_01K1B28JVS8XWZQ3CEWJP8E5GN_97969aa27077d9e44e82ad554b337f2bda14a5e3eccf15165b1a09c24872495e
+AMP_TOKEN = "[REDACTED - Your AMP Token]"
 ```
 **Status**: ✅ Already provided
 

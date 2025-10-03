@@ -1,7 +1,8 @@
 import requests
 import os
 
-GITHUB_TOKEN = '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'
+import os
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 USERNAME = 'Mouy-leng'
 
 # Update user profile
