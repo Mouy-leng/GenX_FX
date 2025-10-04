@@ -112,11 +112,13 @@ async def get_users():
     except Exception as e:
         return {"error": str(e)}
 
+from .config import settings
+
 @app.get("/mt5-info")
 async def get_mt5_info():
     return {
-        "login": "279023502",
-        "server": "Exness-MT5Trial8",
+        "login": settings.EXNESS_LOGIN,
+        "server": settings.EXNESS_SERVER,
         "status": "configured"
     }
 

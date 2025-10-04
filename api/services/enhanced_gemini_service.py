@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 import google.generativeai as genai
-from ..config.settings import get_settings
+from ..config import get_settings
 
 settings = get_settings()
 logger = logging.getLogger(__name__)

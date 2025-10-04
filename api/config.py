@@ -37,12 +37,13 @@ class Settings(BaseSettings):
     EA_SERVER_PORT: int = 5000
     
     # Database Configuration
-    DATABASE_URL: str = "postgresql://genx:password@localhost:5432/genx_trading"
-    REDIS_URL: str = "redis://localhost:6379/0"
+    DATABASE_URL: str = Field(..., description="PostgreSQL database connection URL")
+    REDIS_URL: str = Field(..., description="Redis connection URL")
     
     # Security
     SECRET_KEY: str = Field(..., description="Secret key for JWT tokens")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    GEMINI_API_KEY: str = Field(..., description="API Key for Google Gemini")
     
     # Logging
     LOG_LEVEL: str = "INFO"
