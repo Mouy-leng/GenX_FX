@@ -15,7 +15,7 @@ os.environ["REDIS_URL"] = "redis://localhost:6379"
 
 from api.main import app
 
-client = TestClient(app)
+client = TestClient(app, base_url="http://localhost")
 
 class TestEdgeCases:
     """Comprehensive edge case testing for the GenX FX API"""
