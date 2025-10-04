@@ -1,21 +1,29 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 import sqlite3
 import os
 from datetime import datetime
+from config.settings import settings
+
 app = FastAPI(
     title="GenX-FX Trading Platform API",
     description="Trading platform with ML-powered predictions",
     version="1.0.0"
 )
 
-# Add CORS middleware
+# Add security middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
+)
+
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=settings.ALLOWED_HOSTS
 )
 
 @app.get("/")
