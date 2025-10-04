@@ -21,7 +21,12 @@ GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
 # === App Credentials ===
 MT5_LOGIN="279023502"
 MT5_SERVER="Exness-MT5Trial8"
-MT5_PASSWORD="Leng12345@#$01"
+
+if [ -z "$MT5_PASSWORD" ]; then
+    echo -e "${RED}Error: MT5_PASSWORD environment variable is not set.${NC}" >&2
+    echo -e "${YELLOW}Please set it before running the script: export MT5_PASSWORD=\"your_password\"${NC}" >&2
+    exit 1
+fi
 
 # === API Keys (placeholders) ===
 GEMINI_API_KEY="your_gemini_api_key_here"
@@ -66,7 +71,9 @@ DATABASE_URL=$DATABASE_URL
 SECRET_KEY=$SECRET_KEY
 
 # === Heroku ===
-HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
+if [ -z "$HEROKU_TOKEN" ]; then
+    echo -e "${YELLOW}Warning: HEROKU_TOKEN environment variable is not set. Deployment to Heroku may fail.${NC}" >&2
+fi
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"
@@ -250,11 +257,6 @@ def insert_initial_data(cursor):
     
     initial_data_sql = [
         """
-        INSERT OR IGNORE INTO users (username, email, password_hash) VALUES
-        ('admin', 'admin@genxdbxfx1.com', 'hashed_password_placeholder')
-        """,
-        
-        """
         INSERT OR IGNORE INTO trading_pairs (symbol, base_currency, quote_currency) VALUES
         ('EUR/USD', 'EUR', 'USD'),
         ('GBP/USD', 'GBP', 'USD'),
@@ -437,12 +439,11 @@ Services:
 
 Credentials:
 - Database: SQLite (genxdb_fx.db)
-- Admin User: admin@genxdbxfx1.com
 
 MT5 Credentials:
 - Login: $MT5_LOGIN
 - Server: $MT5_SERVER
-- Password: $MT5_PASSWORD
+- Password: [REDACTED - set via environment variable]
 
 Useful Commands:
 - Start platform: ./start_trading_platform.sh

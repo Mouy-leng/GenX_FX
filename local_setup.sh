@@ -21,7 +21,12 @@ GITHUB_REPOSITORY="https://github.com/genxdbxfx1-ctrl/GenX_db_FX-.git"
 # === App Credentials ===
 MT5_LOGIN="279023502"
 MT5_SERVER="Exness-MT5Trial8"
-MT5_PASSWORD="Leng12345@#$01"
+
+if [ -z "$MT5_PASSWORD" ]; then
+    echo -e "${RED}Error: MT5_PASSWORD environment variable is not set.${NC}" >&2
+    echo -e "${YELLOW}Please set it before running the script: export MT5_PASSWORD=\"your_password\"${NC}" >&2
+    exit 1
+fi
 
 # === API Keys (placeholders) ===
 GEMINI_API_KEY="your_gemini_api_key_here"
@@ -33,7 +38,7 @@ NEWSDATA_API_KEY="your_newsdata_key_here"
 ENV="development"
 PORT="8080"
 DEBUG="true"
-DATABASE_URL="mysql://root:password@localhost:3306/genxdb_fx_db"
+DATABASE_URL="mysql://root:${MYSQL_ROOT_PASSWORD}@localhost:3306/genxdb_fx_db"
 
 # === Security ===
 SECRET_KEY=$(openssl rand -hex 32)
@@ -97,7 +102,9 @@ DATABASE_URL=$DATABASE_URL
 SECRET_KEY=$SECRET_KEY
 
 # === Heroku ===
-HEROKU_TOKEN=HRKU-AAdx7OW4VQYFLAyNbE0_2jze4VpJbaTHK8sxEv1XDN3w_____ws77zaRyPXX
+if [ -z "$HEROKU_TOKEN" ]; then
+    echo -e "${YELLOW}Warning: HEROKU_TOKEN environment variable is not set. Deployment to Heroku may fail.${NC}" >&2
+fi
 EOF
 
 echo -e "${GREEN}✅ Environment file created${NC}"
@@ -114,10 +121,10 @@ services:
     container_name: genxdb_fx_mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: genxdb_fx_db
       MYSQL_USER: genx_user
-      MYSQL_PASSWORD: genx_password
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -175,7 +182,7 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-admin}
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
@@ -337,16 +344,16 @@ Services:
 - Monitoring (Grafana): localhost:3001
 
 Credentials:
-- MySQL Root Password: password
+- MySQL Root Password: [REDACTED - set via environment variable]
 - MySQL Database: genxdb_fx_db
 - MySQL User: genx_user
-- MySQL Password: genx_password
-- Grafana Admin Password: admin
+- MySQL Password: [REDACTED - set via environment variable]
+- Grafana Admin Password: [REDACTED - set via environment variable]
 
 MT5 Credentials:
 - Login: $MT5_LOGIN
 - Server: $MT5_SERVER
-- Password: $MT5_PASSWORD
+- Password: [REDACTED - set via environment variable]
 
 Useful Commands:
 - View logs: docker-compose -f docker-compose.local.yml logs

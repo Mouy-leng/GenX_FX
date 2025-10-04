@@ -171,8 +171,8 @@ def main():
     
     # Demo connection configuration
     demo_url = "http://www.fxcorporate.com/Hosts.jsp"
-    demo_username = "your_demo_username"  # Replace with your credentials
-    demo_password = "your_demo_password"  # Replace with your credentials
+    demo_username = "YOUR_DEMO_USERNAME_HERE"  # Replace with your credentials
+    demo_password = "YOUR_DEMO_PASSWORD_HERE"  # Replace with your credentials
     
     if not fx_example.configure_connection(demo_url, demo_username, demo_password):
         print("Failed to configure connection")

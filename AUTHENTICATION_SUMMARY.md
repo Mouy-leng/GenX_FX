@@ -8,20 +8,20 @@ Your session token has been successfully integrated into the AMP CLI system.
 
 ### **Token Parsed Successfully:**
 ```
-Original Token: sgamp_user_01K0R2TFXNAWZES7ATM3D84JZW_3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab
+Original Token: YOUR_AMP_TOKEN
 ```
 
 ### **Components Extracted:**
-- **User ID**: `01K0R2TFXNAWZES7ATM3D84JZW`
-- **Session Hash**: `3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab`
+- **User ID**: `USER_ID_FROM_TOKEN`
+- **Session Hash**: `SESSION_HASH_FROM_TOKEN`
 - **Authentication Status**: ✅ **ACTIVE**
-- **Session Expires**: `2025-07-27T04:38:19.747078`
+- **Session Expires**: `SESSION_EXPIRATION_TIME`
 
 ## 🚀 **Authentication Commands**
 
 ### **Authenticate with Token:**
 ```bash
-amp auth --token "sgamp_user_01K0R2TFXNAWZES7ATM3D84JZW_3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab"
+amp auth --token "YOUR_AMP_TOKEN"
 ```
 
 ### **Check Authentication Status:**
@@ -39,11 +39,11 @@ amp auth --logout
 ### **amp_auth.json** (Generated)
 ```json
 {
-  "user_id": "01K0R2TFXNAWZES7ATM3D84JZW",
-  "session_hash": "3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab",
-  "session_token": "sgamp_user_01K0R2TFXNAWZES7ATM3D84JZW_3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab",
-  "authenticated_at": "2025-07-26T04:38:19.747057",
-  "expires_at": "2025-07-27T04:38:19.747078"
+  "user_id": "USER_ID_FROM_TOKEN",
+  "session_hash": "SESSION_HASH_FROM_TOKEN",
+  "session_token": "YOUR_AMP_TOKEN",
+  "authenticated_at": "AUTHENTICATION_TIME",
+  "expires_at": "SESSION_EXPIRATION_TIME"
 }
 ```
 
@@ -63,9 +63,9 @@ amp auth --logout
 ### **✅ API Headers Generation**
 ```python
 headers = {
-    "Authorization": "Bearer sgamp_user_01K0R2TFXNAWZES7ATM3D84JZW_3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab",
-    "X-User-ID": "01K0R2TFXNAWZES7ATM3D84JZW",
-    "X-Session-Hash": "3830bea90574918ae6e55ff15a540488d7bf6da0d39c79d1d21cbd873a6d30ab"
+    "Authorization": "Bearer YOUR_AMP_TOKEN",
+    "X-User-ID": "USER_ID_FROM_TOKEN",
+    "X-Session-Hash": "SESSION_HASH_FROM_TOKEN"
 }
 ```
 

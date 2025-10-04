@@ -42,7 +42,13 @@ set GEMINI_API_KEY=your_gemini_api_key_here
 set EXNESS_LOGIN=your_exness_login
 set EXNESS_PASSWORD=your_exness_password
 set EXNESS_SERVER=Exness-MT5Trial8
-set SECRET_KEY=your_secret_key_here
+
+if not defined SECRET_KEY (
+    echo ERROR: SECRET_KEY environment variable is not set.
+    echo Please set it before running the script: set SECRET_KEY=your_very_secret_key
+    pause
+    exit /b 1
+)
 
 echo.
 echo ========================================

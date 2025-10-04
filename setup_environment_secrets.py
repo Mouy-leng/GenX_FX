@@ -29,8 +29,12 @@ def run_command(cmd, description=""):
 def setup_github_secrets():
     """Set up GitHub repository secrets"""
     
-    # Set GitHub token
-    github_token = "ghs_rhJSLBXTMQJr8lDIovFjnwuWTIwJId359Fxh"
+    # Check for GitHub token
+    github_token = os.getenv("GITHUB_TOKEN")
+    if not github_token:
+        print("✗ Error: GITHUB_TOKEN environment variable not set.")
+        print("Please set the GITHUB_TOKEN environment variable with a valid GitHub personal access token.")
+        sys.exit(1)
     os.environ['GITHUB_TOKEN'] = github_token
     
     print("🔐 Setting up GitHub Repository Secrets...")
@@ -114,7 +118,7 @@ def setup_github_secrets():
         run_command(f'gh secret set SSL_P7B_CERTIFICATE --body "$(cat {ssl_p7b_path})"', "SSL P7B Certificate")
     
     # Additional secrets
-    run_command('gh secret set GITHUB_TOKEN --body "ghs_rhJSLBXTMQJr8lDIovFjnwuWTIwJId359Fxh"', "GitHub Token")
+    run_command(f'gh secret set GITHUB_TOKEN --body "{github_token}"', "GitHub Token")
     run_command('gh secret set REPOSITORY_NAME --body "GenX_FX"', "Repository Name")
     run_command('gh secret set REPOSITORY_OWNER --body "Mouy-leng"', "Repository Owner")
     
@@ -158,7 +162,6 @@ COMPUTE_CLIENT_X509_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/2
 COMPUTE_UNIVERSE_DOMAIN=googleapis.com
 
 # Repository Configuration
-GITHUB_TOKEN=ghs_rhJSLBXTMQJr8lDIovFjnwuWTIwJId359Fxh
 REPOSITORY_NAME=GenX_FX
 REPOSITORY_OWNER=Mouy-leng
 REPOSITORY_URL=https://github.com/Mouy-leng/GenX_FX

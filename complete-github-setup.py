@@ -6,6 +6,8 @@ Complete GitHub Setup - Final step to ensure all secrets and variables are set
 import requests
 import base64
 from nacl import encoding, public
+import os
+import sys
 
 # Configuration
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
@@ -15,6 +17,9 @@ BASE_URL = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}"
 
 class GitHubSecretsManager:
     def __init__(self):
+        if not GITHUB_TOKEN:
+            print("Error: GITHUB_TOKEN environment variable not set.")
+            sys.exit(1)
         self.headers = {
             "Authorization": f"token {GITHUB_TOKEN}",
             "Accept": "application/vnd.github.v3+json"
@@ -52,14 +57,22 @@ def complete_setup():
     print("=" * 30)
     
     # Additional secrets that might be missing
-    additional_secrets = {
-        "SECRET_KEY": "genx_fx_secret_key_2024",
-        "MONGO_PASSWORD": "genx_mongo_password_2024",
-        "REDIS_PASSWORD": "genx_redis_password_2024",
-        "FXCM_API_TOKEN": "your_fxcm_api_token_here",
-        "GEMINI_API_KEY": "your_gemini_api_key_here",
-        "TELEGRAM_TOKEN": "your_telegram_bot_token_here"
+    secrets_to_check = {
+        "SECRET_KEY": os.getenv("SECRET_KEY"),
+        "MONGO_PASSWORD": os.getenv("MONGO_PASSWORD"),
+        "REDIS_PASSWORD": os.getenv("REDIS_PASSWORD"),
+        "FXCM_API_TOKEN": os.getenv("FXCM_API_TOKEN"),
+        "GEMINI_API_KEY": os.getenv("GEMINI_API_KEY"),
+        "TELEGRAM_TOKEN": os.getenv("TELEGRAM_TOKEN"),
     }
+
+    additional_secrets = {k: v for k, v in secrets_to_check.items() if v}
+
+    required_secrets = ["SECRET_KEY", "MONGO_PASSWORD", "REDIS_PASSWORD"]
+    for secret in required_secrets:
+        if secret not in additional_secrets:
+            print(f"Error: Required environment variable {secret} is not set.")
+            sys.exit(1)
     
     # Additional variables that might be missing
     additional_variables = {

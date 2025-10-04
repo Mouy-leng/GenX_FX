@@ -4,11 +4,19 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 
+import sys
+
 # Google Drive API setup
 SCOPES = ['https://www.googleapis.com/auth/drive']
-CLIENT_SECRET_FILE = 'client_secret_723463751699-ukpjrov1tcb3eas5982g4cmvljt33ut4.apps.googleusercontent.com.json'
 
 def authenticate_google_drive():
+    CLIENT_SECRET_FILE = os.getenv("CLIENT_SECRET_FILE", "client_secret.json")
+    if not os.path.exists(CLIENT_SECRET_FILE):
+        print(f"Error: Client secret file not found at '{CLIENT_SECRET_FILE}'")
+        print("Please download your client secret from Google Cloud Console and place it in the root directory,")
+        print("or set the CLIENT_SECRET_FILE environment variable to its path.")
+        sys.exit(1)
+
     creds = None
     if os.path.exists('token.json'):
         creds = Credentials.from_authorized_user_file('token.json', SCOPES)

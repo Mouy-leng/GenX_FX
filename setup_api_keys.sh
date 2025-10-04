@@ -57,16 +57,16 @@ cat > .env << 'EOF'
 # ========================================
 # DATABASE CONFIGURATION
 # ========================================
-DATABASE_URL=postgresql://user:password@localhost:5432/genx_trading
+DATABASE_URL=postgresql://YOUR_DB_USER:YOUR_DB_PASSWORD@localhost:5432/genx_trading
 MONGODB_URL=mongodb://localhost:27017/genx_trading
 REDIS_URL=redis://localhost:6379
 
 # ========================================
 # SECURITY & AUTHENTICATION
 # ========================================
-SECRET_KEY=your-super-secret-key-change-this-in-production
-JWT_SECRET_KEY=your-jwt-secret-key-here
-CRYPTION_KEY=your-encryption-key-here
+SECRET_KEY=YOUR_SUPER_SECRET_KEY_HERE
+JWT_SECRET_KEY=YOUR_JWT_SECRET_KEY_HERE
+CRYPTION_KEY=YOUR_ENCRYPTION_KEY_HERE
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
@@ -88,7 +88,7 @@ ENSEMBLE_MODEL_PATH=ai_models/ensemble_model.joblib
 # ========================================
 # Bybit Exchange
 BYBIT_API_KEY=your-bybit-api-key-here
-BYBIT_API_SECRET=your-bybit-api-secret-here
+BYBIT_API_SECRET=YOUR_BYBIT_API_SECRET_HERE
 
 # FXCM (Forex Trading)
 FXCM_API_KEY=your-fxcm-api-key-here
@@ -111,9 +111,9 @@ FMP_API_KEY=your-fmp-api-key-here
 # ========================================
 # Reddit API for sentiment analysis
 REDDIT_CLIENT_ID=your-reddit-client-id-here
-REDDIT_CLIENT_SECRET=your-reddit-client-secret-here
+REDDIT_CLIENT_SECRET=YOUR_REDDIT_CLIENT_SECRET_HERE
 REDDIT_USERNAME=your-reddit-username-here
-REDDIT_PASSWORD=your-reddit-password-here
+REDDIT_PASSWORD=YOUR_REDDIT_PASSWORD_HERE
 REDDIT_USER_AGENT=GenX-Trading-Bot/1.0
 
 # ========================================
@@ -128,7 +128,7 @@ DISCORD_TOKEN=your-discord-bot-token-here
 
 # Email Notifications
 GMAIL_USER=your-gmail-address@gmail.com
-GMAIL_PASSWORD=your-gmail-app-password-here
+GMAIL_PASSWORD=YOUR_GMAIL_APP_PASSWORD_HERE
 GMAIL_APP_API_KEY=your-gmail-api-key-here
 
 # ========================================

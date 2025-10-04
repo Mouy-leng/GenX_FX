@@ -30,9 +30,9 @@ amp plugin install reddit-signals \
 Set your Reddit API credentials:
 ```bash
 export REDDIT_CLIENT_ID="your_reddit_client_id"
-export REDDIT_CLIENT_SECRET="your_reddit_client_secret"
+export REDDIT_CLIENT_SECRET="YOUR_REDDIT_CLIENT_SECRET_HERE"
 export REDDIT_USERNAME="your_reddit_username"
-export REDDIT_PASSWORD="your_reddit_password"
+export REDDIT_PASSWORD="YOUR_REDDIT_PASSWORD_HERE"
 ```
 
 ## Monitored Subreddits

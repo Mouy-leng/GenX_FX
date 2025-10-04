@@ -53,8 +53,8 @@ import forexconnect as fx
 fx_conn = fx.ForexConnect()
 
 # Login parameters
-username = "your_fxcm_username"
-password = "your_fxcm_password"
+username = "YOUR_FXCM_USERNAME_HERE"
+password = "YOUR_FXCM_PASSWORD_HERE"
 connection = "Demo"  # or "Real" for live trading
 server = "Real"      # Server type
 
@@ -203,8 +203,8 @@ def main():
         return
     
     # Demo connection configuration
-    demo_username = "your_demo_username"  # Replace with your credentials
-    demo_password = "your_demo_password"  # Replace with your credentials
+    demo_username = "YOUR_DEMO_USERNAME_HERE"  # Replace with your credentials
+    demo_password = "YOUR_DEMO_PASSWORD_HERE"  # Replace with your credentials
     
     if not fx_example.configure_connection(demo_username, demo_password):
         print("Configuration setup failed")

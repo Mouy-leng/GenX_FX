@@ -62,7 +62,6 @@ class AMPAuth:
         auth_data = {
             "user_id": self.user_id,
             "session_hash": self.session_hash,
-            "session_token": self.session_token,
             "authenticated_at": datetime.now().isoformat(),
             "expires_at": (datetime.now() + timedelta(hours=24)).isoformat()
         }
@@ -95,7 +94,6 @@ class AMPAuth:
             # Load current session data
             self.user_id = auth_data["user_id"]
             self.session_hash = auth_data["session_hash"]
-            self.session_token = auth_data["session_token"]
             
             return True
             
@@ -106,6 +104,10 @@ class AMPAuth:
     def get_auth_headers(self) -> Dict[str, str]:
         """Get authentication headers for API requests"""
         if not self.is_authenticated():
+            return {}
+
+        if not self.session_token:
+            print("⚠️ Session is active, but token is not available. Please re-authenticate with 'amp auth --token YOUR_TOKEN'.")
             return {}
         
         return {

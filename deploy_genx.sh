@@ -44,10 +44,10 @@ else
     echo "export GMAIL_PASSWORD='your_gmail_password'"
     echo "export GMAIL_APP_API_KEY='your_gmail_app_key'"
     echo "export REDDIT_CLIENT_ID='your_reddit_client_id'"
-    echo "export REDDIT_CLIENT_SECRET='your_reddit_client_secret'"
+    echo "export REDDIT_CLIENT_SECRET='YOUR_REDDIT_CLIENT_SECRET_HERE'"
     echo "export REDDIT_PASSWORD='your_reddit_password'"
     echo "export FXCM_PASSWORD='your_fxcm_password'"
-    echo "export JWT_SECRET_KEY='your_jwt_secret'"
+    echo "export JWT_SECRET_KEY='YOUR_JWT_SECRET_KEY_HERE'"
     exit 1
 fi
 
@@ -70,7 +70,7 @@ done
 echo "🔧 Creating .env file..."
 cat > .env << EOF
 # === Docker Registry Credentials ===
-DOCKER_USERNAME=${DOCKER_USERNAME:-genxapitrading@gmail.com}
+DOCKER_USERNAME=${DOCKER_USERNAME}
 DOCKER_PASSWORD=${DOCKER_PASSWORD}
 DOCKER_IMAGE=${DOCKER_IMAGE:-keamouyleng/genx_docker}
 DOCKER_TAG=${DOCKER_TAG:-latest}
@@ -87,19 +87,19 @@ TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
 TELEGRAM_USER_ID=${TELEGRAM_USER_ID}
 
 # === Gmail Credentials ===
-GMAIL_USER=${GMAIL_USER:-lengkundee01@gmail.com}
+GMAIL_USER=${GMAIL_USER}
 GMAIL_PASSWORD=${GMAIL_PASSWORD}
 GMAIL_APP_API_KEY=${GMAIL_APP_API_KEY}
 
 # === Reddit Credentials ===
 REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID}
 REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET}
-REDDIT_USERNAME=${REDDIT_USERNAME:-Mysterious_Set1324}
+REDDIT_USERNAME=${REDDIT_USERNAME}
 REDDIT_PASSWORD=${REDDIT_PASSWORD}
 REDDIT_USER_AGENT=${REDDIT_USER_AGENT:-GenX-Trading-Bot/1.0}
 
 # === FXCM Credentials ===
-FXCM_USERNAME=${FXCM_USERNAME:-D27739526}
+FXCM_USERNAME=${FXCM_USERNAME}
 FXCM_PASSWORD=${FXCM_PASSWORD}
 FXCM_CONNECTION_TYPE=${FXCM_CONNECTION_TYPE:-Demo}
 FXCM_URL=${FXCM_URL:-www.fxcorporate.com/Hosts.jsp}

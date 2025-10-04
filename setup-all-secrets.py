@@ -1,28 +1,36 @@
 import os
 
-# Set all environment variables from provided credentials
-os.environ['GITHUB_TOKEN'] = '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'
-os.environ['GITLAB_TOKEN'] = 'glpat-3p76i6YP3Iwiu25bO2QtAm86MQp1OmhsNjlpCw.01.121l499kx'
-os.environ['CURSOR_CLI_API_KEY'] = 'key_03096e697424c5489927db265b35a7ab045502673326d9bf1deb31ee3bfbf80f'
-os.environ['AMP_TOKEN'] = 'sgamp_user_01K1XBP8C5SZXYP88QD166AX1W_72c12a40546c130db17817dc9c92cb3770ecbe93e34a9fd23c8e9a2daa8e942c'
+# This script provides a template for setting up your environment variables.
+# It does NOT set them for you. You should create a `.env` file or
+# set these environment variables in your system.
 
-# Update .env file with all credentials
-env_content = f"""
-GITHUB_TOKEN={os.environ['GITHUB_TOKEN']}
-GITLAB_TOKEN={os.environ['GITLAB_TOKEN']}
-CURSOR_CLI_API_KEY={os.environ['CURSOR_CLI_API_KEY']}
-AMP_TOKEN={os.environ['AMP_TOKEN']}
-BYBIT_API_KEY=your_bybit_key
-BYBIT_SECRET=your_bybit_secret
-FXCM_USERNAME=your_fxcm_username
-FXCM_PASSWORD=your_fxcm_password
-GEMINI_API_KEY=your_gemini_key
-TELEGRAM_BOT_TOKEN=your_telegram_token
-DISCORD_BOT_TOKEN=your_discord_token
+print("--- GenX FX Secrets Setup Guide ---")
+print("Please create a file named '.env' in the root of the project and add the following lines:")
+print("Replace 'your_..._here' with your actual credentials.\n")
+
+env_example_content = """
+# GitHub and other development tools
+GITHUB_TOKEN=your_github_token_here
+GITLAB_TOKEN=your_gitlab_token_here
+CURSOR_CLI_API_KEY=your_cursor_cli_api_key_here
+AMP_TOKEN=your_amp_token_here
+
+# Trading Platforms
+BYBIT_API_KEY=your_bybit_key_here
+BYBIT_SECRET=your_bybit_secret_here
+FXCM_USERNAME=your_fxcm_username_here
+FXCM_PASSWORD=your_fxcm_password_here
+
+# AI and Notification Services
+GEMINI_API_KEY=your_gemini_key_here
+TELEGRAM_BOT_TOKEN=your_telegram_token_here
+DISCORD_BOT_TOKEN=your_discord_bot_token_here
 """
 
-with open('.env', 'w') as f:
-    f.write(env_content.strip())
+print(env_example_content)
 
-print("All credentials configured in .env file")
-print("GitHub profile setup ready")
+print("\n--- Instructions ---")
+print("1. Copy the content above into a new file named '.env'.")
+print("2. Replace all placeholder values (e.g., 'your_github_token_here') with your actual secrets.")
+print("3. Make sure the .env file is listed in your .gitignore to prevent it from being committed.")
+print("\nSetup guide complete. Please create your .env file now.")

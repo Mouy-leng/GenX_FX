@@ -7,10 +7,10 @@ services:
     container_name: genxdb_fx_mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: genxdb_fx_db
       MYSQL_USER: genx_user
-      MYSQL_PASSWORD: genx_password
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
