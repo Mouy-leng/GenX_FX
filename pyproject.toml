@@ -161,7 +161,7 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dev-dependencies]
-black = "==23.12.1"
+black = "==25.9.0"
 flake8 = "==6.1.0"
 isort = "==5.13.2"
 bandit = "==1.8.6"
