@@ -7,7 +7,7 @@ export async function testDatabaseConnections() {
   
   try {
     // Test basic connection
-    const result = await db.select().from(users).limit(1);
+    const _result = await db.select().from(users).limit(1);
     console.log('✅ Database connection successful');
     
     // Test each table

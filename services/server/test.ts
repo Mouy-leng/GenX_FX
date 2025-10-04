@@ -1,5 +1,5 @@
 
-import { testDatabaseConnections, seedTestData } from './test-endpoints.js';
+import { testDatabaseConnections } from './test-endpoints.js';
 
 export async function runTests() {
   console.log('🧪 Starting comprehensive tests...\n');

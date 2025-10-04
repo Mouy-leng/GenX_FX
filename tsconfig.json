@@ -25,7 +25,7 @@
   },
   "include": [
     "client/src/**/*",
-    "server/**/*",
+    "services/server/**/*",
     "shared/**/*"
   ],
   "exclude": [
