@@ -18,7 +18,7 @@ if FASTAPI_AVAILABLE:
     os.environ["MONGODB_URL"] = "mongodb://localhost:27017/test"
     os.environ["REDIS_URL"] = "redis://localhost:6379"
     
-    client = TestClient(app)
+    client = TestClient(app, base_url="http://localhost")
 else:
     client = None
 
