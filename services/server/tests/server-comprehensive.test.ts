@@ -1,16 +1,16 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import request from 'supertest';
 import WebSocket, { WebSocketServer } from 'ws';
-import express from 'express';
+import express, { Express } from 'express';
 import { createServer } from 'http';
 import cors from 'cors';
 
 // Mock the routes and vite modules
 vi.mock('../routes.js', () => ({
   registerRoutes: vi.fn((app) => {
-    app.get('/api/test', (req, res) => res.json({ message: 'test endpoint' }));
+    app.get('/api/test', (_req, res) => res.json({ message: 'test endpoint' }));
     app.post('/api/data', (req, res) => res.json({ received: req.body }));
-    app.get('/api/error', (req, res) => { throw new Error('Test error'); });
+    app.get('/api/error', (_req, _res) => { throw new Error('Test error'); });
   })
 }));
 
@@ -20,10 +20,10 @@ vi.mock('../vite.js', () => ({
 }));
 
 describe('GenX FX Server Comprehensive Tests', () => {
-  let app: express.Application;
+  let app: Express;
   let server: any;
   let wss: WebSocketServer;
-  let baseURL: string;
+  // let baseURL: string;
 
   beforeAll(async () => {
     // Create test server similar to main server
@@ -39,7 +39,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
     app.use(express.urlencoded({ extended: true }));
 
     // Health check endpoint
-    app.get('/health', (req, res) => {
+    app.get('/health', (_req, res) => {
       res.json({ 
         status: 'OK', 
         timestamp: new Date().toISOString(),
@@ -52,7 +52,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
     registerRoutes(app);
 
     // Error handling middleware
-    app.use((err: any, req: any, res: any, next: any) => {
+    app.use((err: any, _req: any, res: any, _next: any) => {
       // Handle JSON parsing errors from express.json()
       if (err instanceof SyntaxError && 'body' in err) {
         return res.status(400).json({ error: 'Malformed JSON' });
@@ -96,7 +96,7 @@ describe('GenX FX Server Comprehensive Tests', () => {
     });
 
     await new Promise<void>(resolve => server.listen(port, resolve));
-    baseURL = `http://localhost:${port}`;
+    // baseURL = `http://localhost:${port}`;
   });
 
   afterAll(async () => {
