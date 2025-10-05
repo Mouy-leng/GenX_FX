@@ -9,8 +9,9 @@
   "scripts": {
     "dev": "concurrently \"npm:client\" \"npm:server\" \"npm:python:dev\"",
     "client": "vite --host 0.0.0.0 --port 5173",
-    "server": "tsx watch services/server/index.ts",
-    "python:dev": "uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload",
+    "server": "nodemon --watch 'services/**/*.ts' --exec 'npm run build:server && node dist/services/server/index.js'",
+    "build:server": "tsc -p tsconfig.server.json",
+    "python:dev": "poetry run uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload",
     "start": "tsx services/server/index.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -28,6 +29,7 @@
     "clsx": "^2.0.0",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.44.5",
     "embla-carousel-react": "^8.0.0",
     "express": "^5.1.0",
@@ -43,6 +45,7 @@
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.0.0",
+    "nodemon": "^3.0.0",
     "zod": "^4.0.8"
   },
   "devDependencies": {

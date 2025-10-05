@@ -1,12 +1,12 @@
 import { Express } from 'express';
 import { db } from './db.js';
-import { users, tradingAccounts, positions, notifications, educationalResources } from '../shared/schema.js';
-import { eq, desc, and, or, ilike, count } from 'drizzle-orm';
+import { users, tradingAccounts } from '../../database/schema.js';
+import { desc, count } from 'drizzle-orm';
 
 export function registerRoutes(app: Express) {
 
   // Test route
-  app.get('/api/test', async (req, res) => {
+  app.get('/api/test', async (_req, res) => {
     try {
       res.json({ 
         message: 'API is working!', 
@@ -20,7 +20,7 @@ export function registerRoutes(app: Express) {
   });
 
   // Database health check
-  app.get('/api/db-health', async (req, res) => {
+  app.get('/api/db-health', async (_req, res) => {
     try {
       const result = await db.select({ count: count() }).from(users);
       res.json({ 
@@ -35,7 +35,7 @@ export function registerRoutes(app: Express) {
   });
 
   // Comprehensive health check
-  app.get('/api/health', async (req, res) => {
+  app.get('/api/health', async (_req, res) => {
     try {
       const checks = {
         database: 'unknown',
@@ -75,66 +75,66 @@ export function registerRoutes(app: Express) {
       res.status(503).json({
         status: 'unhealthy',
         timestamp: new Date().toISOString(),
-        error: error.message
+        error: error instanceof Error ? error.message : 'An unknown error occurred'
       });
     }
   });
 
   // Educational Resources Routes
-  app.get('/api/educational-resources', async (req, res) => {
-    try {
-      const { page = '1', limit = '10', search = '', skillLevel, category } = req.query;
-      const offset = (parseInt(page as string) - 1) * parseInt(limit as string);
+  // app.get('/api/educational-resources', async (req, res) => {
+  //   try {
+  //     const { page = '1', limit = '10', search = '', skillLevel, category } = req.query;
+  //     const offset = (parseInt(page as string) - 1) * parseInt(limit as string);
 
-      let whereConditions = [];
+  //     let whereConditions = [];
 
-      if (search) {
-        whereConditions.push(
-          or(
-            ilike(educationalResources.title, `%${search}%`),
-            ilike(educationalResources.description, `%${search}%`)
-          )
-        );
-      }
+  //     if (search) {
+  //       whereConditions.push(
+  //         or(
+  //           ilike(educationalResources.title, `%${search}%`),
+  //           ilike(educationalResources.description, `%${search}%`)
+  //         )
+  //       );
+  //     }
 
-      if (skillLevel) {
-        whereConditions.push(eq(educationalResources.skillLevel, skillLevel as string));
-      }
+  //     if (skillLevel) {
+  //       whereConditions.push(eq(educationalResources.skillLevel, skillLevel as string));
+  //     }
 
-      if (category) {
-        whereConditions.push(eq(educationalResources.category, category as string));
-      }
+  //     if (category) {
+  //       whereConditions.push(eq(educationalResources.category, category as string));
+  //     }
 
-      const resources = await db
-        .select()
-        .from(educationalResources)
-        .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
-        .orderBy(desc(educationalResources.createdAt))
-        .limit(parseInt(limit as string))
-        .offset(offset);
+  //     const resources = await db
+  //       .select()
+  //       .from(educationalResources)
+  //       .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+  //       .orderBy(desc(educationalResources.createdAt))
+  //       .limit(parseInt(limit as string))
+  //       .offset(offset);
 
-      const totalCount = await db
-        .select({ count: count() })
-        .from(educationalResources)
-        .where(whereConditions.length > 0 ? and(...whereConditions) : undefined);
+  //     const totalCount = await db
+  //       .select({ count: count() })
+  //       .from(educationalResources)
+  //       .where(whereConditions.length > 0 ? and(...whereConditions) : undefined);
 
-      res.json({
-        resources,
-        pagination: {
-          page: parseInt(page as string),
-          limit: parseInt(limit as string),
-          total: totalCount[0].count,
-          totalPages: Math.ceil(totalCount[0].count / parseInt(limit as string))
-        }
-      });
-    } catch (error) {
-      console.error('Error fetching educational resources:', error);
-      res.status(500).json({ error: 'Failed to fetch educational resources' });
-    }
-  });
+  //     res.json({
+  //       resources,
+  //       pagination: {
+  //         page: parseInt(page as string),
+  //         limit: parseInt(limit as string),
+  //         total: totalCount[0].count,
+  //         totalPages: Math.ceil(totalCount[0].count / parseInt(limit as string))
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching educational resources:', error);
+  //     res.status(500).json({ error: 'Failed to fetch educational resources' });
+  //   }
+  // });
 
   // Trading accounts routes
-  app.get('/api/trading-accounts', async (req, res) => {
+  app.get('/api/trading-accounts', async (_req, res) => {
     try {
       const accounts = await db
         .select()
@@ -149,59 +149,59 @@ export function registerRoutes(app: Express) {
   });
 
   // Positions routes
-  app.get('/api/positions', async (req, res) => {
-    try {
-      const activePositions = await db
-        .select()
-        .from(positions)
-        .where(eq(positions.status, 'open'))
-        .orderBy(desc(positions.openTime));
+  // app.get('/api/positions', async (req, res) => {
+  //   try {
+  //     const activePositions = await db
+  //       .select()
+  //       .from(positions)
+  //       .where(eq(positions.status, 'open'))
+  //       .orderBy(desc(positions.openTime));
 
-      res.json({ positions: activePositions });
-    } catch (error) {
-      console.error('Error fetching positions:', error);
-      res.status(500).json({ error: 'Failed to fetch positions' });
-    }
-  });
+  //     res.json({ positions: activePositions });
+  //   } catch (error) {
+  //     console.error('Error fetching positions:', error);
+  //     res.status(500).json({ error: 'Failed to fetch positions' });
+  //   }
+  // });
 
   // Notifications routes
-  app.get('/api/notifications', async (req, res) => {
-    try {
-      const recentNotifications = await db
-        .select()
-        .from(notifications)
-        .orderBy(desc(notifications.createdAt))
-        .limit(50);
+  // app.get('/api/notifications', async (req, res) => {
+  //   try {
+  //     const recentNotifications = await db
+  //       .select()
+  //       .from(notifications)
+  //       .orderBy(desc(notifications.createdAt))
+  //       .limit(50);
 
-      res.json({ notifications: recentNotifications });
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-      res.status(500).json({ error: 'Failed to fetch notifications' });
-    }
-  });
+  //     res.json({ notifications: recentNotifications });
+  //   } catch (error) {
+  //     console.error('Error fetching notifications:', error);
+  //     res.status(500).json({ error: 'Failed to fetch notifications' });
+  //   }
+  // });
 
   // System stats
-  app.get('/api/stats', async (req, res) => {
-    try {
-      const [usersCount, accountsCount, positionsCount, notificationsCount] = await Promise.all([
-        db.select({ count: count() }).from(users),
-        db.select({ count: count() }).from(tradingAccounts),
-        db.select({ count: count() }).from(positions).where(eq(positions.status, 'open')),
-        db.select({ count: count() }).from(notifications)
-      ]);
+  // app.get('/api/stats', async (req, res) => {
+  //   try {
+  //     const [usersCount, accountsCount, positionsCount, notificationsCount] = await Promise.all([
+  //       db.select({ count: count() }).from(users),
+  //       db.select({ count: count() }).from(tradingAccounts),
+  //       db.select({ count: count() }).from(positions).where(eq(positions.status, 'open')),
+  //       db.select({ count: count() }).from(notifications)
+  //     ]);
 
-      res.json({
-        users: usersCount[0].count,
-        tradingAccounts: accountsCount[0].count,
-        activePositions: positionsCount[0].count,
-        notifications: notificationsCount[0].count,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-      res.status(500).json({ error: 'Failed to fetch stats' });
-    }
-  });
+  //     res.json({
+  //       users: usersCount[0].count,
+  //       tradingAccounts: accountsCount[0].count,
+  //       activePositions: positionsCount[0].count,
+  //       notifications: notificationsCount[0].count,
+  //       timestamp: new Date().toISOString()
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching stats:', error);
+  //     res.status(500).json({ error: 'Failed to fetch stats' });
+  //   }
+  // });
 
   // MT4/5 EA Connection Management
   const eaConnections = new Map();
@@ -317,9 +317,9 @@ export function registerRoutes(app: Express) {
   });
 
   // Trade confirmation from EA
-  app.post('/api/mt45/trade-confirmation', async (req, res) => {
+  app.post('/api/mt45/trade-confirmation', async (_req, res) => {
     try {
-      const { connectionId, originalSignal, status, timestamp } = req.body;
+      const { connectionId, status } = _req.body;
 
       console.log(`Trade confirmation from ${connectionId}: ${status}`);
 
@@ -334,7 +334,7 @@ export function registerRoutes(app: Express) {
   });
 
   // Get all EA connections status
-  app.get('/api/mt45/connections', async (req, res) => {
+  app.get('/api/mt45/connections', async (_req, res) => {
     try {
       const connections = Array.from(eaConnections.values()).map(conn => ({
         ...conn,
@@ -382,7 +382,7 @@ export function registerRoutes(app: Express) {
   });
 
   // Test signal endpoint for development
-  app.post('/api/mt45/test-signal', async (req, res) => {
+  app.post('/api/mt45/test-signal', async (_req, res) => {
     try {
       const testSignal = {
         signal: 'BUY',

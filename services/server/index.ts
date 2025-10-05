@@ -1,4 +1,5 @@
 
+import 'dotenv/config';
 import express from 'express';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -92,7 +93,7 @@ wss.on('connection', (ws, req) => {
 
 // Setup Vite in development or serve static files in production
 if (process.env.NODE_ENV === 'production') {
-  serveStatic(app, join(__dirname, '..', 'dist', 'public'));
+  serveStatic(app);
 } else {
   await setupVite(app, server);
 }
@@ -107,7 +108,7 @@ app.use((err, req, res, next) => {
 });
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({
     error: 'Not found',
     path: req.originalUrl
@@ -115,7 +116,7 @@ app.use('*', (req, res) => {
 });
 
 // Start server
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(parseInt(PORT as string), '0.0.0.0', () => {
   console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 WebSocket server ready`);

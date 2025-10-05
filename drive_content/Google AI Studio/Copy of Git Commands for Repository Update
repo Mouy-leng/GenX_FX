@@ -1,0 +1,305 @@
+{
+  "runSettings": {
+    "temperature": 1.0,
+    "model": "models/gemini-2.5-flash-image-preview",
+    "topP": 0.95,
+    "topK": 64,
+    "maxOutputTokens": 8192,
+    "enableCodeExecution": false,
+    "enableSearchAsATool": false,
+    "responseModalities": ["IMAGE", "TEXT"],
+    "enableBrowseAsATool": false,
+    "enableAutoFunctionResponse": false
+  },
+  "systemInstruction": {
+  },
+  "chunkedPrompt": {
+    "chunks": [{
+      "text": "https://sdmntprpolandcentral.oaiusercontent.com/files/00000000-5f90-620a-bc23-2055b749e0cd/raw?se\u003d2025-09-25T10%3A55%3A41Z\u0026sp\u003dr\u0026sv\u003d2024-08-04\u0026sr\u003db\u0026scid\u003dc62531ec-4b6c-5069-9ff9-d41eed80bdb0\u0026skoid\u003d5c72dd08-68ae-4091-b4e1-40ccec0693ae\u0026sktid\u003da48cca56-e6da-484e-a814-9c849652bcb3\u0026skt\u003d2025-09-25T10%3A26%3A20Z\u0026ske\u003d2025-09-26T10%3A26%3A20Z\u0026sks\u003db\u0026skv\u003d2024-08-04\u0026sig\u003dhJ9d1HYyP76IwT5i76I5vRqM/r20SboQvc3VN7szsMg%3D\nRead this link and write a command for two less to update get a repository",
+      "role": "user",
+      "tokenCount": 338
+    }, {
+      "text": "I can\u0027t access external links, including the one you provided. Therefore, I can\u0027t read the content of the link and provide specific commands based on it.\n\nHowever, if you\u0027re asking for general Git commands to update a repository with two less common scenarios, here are some possibilities:\n\n1.  **To discard local changes and fetch the latest from the remote (effectively resetting your local branch to match the remote):**\n\n    ```bash\n    git fetch origin\n    git reset --hard origin/your-branch-name\n    ```\n\n    *   `git fetch origin`: Downloads the latest changes from the `origin` remote but doesn\u0027t integrate them into your local branches.\n    *   `git reset --hard origin/your-branch-name`: Resets your current branch (`your-branch-name`) to exactly match the state of the `origin/your-branch-name` branch, discarding any uncommitted local changes and unstaged changes. Use with caution!\n\n2.  **To rebase your local branch onto the latest remote master/main, effectively replaying your commits on top of the remote\u0027s history:**\n\n    ```bash\n    git checkout your-feature-branch\n    git fetch origin\n    git rebase origin/main # or origin/master, depending on your main branch name\n    ```\n\n    *   `git checkout your-feature-branch`: Switches to the branch you want to update.\n    *   `git fetch origin`: Fetches the latest changes from the remote.\n    *   `git rebase origin/main`: Takes your commits from `your-feature-branch` and reapplies them one by one on top of the `origin/main` branch. This creates a clean, linear history.\n\nCould you clarify what \"two less\" refers to in terms of updating a repository? If you can describe the specific scenario you have in mind without a link, I might be able to give more precise commands.",
+      "role": "model",
+      "finishReason": "STOP",
+      "tokenCount": 413,
+      "parts": [{
+        "text": "I can\u0027t"
+      }, {
+        "text": " access"
+      }, {
+        "text": " external links, including"
+      }, {
+        "text": " the one you provided"
+      }, {
+        "text": ". Therefore"
+      }, {
+        "text": ", I can\u0027"
+      }, {
+        "text": "t read the content"
+      }, {
+        "text": " of the link and"
+      }, {
+        "text": " provide specific"
+      }, {
+        "text": " commands based on it"
+      }, {
+        "text": ".\n\nHowever,"
+      }, {
+        "text": " if you\u0027re"
+      }, {
+        "text": " asking"
+      }, {
+        "text": " for"
+      }, {
+        "text": " general"
+      }, {
+        "text": " Git"
+      }, {
+        "text": " commands to update a"
+      }, {
+        "text": " repository with two less"
+      }, {
+        "text": " common scenarios"
+      }, {
+        "text": ", here are some"
+      }, {
+        "text": " possibilities"
+      }, {
+        "text": ":\n\n1."
+      }, {
+        "text": "  **To discard"
+      }, {
+        "text": " local"
+      }, {
+        "text": " changes and fetch"
+      }, {
+        "text": " the latest from"
+      }, {
+        "text": " the remote"
+      }, {
+        "text": " (effectively"
+      }, {
+        "text": " resetting"
+      }, {
+        "text": " your"
+      }, {
+        "text": " local branch to match"
+      }, {
+        "text": " the remote):**"
+      }, {
+        "text": "\n\n    ```bash"
+      }, {
+        "text": "\n    git fetch"
+      }, {
+        "text": " origin\n"
+      }, {
+        "text": "    git reset --"
+      }, {
+        "text": "hard origin/your"
+      }, {
+        "text": "-branch"
+      }, {
+        "text": "-name\n    "
+      }, {
+        "text": "```\n\n    *"
+      }, {
+        "text": "   `git fetch"
+      }, {
+        "text": " origin`: Downloads"
+      }, {
+        "text": " the latest changes from"
+      }, {
+        "text": " the `"
+      }, {
+        "text": "origin` remote but"
+      }, {
+        "text": " doesn\u0027t integrate"
+      }, {
+        "text": " them into your local"
+      }, {
+        "text": " branches"
+      }, {
+        "text": ".\n    *"
+      }, {
+        "text": "   `git reset"
+      }, {
+        "text": " --hard origin/"
+      }, {
+        "text": "your-branch-"
+      }, {
+        "text": "name`: Res"
+      }, {
+        "text": "ets your current"
+      }, {
+        "text": " branch"
+      }, {
+        "text": " (`your-branch"
+      }, {
+        "text": "-name`) to"
+      }, {
+        "text": " exactly"
+      }, {
+        "text": " match the state"
+      }, {
+        "text": " of the"
+      }, {
+        "text": " `"
+      }, {
+        "text": "origin/your-"
+      }, {
+        "text": "branch-name`"
+      }, {
+        "text": " branch, discarding any"
+      }, {
+        "text": " un"
+      }, {
+        "text": "committed local changes and"
+      }, {
+        "text": " unst"
+      }, {
+        "text": "aged"
+      }, {
+        "text": " changes"
+      }, {
+        "text": ". Use"
+      }, {
+        "text": " with"
+      }, {
+        "text": " caution"
+      }, {
+        "text": "!\n\n2."
+      }, {
+        "text": "  **To re"
+      }, {
+        "text": "base your local branch"
+      }, {
+        "text": " onto the latest remote"
+      }, {
+        "text": " master"
+      }, {
+        "text": "/"
+      }, {
+        "text": "main,"
+      }, {
+        "text": " effectively re"
+      }, {
+        "text": "playing"
+      }, {
+        "text": " your commits"
+      }, {
+        "text": " on top of the"
+      }, {
+        "text": " remote\u0027s history"
+      }, {
+        "text": ":**\n\n    ```"
+      }, {
+        "text": "bash\n    git"
+      }, {
+        "text": " checkout"
+      }, {
+        "text": " your"
+      }, {
+        "text": "-feature"
+      }, {
+        "text": "-branch\n    "
+      }, {
+        "text": "git fetch origin\n"
+      }, {
+        "text": "    git rebase"
+      }, {
+        "text": " origin"
+      }, {
+        "text": "/main #"
+      }, {
+        "text": " or"
+      }, {
+        "text": " origin/master,"
+      }, {
+        "text": " depending on your main"
+      }, {
+        "text": " branch name"
+      }, {
+        "text": "\n    ```\n\n"
+      }, {
+        "text": "    *   `"
+      }, {
+        "text": "git checkout your-"
+      }, {
+        "text": "feature-branch`:"
+      }, {
+        "text": " Switches to the"
+      }, {
+        "text": " branch you want to"
+      }, {
+        "text": " update.\n    "
+      }, {
+        "text": "*   `git"
+      }, {
+        "text": " fetch origin`: Fet"
+      }, {
+        "text": "ches the latest changes"
+      }, {
+        "text": " from the remote."
+      }, {
+        "text": "\n    *   "
+      }, {
+        "text": "`git rebase"
+      }, {
+        "text": " origin/main`:"
+      }, {
+        "text": " Takes"
+      }, {
+        "text": " your commits"
+      }, {
+        "text": " from"
+      }, {
+        "text": " `your-feature"
+      }, {
+        "text": "-branch` and"
+      }, {
+        "text": " reapp"
+      }, {
+        "text": "lies them one"
+      }, {
+        "text": " by one on top"
+      }, {
+        "text": " of the `origin"
+      }, {
+        "text": "/main` branch"
+      }, {
+        "text": ". This creates"
+      }, {
+        "text": " a clean, linear"
+      }, {
+        "text": " history.\n\nCould"
+      }, {
+        "text": " you clarify what \""
+      }, {
+        "text": "two less\" refers"
+      }, {
+        "text": " to in terms of"
+      }, {
+        "text": " updating a repository?"
+      }, {
+        "text": " If you can describe"
+      }, {
+        "text": " the specific"
+      }, {
+        "text": " scenario you have"
+      }, {
+        "text": " in mind without a"
+      }, {
+        "text": " link, I might"
+      }, {
+        "text": " be able to give"
+      }, {
+        "text": " more precise commands."
+      }]
+    }],
+    "pendingInputs": [{
+      "text": "",
+      "role": "user"
+    }]
+  }
+}
