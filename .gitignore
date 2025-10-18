@@ -24,3 +24,24 @@ __pycache__/
 
 # Logs
 *.log
+
+# Environment files
+.env
+
+# Secrets and environment files (never commit real secrets)
+.env
+.env.*
+*.env
+secrets/
+secrets.*
+*.pem
+*.key
+*.pfx
+*.p12
+*.keystore
+.envrc
+.venv/
+venv/
+pip-wheel-metadata/
+dist/
+build/
