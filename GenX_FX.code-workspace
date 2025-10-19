@@ -16,28 +16,6 @@
     "settings": {
         "files.exclude": {
             "**/.git": true,
-            "**/.idea": true
-        }
-    }
-}
-{
-    "folders": [
-        {
-            "path": "A6-9V Projects"
-        },
-        {
-            "path": "A6-9V Tools"
-        },
-        {
-            "path": "A6-9V Trading"
-        },
-        {
-            "path": "docs"
-        }
-    ],
-    "settings": {
-        "files.exclude": {
-            "**/.git": true,
             "**/.idea": true,
             "**/.vscode": true
         }
