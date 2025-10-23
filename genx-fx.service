@@ -1,0 +1,16 @@
+[Unit]
+Description=GenX FX Trading Platform
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/genx_fx/start_trading_vps.sh
+Restart=always
+RestartSec=30
+StandardOutput=append:/var/log/genx_fx/service.log
+StandardError=append:/var/log/genx_fx/service.log
+
+[Install]
+WantedBy=multi-user.target

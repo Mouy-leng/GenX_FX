@@ -1,0 +1,138 @@
+{
+  "timestamp": "2025-10-23T17:02:47.783387",
+  "python_imports": {
+    "pandas": {
+      "status": "success",
+      "critical": true
+    },
+    "numpy": {
+      "status": "success",
+      "critical": true
+    },
+    "typer": {
+      "status": "success",
+      "critical": true
+    },
+    "rich": {
+      "status": "success",
+      "critical": true
+    },
+    "requests": {
+      "status": "success",
+      "critical": true
+    },
+    "sklearn": {
+      "status": "success",
+      "critical": false
+    },
+    "xgboost": {
+      "status": "success",
+      "critical": false
+    },
+    "tensorflow": {
+      "status": "failed",
+      "error": "No module named 'tensorflow'",
+      "critical": false
+    },
+    "talib": {
+      "status": "success",
+      "critical": false
+    }
+  },
+  "cli_tools": {
+    "head_cli": {
+      "status": "failed",
+      "error": "[WinError 193] %1 is not a valid Win32 application"
+    },
+    "amp_cli": {
+      "status": "failed",
+      "error": null
+    },
+    "genx_cli": {
+      "status": "failed",
+      "error": null
+    }
+  },
+  "amp_system": {
+    "auth_status": {
+      "status": "failed",
+      "error": null
+    },
+    "amp_status": {
+      "status": "failed",
+      "error": null
+    },
+    "amp_overview": {
+      "status": "failed",
+      "error": "[WinError 193] %1 is not a valid Win32 application"
+    }
+  },
+  "file_structure": {
+    "files": {
+      "README.md": {
+        "status": "exists",
+        "size": 8946
+      },
+      "requirements.txt": {
+        "status": "exists",
+        "size": 1342
+      },
+      "main.py": {
+        "status": "exists",
+        "size": 14514
+      },
+      "head_cli.py": {
+        "status": "exists",
+        "size": 41754
+      },
+      "amp_cli.py": {
+        "status": "exists",
+        "size": 18287
+      },
+      "genx_cli.py": {
+        "status": "missing"
+      },
+      "genx": {
+        "status": "exists",
+        "size": 158
+      }
+    },
+    "directories": {
+      "ai_models": {
+        "status": "missing"
+      },
+      "api": {
+        "status": "missing"
+      },
+      "core": {
+        "status": "missing"
+      },
+      "services": {
+        "status": "missing"
+      },
+      "expert-advisors": {
+        "status": "missing"
+      },
+      "logs": {
+        "status": "missing"
+      },
+      "signal_output": {
+        "status": "missing"
+      }
+    }
+  },
+  "cleanup": {
+    "removed_items": [
+      "D:\\Dropbox\\GenX_FX\\__pycache__"
+    ],
+    "count": 1
+  },
+  "summary": {
+    "overall_status": "FAIL",
+    "critical_failures": 3,
+    "warnings": 2,
+    "passed_tests": 14,
+    "total_tests": 19,
+    "success_rate": 0.7368421052631579
+  }
+}

@@ -1,0 +1,6 @@
+# Health monitor requirements
+psutil>=5.9.0
+docker>=6.1.0
+requests>=2.31.0
+mysql-connector-python>=8.0.33
+redis>=5.0.0
