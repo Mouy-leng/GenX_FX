@@ -1,0 +1,16 @@
+{
+  "master_key": "671263b51cb38e7ad49dd056bf808034fe4b6308fa2ac2fda435384f393248b8",
+  "api_key": "1b771542b8a1cff6dfd86907c8bda63ea0bf4e7a992579b1c67a4bc065e6afa0",
+  "signal_key": "3860ccd05f54cc2f73a964e1ebe5f8c519ca65e5633b94cdeaecd8072ced462b",
+  "trading_key": "3a70c1c921a4e300387fcff67abef0092e9b5a9954a6f50d31b18347cb0da484",
+  "exness_key": "bf1c67b2107c0299b5238df478c1aa38c8f8282e4d49425dfa23f9d84510b033",
+  "fbs_key": "c99471169c2b3655edcc7a41e387fa28158edc8d1d3d447a819cd79f1aa78ff9",
+  "created_at": "2025-11-02T05:54:11.234375",
+  "expires_at": "2026-11-02T05:54:11.234407",
+  "permissions": {
+    "live_trading": true,
+    "signal_generation": true,
+    "api_access": true,
+    "admin_access": true
+  }
+}

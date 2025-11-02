@@ -1,0 +1,27 @@
+{
+  "broker": "OANDA",
+  "environment": "live",
+  "api_url": "https://api-fxtrade.oanda.com",
+  "stream_url": "https://stream-fxtrade.oanda.com",
+  "account_id": "YOUR_ACCOUNT_ID_HERE",
+  "api_token": "YOUR_API_TOKEN_HERE",
+  "trading_pairs": [
+    "EUR_USD",
+    "GBP_USD",
+    "USD_JPY",
+    "USD_CHF",
+    "AUD_USD",
+    "USD_CAD"
+  ],
+  "risk_settings": {
+    "max_position_size": 1000,
+    "max_risk_per_trade": 0.01,
+    "stop_loss_pips": 20,
+    "take_profit_pips": 40
+  },
+  "security": {
+    "require_samsung_auth": true,
+    "session_timeout": 1800,
+    "trade_confirmation": true
+  }
+}

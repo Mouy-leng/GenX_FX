@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-GenX FX Trading System - Main Entry Point
-Advanced AI-powered Forex trading signal generator for MT4/5 EAs
+GenX FX Trading System - Main Entry Point with Magic Key Integration
+Advanced AI-powered Forex trading signal generator for MT4/5 EAs with encrypted authentication
 """
 
 import asyncio
@@ -26,6 +26,22 @@ from ai_models.ensemble_predictor import EnsemblePredictor
 from core.model_trainer import ModelTrainer
 from core.backtester import Backtester
 from utils.logger_setup import setup_logging
+
+# Import magic key system
+try:
+    from core.magic_key_config import (
+        magic_keys,
+        get_trading_config,
+        display_magic_keys,
+        MAGIC_KEY_CONFIG
+    )
+    MAGIC_KEYS_AVAILABLE = True
+    logger = logging.getLogger(__name__)
+    logger.info("Magic key system loaded successfully")
+except ImportError as e:
+    MAGIC_KEYS_AVAILABLE = False
+    logger = logging.getLogger(__name__)
+    logger.warning(f"Magic key system not available: {e}")
 
 logger = logging.getLogger(__name__)
 

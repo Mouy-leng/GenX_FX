@@ -1,0 +1,31 @@
+{
+  "magic_numbers": {
+    "EXNESS_MAGIC": 123456789,
+    "FBS_MAGIC": 987654321,
+    "SIGNAL_MAGIC": 555666777,
+    "AUTO_MAGIC": 111222333,
+    "MANUAL_MAGIC": 444555666,
+    "MAX_RISK_PERCENT": 2.0,
+    "MAX_TRADES": 10,
+    "MIN_CONFIDENCE": 0.75,
+    "STOP_LOSS_PIPS": 30,
+    "TAKE_PROFIT_PIPS": 50,
+    "API_SECRET": "f4df8b5ebf4af7a621da3a0f2208e3a88abde3f29f3589e6b0ad8bea450084b0",
+    "MASTER_SECRET": "474fde581f6ed92d83e21a07cbe6b07b0dd27209139fb5dacb541dcf6a187359",
+    "TRADING_SECRET": "432778e66f344b06ac54f20d3f7d90306a1d1474f8094ff4156531e17cafa78a"
+  },
+  "keys": {
+    "api_key": "f4df8b5ebf4af7a621da3a0f2208e3a88abde3f29f3589e6b0ad8bea450084b0",
+    "trading_key": "432778e66f344b06ac54f20d3f7d90306a1d1474f8094ff4156531e17cafa78a",
+    "exness_key": "0be720644fa793963442d4f38321bddb209458334e7bd37fa5efe73e3e8a70bd",
+    "fbs_key": "2296d55439ade2ad210b21a06ff83fe222265836d67a05057a781ef50981cb58"
+  },
+  "permissions": {
+    "live_trading": true,
+    "signal_generation": true,
+    "api_access": true,
+    "admin_access": true
+  },
+  "expires_at": "2026-11-02T05:34:25.636897",
+  "created_at": "2025-11-02T05:34:25.636819"
+}

@@ -1,0 +1,29 @@
+{
+  "trading_mode": "LIVE",
+  "created": "2025-11-03T01:19:17.845531",
+  "risk_management": {
+    "max_risk_per_trade_percent": 1.0,
+    "max_daily_loss_percent": 5.0,
+    "max_positions": 3,
+    "force_stop_loss": true,
+    "force_take_profit": true
+  },
+  "broker_config": {
+    "primary_broker": "DEMO",
+    "backup_broker": "NONE",
+    "live_data_feed": "REQUIRED",
+    "execution_mode": "MARKET"
+  },
+  "security": {
+    "require_fingerprint": true,
+    "session_timeout_minutes": 30,
+    "require_confirmation": true,
+    "log_all_trades": true
+  },
+  "notifications": {
+    "trade_alerts": true,
+    "loss_alerts": true,
+    "profit_alerts": true,
+    "system_alerts": true
+  }
+}

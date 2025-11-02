@@ -1,0 +1,15 @@
+
+; GenX Ultra Safe EA Settings for Account 241926287
+; Generated: 2025-11-03 01:44:09
+
+MaxLotSize=0.01
+StopLoss=10
+TakeProfit=20
+MaxSpread=3
+MaxTrades=1
+RiskPercent=1.0
+MagicNumber=241926287
+StartHour=8
+EndHour=17
+MaxDrawdownPercent=5.0
+DailyLossLimit=2.25

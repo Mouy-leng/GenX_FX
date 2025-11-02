@@ -1,0 +1,33 @@
+{
+  "deployment_info": {
+    "id": "83317d427984ea50",
+    "version": "2.0.0_SECURE",
+    "created": "2025-11-03T00:50:31.792193",
+    "security_level": "HIGH_BIOMETRIC"
+  },
+  "namecheap_vps": {
+    "api_user": "LengNU",
+    "api_key": "ENCRYPTED_8JFCXKRV9W6AT8498HTZU9G8CTVGRLM8",
+    "username": "LengNU",
+    "client_ip": "27.109.114.52"
+  },
+  "new_secure_apis": {
+    "gemini_new": "AIzaSy0ELSijh0K9J2jZTnf1zwsud3u7dKE7GJ_NEW",
+    "openai_new": "sk-proj-PNaN66yjlsOPm2YnW1muGd_NEW",
+    "alpha_vantage_new": "jxToWdoDjqy01rdC_NEW",
+    "finnhub_new": "gR5rx6ljRgPetyvBI2fb9mfrUP47NHxi_NEW",
+    "news_api_new": "BKI1UBt4UHl8nMJ4zepCgk10H2uSh94f_NEW"
+  },
+  "platform_security": {
+    "jwt_secret_new": "genx_jwt_148c0e9a30d0343e09a40ecbdf6c22a097a00653c63bd7693ebe69ed4d277fc2",
+    "magic_key_new": "genx_magic_fb98dbed0fbeaca2ddd6777f10bdee2f",
+    "session_secret": "genx_session_310cd02ea8a1c6e68eb91abeb015690cb4037d21c9f76662",
+    "fingerprint_key": "samsung_knox_8cb33da0de830da3c9bd15cff7aace88"
+  },
+  "trading_accounts_new": {
+    "fxcm_user": "D27739526",
+    "fxcm_password_new": "SECURE_NEW_PASSWORD_TO_SET",
+    "bybit_api_new": "NEW_BYBIT_KEY_TO_GENERATE",
+    "bybit_secret_new": "NEW_BYBIT_SECRET_TO_GENERATE"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "deployment_summary": {
+    "start_time": "2025-11-02T23:39:38.584198",
+    "end_time": "2025-11-02T23:39:57.596167",
+    "duration_seconds": 19.011969,
+    "status": {
+      "local_verification": true,
+      "namecheap_deployed": false,
+      "vultr_deployed": false,
+      "gcp_deployed": false,
+      "domain_configured": false
+    }
+  },
+  "endpoints": {},
+  "log": [
+    "[23:39:38] PHASE: \ud83c\udfaf PHASE 1: Local Platform Verification",
+    "[23:39:38] STEP: \ud83d\udd0d Verifying Local Trading Platform...",
+    "[23:39:40] SUCCESS: \u2705 http://localhost:8000/ - OK",
+    "[23:39:42] SUCCESS: \u2705 http://localhost:8000/trading/status - OK",
+    "[23:39:44] SUCCESS: \u2705 http://localhost:8000/health - OK",
+    "[23:39:46] SUCCESS: \u2705 http://localhost:8001/ - OK",
+    "[23:39:48] SUCCESS: \u2705 http://localhost:8001/trading/status - OK",
+    "[23:39:48] SUCCESS: \u2705 Local platform verified - 5 endpoints operational",
+    "[23:39:48] PHASE: \ud83c\udfaf PHASE 2: VPS Deployment",
+    "[23:39:48] STEP: \ud83c\udf10 Deploying to NameCheap VPS...",
+    "[23:39:49] ERROR: \u274c NameCheap deployment failed: Traceback (most recent call last):\n  File \"D:\\Dropbox\\GenX_FX\\setup_namecheap_deployment.py\", line 320, in <module>\n    success = main()\n  File \"D:\\Dropbox\\GenX_FX\\setup_namecheap_deployment.py\", line 271, in main\n    print(\"\\U0001f680 GenX Trading Platform - NameCheap VPS Deployment\")\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\lengk\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f680' in position 0: character maps to <undefined>\n",
+    "[23:39:49] PHASE: \ud83c\udfaf PHASE 3: Domain & SSL Configuration",
+    "[23:39:49] STEP: \ud83c\udf10 Configuring Domain & SSL...",
+    "[23:39:49] INFO: \u2139\ufe0f Domain configuration ready - implement after VPS deployment",
+    "[23:39:49] PHASE: \ud83c\udfaf PHASE 4: Deployment Testing",
+    "[23:39:49] STEP: \ud83e\uddea Running Deployment Tests...",
+    "[23:39:57] SUCCESS: \u2705 Deployment tests completed: 4/4 passed",
+    "[23:39:57] PHASE: \ud83c\udfaf PHASE 5: Deployment Report"
+  ]
+}

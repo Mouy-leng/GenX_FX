@@ -1,63 +1,56 @@
 #!/usr/bin/env python3
 """
-GenX FastAPI Server - Advanced Trading API
-Provides REST endpoints for trading signals, portfolio management, and market analysis
+GenX FastAPI Server - Trading API with Magic Key Integration
 """
 
-import asyncio
 import logging
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import HTTPBearer
 import uvicorn
 from pathlib import Path
 import sys
-import json
-from datetime import datetime, timedelta
-from typing import List, Dict, Optional
+from datetime import datetime
+from typing import List, Optional
 import aiohttp
 
-# Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from core.config import config
-from utils.logger_setup import setup_logging
+try:
+    from core.magic_key_config import validate_trading_permission, get_trading_config
+    from utils.logger_setup import setup_logging
+    setup_logging()
+    MAGIC_KEYS_AVAILABLE = True
+except ImportError:
+    MAGIC_KEYS_AVAILABLE = False
 
-# Setup logging
-setup_logging()
 logger = logging.getLogger(__name__)
 
-# Initialize FastAPI app
 app = FastAPI(
     title="GenX Trading API",
-    description="Advanced AI-powered Forex trading signals and portfolio management",
-    version="2.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc"
+    description="Forex trading signals and portfolio management",
+    version="2.1.0"
 )
 
-# Configure CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
-# Security
-security = HTTPBearer()
+async def verify_api_key(x_api_key: Optional[str] = Header(None)):
+    if not MAGIC_KEYS_AVAILABLE or not x_api_key:
+        return True
+    if not validate_trading_permission(x_api_key):
+        raise HTTPException(status_code=403, detail="Invalid API key")
+    return True
 
-# Global state
 trading_signals = []
 portfolio_status = {
     "balance": 10000.0,
     "equity": 10000.0,
-    "margin": 0.0,
-    "free_margin": 10000.0,
-    "margin_level": 0.0,
     "active_trades": 0,
-    "total_trades": 0,
     "profit": 0.0,
     "last_updated": datetime.now().isoformat()
 }
@@ -65,74 +58,66 @@ portfolio_status = {
 market_analysis = {
     "trends": {},
     "volatility": {},
-    "support_resistance": {},
     "last_updated": datetime.now().isoformat()
 }
 
 @app.get("/")
 async def root():
-    """Root endpoint with API information"""
     return {
         "service": "GenX Trading API",
-        "version": "2.0.0",
+        "version": "2.1.0",
         "status": "operational",
-        "endpoints": {
-            "health": "/health",
-            "signals": "/signals",
-            "portfolio": "/portfolio",
-            "analysis": "/analysis",
-            "docs": "/docs"
-        },
+        "magic_keys_enabled": MAGIC_KEYS_AVAILABLE,
         "timestamp": datetime.now().isoformat()
     }
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
+    return {"status": "ok"}
+
+@app.get("/config/magic")
+async def get_magic_config(authenticated: bool = Depends(verify_api_key)):
+    if not MAGIC_KEYS_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Magic key system not available")
+    
+    config = get_trading_config()
     return {
-        "status": "healthy",
-        "service": "genx-fastapi-server",
-        "timestamp": datetime.now().isoformat(),
-        "uptime": "operational"
+        "magic_numbers": {k: v for k, v in config["magic_numbers"].items() if isinstance(v, int)},
+        "permissions": config["permissions"],
+        "timestamp": datetime.now().isoformat()
+    }
+
+@app.get("/trading/status")
+async def get_trading_status(authenticated: bool = Depends(verify_api_key)):
+    return {
+        "signals_count": len(trading_signals),
+        "magic_keys_enabled": MAGIC_KEYS_AVAILABLE,
+        "portfolio": portfolio_status,
+        "timestamp": datetime.now().isoformat()
     }
 
 @app.get("/signals")
-async def get_trading_signals():
-    """Get current trading signals"""
+async def get_trading_signals(authenticated: bool = Depends(verify_api_key)):
     try:
-        # Try to get signals from main trading system
         async with aiohttp.ClientSession() as session:
             try:
                 async with session.get("http://localhost:8080/health") as response:
                     if response.status == 200:
-                        # Main system is running, get real signals
                         return {
                             "signals": trading_signals,
                             "count": len(trading_signals),
-                            "last_updated": datetime.now().isoformat(),
-                            "source": "live_system"
+                            "source": "live_system",
+                            "timestamp": datetime.now().isoformat()
                         }
             except:
                 pass
         
-        # Return mock signals if main system not available
         mock_signals = [
             {
                 "pair": "EURUSD",
                 "direction": "BUY",
                 "confidence": 0.85,
                 "entry_price": 1.0950,
-                "stop_loss": 1.0920,
-                "take_profit": 1.1000,
-                "timestamp": datetime.now().isoformat()
-            },
-            {
-                "pair": "GBPUSD", 
-                "direction": "SELL",
-                "confidence": 0.78,
-                "entry_price": 1.2650,
-                "stop_loss": 1.2680,
-                "take_profit": 1.2600,
                 "timestamp": datetime.now().isoformat()
             }
         ]
@@ -140,8 +125,8 @@ async def get_trading_signals():
         return {
             "signals": mock_signals,
             "count": len(mock_signals),
-            "last_updated": datetime.now().isoformat(),
-            "source": "mock_data"
+            "source": "mock_data",
+            "timestamp": datetime.now().isoformat()
         }
         
     except Exception as e:
@@ -150,72 +135,30 @@ async def get_trading_signals():
 
 @app.get("/portfolio")
 async def get_portfolio_status():
-    """Get current portfolio status"""
     return {
-        "status": "success",
         "data": portfolio_status,
         "timestamp": datetime.now().isoformat()
     }
 
 @app.get("/analysis")
 async def get_market_analysis():
-    """Get current market analysis"""
     return {
-        "status": "success", 
         "data": market_analysis,
         "timestamp": datetime.now().isoformat()
     }
 
 @app.post("/signals/update")
 async def update_signals(signals: List[dict]):
-    """Update trading signals (internal use)"""
     global trading_signals
     trading_signals = signals
-    return {
-        "status": "updated",
-        "count": len(signals),
-        "timestamp": datetime.now().isoformat()
-    }
+    return {"count": len(signals), "timestamp": datetime.now().isoformat()}
 
 @app.post("/portfolio/update")
 async def update_portfolio(data: dict):
-    """Update portfolio status (internal use)"""
     global portfolio_status
     portfolio_status.update(data)
     portfolio_status["last_updated"] = datetime.now().isoformat()
-    return {
-        "status": "updated",
-        "timestamp": datetime.now().isoformat()
-    }
-
-@app.get("/pairs")
-async def get_currency_pairs():
-    """Get available currency pairs"""
-    pairs = [
-        "EURUSD", "GBPUSD", "USDJPY", "USDCAD",
-        "AUDUSD", "NZDUSD", "USDCHF", "EURJPY",
-        "GBPJPY", "EURGBP", "AUDCAD", "CADCHF",
-        "EURAUD", "EURCHF", "GBPAUD", "GBPCAD"
-    ]
-    return {
-        "pairs": pairs,
-        "count": len(pairs),
-        "timestamp": datetime.now().isoformat()
-    }
-
-@app.get("/stats")
-async def get_trading_stats():
-    """Get trading statistics"""
-    return {
-        "daily_trades": 12,
-        "weekly_profit": 156.50,
-        "monthly_profit": 623.75,
-        "win_rate": 73.2,
-        "avg_profit": 45.30,
-        "max_drawdown": 2.1,
-        "sharpe_ratio": 1.85,
-        "timestamp": datetime.now().isoformat()
-    }
+    return {"timestamp": datetime.now().isoformat()}
 
 if __name__ == "__main__":
     logger.info("Starting GenX FastAPI Server on port 8000...")
