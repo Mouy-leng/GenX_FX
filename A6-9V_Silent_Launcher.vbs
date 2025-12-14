@@ -12,7 +12,7 @@ strBatchFile = strScriptPath & "\A6-9V_Enhanced_Master_Launcher.bat"
 
 ' Check if the batch file exists
 If CreateObject("Scripting.FileSystemObject").FileExists(strBatchFile) Then
-    ' Run the batch file hidden (0 = hidden window, True = wait for it to complete)
+    ' Run the batch file hidden (0 = hidden window, False = don't wait for completion)
     ' Using 0 for hidden, False for not waiting allows the script to exit immediately
     objShell.Run """" & strBatchFile & """", 0, False
 Else

@@ -9,6 +9,8 @@
 
 This guide explains how to configure your Windows laptop to automatically launch the A6-9V Enhanced Master Trading System when you log in. This ensures your trading platforms, Python systems, and development tools start automatically without manual intervention.
 
+**⚠️ Note on File Paths:** This guide uses the default installation directory `C:\Users\lengk\Dropbox\OneDrive\Desktop\`. If your files are in a different location, replace this path with your actual directory path throughout this guide.
+
 ---
 
 ## ✨ Features
@@ -29,7 +31,7 @@ The auto-startup system consists of three main files:
 2. **Install_AutoStartup.bat** - Installation/management tool
 3. **A6-9V_Enhanced_Master_Launcher.bat** - The main trading system launcher (already exists)
 
-All files should be in the same directory:
+All files should be in the same directory (example shown, adjust to your actual path):
 ```
 C:\Users\lengk\Dropbox\OneDrive\Desktop\
 ├── A6-9V_Enhanced_Master_Launcher.bat
