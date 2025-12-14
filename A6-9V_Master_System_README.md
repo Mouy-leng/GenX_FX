@@ -60,11 +60,25 @@ C:\Users\lengk\Dropbox\OneDrive\Desktop\
 
 ## 🚀 Usage Instructions
 
-### Quick Start
+### Quick Start - Manual Launch
 ```batch
 # Run the enhanced launcher
 C:\Users\lengk\Dropbox\OneDrive\Desktop\A6-9V_Enhanced_Master_Launcher.bat
 ```
+
+### Auto-Startup on Windows Login (Recommended)
+Configure your laptop to automatically launch the system on login:
+
+```batch
+# One-time setup - Run the installation tool
+C:\Users\lengk\Dropbox\OneDrive\Desktop\Install_AutoStartup.bat
+
+# Select option 1 to install auto-startup
+```
+
+**Documentation:**
+- Quick Start Guide: [AUTO_STARTUP_QUICK_START.md](AUTO_STARTUP_QUICK_START.md)
+- Full Setup Guide: [WINDOWS_AUTO_STARTUP_GUIDE.md](WINDOWS_AUTO_STARTUP_GUIDE.md)
 
 ### Manual PowerShell Execution
 ```powershell
