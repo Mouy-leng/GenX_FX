@@ -9,8 +9,15 @@ This repository tracks the organized desktop workspace for A6-9V, including proj
 - `docs/` — Documentation index and guides
 - `.github/` — Repository policies and ownership
 
+## 🚀 Auto-Startup Configuration
+Configure your Windows laptop to automatically launch the A6-9V Enhanced Master Trading System on login:
+- **Quick Start**: [AUTO_STARTUP_QUICK_START.md](AUTO_STARTUP_QUICK_START.md)
+- **Full Guide**: [WINDOWS_AUTO_STARTUP_GUIDE.md](WINDOWS_AUTO_STARTUP_GUIDE.md)
+- **Installation Tool**: `Install_AutoStartup.bat`
+
 ## Quick Links
 - Docs index: [docs/README.md](docs/README.md)
+- Trading System: [A6-9V_Master_System_README.md](A6-9V_Master_System_README.md)
 - GitHub App setup: [docs/GITHUB_APP_SETUP.md](docs/GITHUB_APP_SETUP.md)
 - Ownership policy: [OWNERSHIP.md](OWNERSHIP.md)
 - Code owners: [.github/CODEOWNERS](.github/CODEOWNERS)
