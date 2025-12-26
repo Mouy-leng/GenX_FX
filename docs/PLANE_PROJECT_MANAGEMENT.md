@@ -304,9 +304,9 @@ If currently tracking work elsewhere:
 - Community: [plane.so/community](https://plane.so/community)
 
 ### Internal Resources
-- Project Management Lead: [Define owner]
-- Plane Admin: [Define admin]
-- Support Channel: [Define Slack/Teams channel]
+- Project Management Lead: GenX_FX Project Management Team
+- Plane Admin: GenX_FX DevOps & Tooling Team
+- Support Channel: `#genx-fx-plane-support` (Slack/Teams)
 
 ## Quick Reference
 
