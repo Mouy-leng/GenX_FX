@@ -2,6 +2,7 @@
 
 ## Index
 - GitHub App Setup: [GITHUB_APP_SETUP.md](GITHUB_APP_SETUP.md)
+- Plane Project Management: [PLANE_PROJECT_MANAGEMENT.md](PLANE_PROJECT_MANAGEMENT.md)
 - Repository Ownership: [../OWNERSHIP.md](../OWNERSHIP.md)
 - Contributing: [../.github/CONTRIBUTING.md](../.github/CONTRIBUTING.md)
 - Security Policy: [../.github/SECURITY.md](../.github/SECURITY.md)

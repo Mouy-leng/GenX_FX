@@ -12,6 +12,7 @@ This repository tracks the organized desktop workspace for A6-9V, including proj
 ## Quick Links
 - Docs index: [docs/README.md](docs/README.md)
 - GitHub App setup: [docs/GITHUB_APP_SETUP.md](docs/GITHUB_APP_SETUP.md)
+- Plane Project Management: [docs/PLANE_PROJECT_MANAGEMENT.md](docs/PLANE_PROJECT_MANAGEMENT.md)
 - Ownership policy: [OWNERSHIP.md](OWNERSHIP.md)
 - Code owners: [.github/CODEOWNERS](.github/CODEOWNERS)
 - Contributing guide: [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)
