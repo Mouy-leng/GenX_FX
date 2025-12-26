@@ -192,7 +192,7 @@ Security Issue → Assessment → Implementation → Audit → Verification → 
 ### Using Cycles
 
 Create weekly or bi-weekly cycles:
-- `Week 2025-W52` - Bug fixes and monitoring
+- `Current Week` - Bug fixes and monitoring
 - `Sprint 12: Strategy Optimization`
 - `December Deployment Cycle`
 
@@ -301,7 +301,7 @@ If currently tracking work elsewhere:
 ### Plane Documentation
 - Official Docs: [docs.plane.so](https://docs.plane.so)
 - GitHub: [github.com/makeplane/plane](https://github.com/makeplane/plane)
-- Community: [plane.so/community](https://plane.so/community)
+- Community: [GitHub Discussions](https://github.com/makeplane/plane/discussions)
 
 ### Internal Resources
 - Project Management Lead: GenX_FX Project Management Team
