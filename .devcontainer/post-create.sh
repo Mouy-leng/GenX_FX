@@ -138,8 +138,7 @@ fi
 # Install Stripe SDKs for Node.js and Python (if not already installed)
 echo "📦 Installing Stripe SDKs..."
 if command -v npm &> /dev/null; then
-    cd ~/workspace
-    npm install --global stripe || echo "⚠️  Stripe npm package installation failed"
+    (cd ~/workspace && npm install --global stripe) || echo "⚠️  Stripe npm package installation failed"
 fi
 
 if command -v pip &> /dev/null; then

@@ -70,7 +70,7 @@ if (Test-Path "ProductionApp/package.json") {
     
     if (Test-CommandExists npm) {
         $packageJson = Get-Content package.json | ConvertFrom-Json
-        if ($packageJson.dependencies.stripe) {
+        if ($packageJson.dependencies -and $packageJson.dependencies.stripe) {
             Write-Host "✓ Stripe SDK already in package.json" -ForegroundColor Green
         } else {
             npm install stripe

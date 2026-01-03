@@ -78,13 +78,10 @@ else
                 brew install stripe/stripe-cli/stripe
                 echo "✓ Stripe CLI installed successfully"
             else
-                echo "⚠️  Homebrew not found. Installing via curl..."
-                if command_exists curl; then
-                    curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor > /usr/local/share/keyrings/stripe.gpg
-                    echo "deb [signed-by=/usr/local/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | tee /etc/apt/sources.list.d/stripe.list
-                    echo "⚠️  Please complete Stripe CLI installation manually:"
-                    echo "   Visit: https://stripe.com/docs/stripe-cli#install"
-                fi
+                echo "⚠️  Homebrew not found. Please install Homebrew first:"
+                echo "   Visit: https://brew.sh/"
+                echo "   Then run: brew install stripe/stripe-cli/stripe"
+                echo "   Or visit: https://stripe.com/docs/stripe-cli#install"
             fi
             ;;
         MinGw|Msys|Cygwin)
@@ -110,7 +107,7 @@ if [ -d "ProductionApp" ] && [ -f "ProductionApp/package.json" ]; then
         if grep -q '"stripe"' package.json; then
             echo "✓ Stripe SDK already in package.json"
         else
-            npm install stripe
+            npm install stripe || echo "⚠️  Failed to install Stripe SDK in ProductionApp"
             echo "✓ Stripe SDK added to ProductionApp"
         fi
     fi
