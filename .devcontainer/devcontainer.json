@@ -30,7 +30,9 @@
         "vscjava.vscode-maven",
         "vscjava.vscode-gradle",
         "ms-python.python",
-        "ms-vscode.vscode-typescript-next"
+        "ms-vscode.vscode-typescript-next",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
       ]
     }
   },
