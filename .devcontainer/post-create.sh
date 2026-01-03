@@ -125,7 +125,31 @@ git config --global user.name "A6-9V Developer"
 git config --global user.email "developer@a6-9v.local"
 git config --global init.defaultBranch main
 
+# Install Stripe CLI for development
+echo "📦 Installing Stripe CLI..."
+if [ "$(uname)" == "Linux" ]; then
+    # Install Stripe CLI on Linux
+    curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg > /dev/null
+    echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list
+    sudo apt update
+    sudo apt install -y stripe || echo "⚠️  Stripe CLI installation failed, continuing..."
+fi
+
+# Install Stripe SDKs for Node.js and Python (if not already installed)
+echo "📦 Installing Stripe SDKs..."
+if command -v npm &> /dev/null; then
+    (cd ~/workspace && npm install --global stripe) || echo "⚠️  Stripe npm package installation failed"
+fi
+
+if command -v pip &> /dev/null; then
+    pip install --user stripe || echo "⚠️  Stripe Python package installation failed"
+fi
+
 echo "✅ IntelliJ IDEA development environment setup complete!"
 echo "📁 Workspace created at ~/workspace/"
 echo "🔧 Java versions available: $(sdk list java | grep installed)"
 echo "🎯 Use 'idea.sh' to launch IntelliJ IDEA"
+echo "💳 Stripe CLI and SDKs installed for development"
+echo ""
+echo "💡 GitHub Copilot extensions are configured - sign in when VSCode starts"
+echo "💡 Run 'stripe login' to authenticate with Stripe"

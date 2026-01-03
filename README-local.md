@@ -2,6 +2,26 @@
 
 This repository tracks the organized desktop workspace for A6-9V, including project areas, tools, and trading folders. It serves as the documentation and governance hub for repository ownership and GitHub App integration.
 
+## 🚀 Quick Start - Automatic Setup
+
+This repository now features **automatic development environment setup**! 
+
+**First time setup:**
+```bash
+# Linux/macOS
+./setup-dev-environment.sh
+
+# Windows
+.\setup-dev-environment.ps1
+```
+
+This will automatically install:
+- 🤖 **GitHub Copilot** - AI-powered code completion
+- 💳 **Stripe CLI & SDKs** - Payment integration tools
+- 📦 All project dependencies
+
+See [Automatic Setup Guide](docs/AUTOMATIC_SETUP.md) for details.
+
 ## Structure
 - `A6-9V Projects/` — Main development projects
 - `A6-9V Tools/` — Development tools and utilities
@@ -10,6 +30,7 @@ This repository tracks the organized desktop workspace for A6-9V, including proj
 - `.github/` — Repository policies and ownership
 
 ## Quick Links
+- **🆕 [Automatic Setup Guide](docs/AUTOMATIC_SETUP.md)** — First-time development environment setup
 - Docs index: [docs/README.md](docs/README.md)
 - GitHub App setup: [docs/GITHUB_APP_SETUP.md](docs/GITHUB_APP_SETUP.md)
 - Plane Project Management: [docs/PLANE_PROJECT_MANAGEMENT.md](docs/PLANE_PROJECT_MANAGEMENT.md)
