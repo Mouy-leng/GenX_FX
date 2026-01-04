@@ -1,13 +1,18 @@
-# A6-9V Desktop Workspace
+# GenX_FX Repository
 
-This repository tracks the organized desktop workspace for A6-9V, including project areas, tools, and trading folders. It serves as the documentation and governance hub for repository ownership and GitHub App integration.
+This repository serves as a centralized workspace for trading systems, development projects, and automation tools. It includes comprehensive documentation and follows professional repository organization standards.
 
 ## Structure
-- `A6-9V Projects/` — Main development projects
-- `A6-9V Tools/` — Development tools and utilities
-- `A6-9V Trading/` — Trading-related projects
 - `docs/` — Documentation index and guides
-- `.github/` — Repository policies and ownership
+- `scripts/` — Automation scripts organized by language
+  - `powershell/` — PowerShell scripts
+  - `bash/` — Shell and batch scripts
+  - `python/` — Python scripts
+- `projects/` — Development projects and submodules
+- `services/` — Service configurations and deployments
+- `assets/` — Static assets and resources
+- `archive/` — Historical and archived content
+- `.github/` — Repository policies and workflows
 
 ## Quick Links
 - Docs index: [docs/README.md](docs/README.md)

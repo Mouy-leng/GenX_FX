@@ -1,6 +1,6 @@
-[submodule "Projects/A69VTestApp"]
-	path = Projects/A69VTestApp
+[submodule "projects/A69VTestApp"]
+	path = projects/A69VTestApp
 	url = https://github.com/Mouy-leng/A69VTestApp.git
-[submodule "Projects/ProductionApp"]
-	path = Projects/ProductionApp
+[submodule "projects/ProductionApp"]
+	path = projects/ProductionApp
 	url = https://github.com/Mouy-leng/ProductionApp.git
