@@ -5,11 +5,29 @@ This repository tracks the organized desktop workspace for A6-9V, including proj
 ## Structure
 - `A6-9V Projects/` — Main development projects
 - `A6-9V Tools/` — Development tools and utilities
-- `A6-9V Trading/` — Trading-related projects
+- `A6-9V Trading/` — Trading-related projects (includes GenX_FX)
 - `docs/` — Documentation index and guides
 - `.github/` — Repository policies and ownership
 
+## 🚀 Quick Start for Trading System
+
+### Launch the Repository
+```bash
+# Unix/Linux/Mac
+./launch_cloned_branch.sh
+
+# Windows
+launch_cloned_branch.bat
+```
+
+### MetaTrader 5 Integration
+- **Complete Launch Guide:** [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md)
+- **MT5 Quick Reference:** [MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md](MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md)
+- **System Master README:** [A6-9V_Master_System_README.md](A6-9V_Master_System_README.md)
+
 ## Quick Links
+- **🎯 Repository Launch Guide:** [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md)
+- **🤖 MT5 Expert Advisors Reference:** [MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md](MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md)
 - Docs index: [docs/README.md](docs/README.md)
 - GitHub App setup: [docs/GITHUB_APP_SETUP.md](docs/GITHUB_APP_SETUP.md)
 - Plane Project Management: [docs/PLANE_PROJECT_MANAGEMENT.md](docs/PLANE_PROJECT_MANAGEMENT.md)
