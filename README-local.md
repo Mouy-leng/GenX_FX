@@ -28,6 +28,7 @@ launch_cloned_branch.bat
 ## Quick Links
 - **🎯 Repository Launch Guide:** [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md)
 - **🤖 MT5 Expert Advisors Reference:** [MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md](MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md)
+- **🖥️ VPS Configuration:** [VPS_CONFIGURATION.md](VPS_CONFIGURATION.md)
 - Docs index: [docs/README.md](docs/README.md)
 - GitHub App setup: [docs/GITHUB_APP_SETUP.md](docs/GITHUB_APP_SETUP.md)
 - Plane Project Management: [docs/PLANE_PROJECT_MANAGEMENT.md](docs/PLANE_PROJECT_MANAGEMENT.md)
