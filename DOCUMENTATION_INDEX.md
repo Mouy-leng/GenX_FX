@@ -44,6 +44,7 @@ launch_cloned_branch.bat
 |----------|---------|--------------|
 | **[A6-9V_Master_System_README.md](A6-9V_Master_System_README.md)** | System overview | System architecture understanding |
 | **[README-local.md](README-local.md)** | Local workspace info | Workspace organization |
+| **[VPS_CONFIGURATION.md](VPS_CONFIGURATION.md)** | VPS server details | VPS setup and monitoring |
 
 ### Script Documentation
 
