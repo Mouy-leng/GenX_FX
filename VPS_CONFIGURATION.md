@@ -16,15 +16,6 @@ This document tracks the Virtual Private Server (VPS) configuration for the GenX
 
 ---
 
-## VPS Provider Details
-
-### Service Configuration
-- **Auto Renewal Status**: ENABLED
-- **Current Status**: ACTIVE (Start)
-- **Renewal Type**: Automatic
-
----
-
 ## Important Notes
 
 1. **Auto-Renewal Active**: The VPS subscription will automatically renew to ensure continuous service
