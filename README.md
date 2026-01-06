@@ -70,10 +70,19 @@ For detailed deployment instructions, see [ProductionApp/README.md](ProductionAp
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Complete documentation index |
 | [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md) | Trading system launch guide |
 | [MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md](MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md) | MT5 Expert Advisors reference |
-| [DOMAIN_DEPLOYMENT_GUIDE.md](DOMAIN_DEPLOYMENT_GUIDE.md) | Domain deployment instructions |
 | [ProductionApp/README.md](ProductionApp/README.md) | Production app documentation |
 
-### Deployment & Configuration
+### Domain & Deployment Guides
+
+| Document | Purpose |
+|----------|---------|
+| [QUICK_START_DOMAIN_DEPLOYMENT.md](QUICK_START_DOMAIN_DEPLOYMENT.md) | ⚡ Quick 30-minute deployment guide |
+| [DOMAIN_DEPLOYMENT_GUIDE.md](DOMAIN_DEPLOYMENT_GUIDE.md) | Complete domain deployment instructions |
+| [DNS_CONFIGURATION_GUIDE.md](DNS_CONFIGURATION_GUIDE.md) | Namecheap DNS setup guide |
+| [MONITORING_GUIDE.md](MONITORING_GUIDE.md) | Application monitoring & health checks |
+| [GITHUB_SECRETS_GUIDE.md](GITHUB_SECRETS_GUIDE.md) | GitHub Actions secrets configuration |
+
+### System Configuration
 
 | Document | Purpose |
 |----------|---------|
