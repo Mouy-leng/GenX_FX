@@ -31,6 +31,7 @@ This VPS is used for:
 - Hosting MetaTrader 5 platform
 - Executing Expert Advisors continuously
 - Ensuring uninterrupted trading operations
+- Hosting domain: lengkundee01.org (registered Jan 6, 2026)
 
 ---
 
@@ -51,6 +52,27 @@ For VPS-related issues:
 
 ---
 
-**Last Updated**: January 5, 2026  
-**Document Version**: 1.0  
-**Subscription ID**: 6759730
+## Domain Configuration
+
+### Registered Domain
+- **Domain Name**: lengkundee01.org
+- **Registrar**: Namecheap
+- **Registration Date**: January 6, 2026
+- **Expiration Date**: January 6, 2027
+- **Auto-Renewal**: Recommended to enable
+
+### Domain Usage
+The domain lengkundee01.org is configured to point to this VPS for:
+- Trading system documentation
+- API endpoints (api.lengkundee01.org)
+- Trading dashboard (trading.lengkundee01.org)
+- System status monitoring (status.lengkundee01.org)
+
+For detailed domain configuration, see [DOMAIN_CONFIGURATION.md](DOMAIN_CONFIGURATION.md)
+
+---
+
+**Last Updated**: January 6, 2026  
+**Document Version**: 1.1  
+**Subscription ID**: 6759730  
+**Domain**: lengkundee01.org

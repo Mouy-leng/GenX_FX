@@ -45,6 +45,8 @@ launch_cloned_branch.bat
 | **[A6-9V_Master_System_README.md](A6-9V_Master_System_README.md)** | System overview | System architecture understanding |
 | **[README-local.md](README-local.md)** | Local workspace info | Workspace organization |
 | **[VPS_CONFIGURATION.md](VPS_CONFIGURATION.md)** | VPS server details | VPS setup and monitoring |
+| **[DOMAIN_CONFIGURATION.md](DOMAIN_CONFIGURATION.md)** | Domain setup and management | Domain registration and DNS |
+| **[DNS_SETUP_GUIDE.md](DNS_SETUP_GUIDE.md)** | Step-by-step DNS configuration | Setting up domain DNS records |
 
 ### Script Documentation
 
@@ -89,6 +91,13 @@ launch_cloned_branch.bat
 2. [MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md](MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md) - Common issues
 3. [A6-9V_Master_System_README.md](A6-9V_Master_System_README.md) - System info
 
+### Task: Domain and Website Setup
+**Read these in order:**
+1. [DOMAIN_CONFIGURATION.md](DOMAIN_CONFIGURATION.md) - Domain details and overview
+2. [DNS_SETUP_GUIDE.md](DNS_SETUP_GUIDE.md) - Step-by-step DNS setup
+3. [VPS_CONFIGURATION.md](VPS_CONFIGURATION.md) - VPS integration
+4. [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md) - Deployment sections
+
 ---
 
 ## 🤖 MT5 Configuration Summary
@@ -98,6 +107,13 @@ launch_cloned_branch.bat
 - **Login:** 279260115
 - **Server:** Exness-MT5Trail8
 - **Balance:** 39,499.31 USD
+
+### Domain Configuration
+- **Domain:** lengkundee01.org
+- **Registrar:** Namecheap
+- **Registration Date:** January 6, 2026
+- **Email:** lengkundee01@gmail.com
+- **Status:** Registered with domain privacy enabled
 
 ### Expert Advisors (8 Total)
 1. ExpertMAPSAR_Enhanced
@@ -215,12 +231,13 @@ Day 5+: Daily Operations
 | Metric | Value |
 |--------|-------|
 | **Total Documentation Lines** | 980+ |
-| **Number of Guides** | 3 main + 3 supporting |
+| **Number of Guides** | 5 main + 3 supporting |
 | **Launch Scripts** | 2 (Unix + Windows) |
 | **Expert Advisors Documented** | 8 |
 | **Trading Pairs Documented** | 13+ |
 | **Troubleshooting Scenarios** | 10+ |
 | **Visual Diagrams** | 1 ASCII workflow |
+| **Domain Configurations** | 1 (lengkundee01.org) |
 
 ---
 
@@ -255,6 +272,8 @@ Day 5+: Daily Operations
 | **Launch commands** | LAUNCH_WORKFLOW_DIAGRAM.md - Step 2 |
 | **Visual workflow** | LAUNCH_WORKFLOW_DIAGRAM.md - Full document |
 | **Complete guide** | REPOSITORY_LAUNCH_GUIDE.md - All sections |
+| **Domain details** | DOMAIN_CONFIGURATION.md - Full domain information |
+| **DNS setup** | DNS_SETUP_GUIDE.md - Step-by-step DNS configuration |
 
 ---
 
