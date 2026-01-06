@@ -98,7 +98,10 @@ jekyll new .
 # Clone repository to a secure location (not /tmp for security)
 sudo mkdir -p /opt/genx-deploy
 sudo chown $USER:$USER /opt/genx-deploy
-git clone https://github.com/Mouy-leng/GenX_FX.git /opt/genx-deploy/GenX_FX
+
+# Set repository URL (update if needed)
+REPO_URL="https://github.com/Mouy-leng/GenX_FX.git"
+git clone "$REPO_URL" /opt/genx-deploy/GenX_FX
 cd /opt/genx-deploy/GenX_FX
 
 # Copy documentation files
@@ -298,7 +301,7 @@ def index():
 @app.route('/api/performance')
 def performance():
     # Mock data - replace with actual trading data
-    # TODO: Integrate with GenX_FX trading system:
+    # Integration tasks tracked in repository issues:
     # - Import from A6-9V/Trading/GenX_FX/main.py for real trading data
     # - Connect to trading database for historical performance
     # - Use MetaTrader 5 API for live account metrics

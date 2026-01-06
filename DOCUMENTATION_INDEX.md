@@ -231,7 +231,7 @@ Day 5+: Daily Operations
 | Metric | Value |
 |--------|-------|
 | **Total Documentation Lines** | 980+ |
-| **Number of Guides** | 5 main + 3 supporting |
+| **Number of Guides** | Multiple comprehensive guides |
 | **Launch Scripts** | 2 (Unix + Windows) |
 | **Expert Advisors Documented** | 8 |
 | **Trading Pairs Documented** | 13+ |
