@@ -95,9 +95,11 @@ jekyll new .
 ### Step 1.2: Copy Documentation
 
 ```bash
-# Clone repository (if deploying from Git)
-git clone https://github.com/Mouy-leng/GenX_FX.git /tmp/GenX_FX
-cd /tmp/GenX_FX
+# Clone repository to a secure location (not /tmp for security)
+sudo mkdir -p /opt/genx-deploy
+sudo chown $USER:$USER /opt/genx-deploy
+git clone https://github.com/Mouy-leng/GenX_FX.git /opt/genx-deploy/GenX_FX
+cd /opt/genx-deploy/GenX_FX
 
 # Copy documentation files
 cp -r *.md /var/www/lengkundee01.org/docs/
@@ -169,7 +171,7 @@ pip install flask flask-cors gunicorn
 Copy and adapt from repository:
 ```bash
 # Copy API server
-cp /tmp/GenX_FX/A6-9V/Trading/GenX_FX/local_server.py app.py
+cp /opt/genx-deploy/GenX_FX/A6-9V/Trading/GenX_FX/local_server.py app.py
 
 # Create production WSGI entry point
 cat > wsgi.py << 'EOF'
@@ -236,10 +238,12 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         
-        # CORS headers
-        add_header 'Access-Control-Allow-Origin' '*' always;
+        # CORS headers - Restrict to specific origins in production
+        # Replace '*' with actual domain(s), e.g., 'https://lengkundee01.org'
+        add_header 'Access-Control-Allow-Origin' 'https://lengkundee01.org' always;
         add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
-        add_header 'Access-Control-Allow-Headers' 'Content-Type' always;
+        add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
     }
     
     location /health {
@@ -294,6 +298,11 @@ def index():
 @app.route('/api/performance')
 def performance():
     # Mock data - replace with actual trading data
+    # TODO: Integrate with GenX_FX trading system:
+    # - Import from A6-9V/Trading/GenX_FX/main.py for real trading data
+    # - Connect to trading database for historical performance
+    # - Use MetaTrader 5 API for live account metrics
+    # - See DEPLOYMENT_SUMMARY.md for available data sources
     data = {
         'labels': ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
         'values': [100, 150, 120, 180, 200]

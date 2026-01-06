@@ -39,14 +39,16 @@ Click "Add New Record" and configure:
 #### Root Domain (@)
 - **Type**: A Record
 - **Host**: @
-- **Value**: [YOUR_VPS_IP_ADDRESS]
+- **Value**: [YOUR_VPS_IP_ADDRESS] (See VPS_CONFIGURATION.md or VPS dashboard)
 - **TTL**: Automatic
 
 #### WWW Subdomain
 - **Type**: A Record
 - **Host**: www
-- **Value**: [YOUR_VPS_IP_ADDRESS]
+- **Value**: [YOUR_VPS_IP_ADDRESS] (Same as root domain)
 - **TTL**: Automatic
+
+> **Note**: To find your VPS IP address, check [VPS_CONFIGURATION.md](VPS_CONFIGURATION.md) or login to your VPS provider dashboard.
 
 ### Example:
 ```
