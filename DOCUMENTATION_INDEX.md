@@ -45,8 +45,10 @@ launch_cloned_branch.bat
 | **[A6-9V_Master_System_README.md](A6-9V_Master_System_README.md)** | System overview | System architecture understanding |
 | **[README-local.md](README-local.md)** | Local workspace info | Workspace organization |
 | **[VPS_CONFIGURATION.md](VPS_CONFIGURATION.md)** | VPS server details | VPS setup and monitoring |
+| **[NAMECHEAP_ORDER_SUMMARY.md](NAMECHEAP_ORDER_SUMMARY.md)** | Domain order details | Quick reference for domain purchase |
 | **[DOMAIN_CONFIGURATION.md](DOMAIN_CONFIGURATION.md)** | Domain setup and management | Domain registration and DNS |
 | **[DNS_SETUP_GUIDE.md](DNS_SETUP_GUIDE.md)** | Step-by-step DNS configuration | Setting up domain DNS records |
+| **[WEBSITE_DEPLOYMENT_GUIDE.md](WEBSITE_DEPLOYMENT_GUIDE.md)** | Website deployment instructions | Deploying services to domain |
 
 ### Script Documentation
 
@@ -272,8 +274,10 @@ Day 5+: Daily Operations
 | **Launch commands** | LAUNCH_WORKFLOW_DIAGRAM.md - Step 2 |
 | **Visual workflow** | LAUNCH_WORKFLOW_DIAGRAM.md - Full document |
 | **Complete guide** | REPOSITORY_LAUNCH_GUIDE.md - All sections |
+| **Domain order** | NAMECHEAP_ORDER_SUMMARY.md - Order details and checklist |
 | **Domain details** | DOMAIN_CONFIGURATION.md - Full domain information |
 | **DNS setup** | DNS_SETUP_GUIDE.md - Step-by-step DNS configuration |
+| **Website deployment** | WEBSITE_DEPLOYMENT_GUIDE.md - Deployment instructions |
 
 ---
 
