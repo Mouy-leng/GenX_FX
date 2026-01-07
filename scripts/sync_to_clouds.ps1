@@ -71,7 +71,8 @@ function Sync-ToCloud {
     $RemotePath = "${RemoteName}:${CloudBasePath}/$ProjectName"
     
     try {
-        & rclone sync $ProjectPath $RemotePath --progress @Exclusions
+        $rcloneArgs = @("sync", $ProjectPath, $RemotePath, "--progress") + $Exclusions
+        & rclone $rcloneArgs
         
         if ($LASTEXITCODE -eq 0) {
             Write-Host "$DisplayName sync completed successfully!" -ForegroundColor Green
