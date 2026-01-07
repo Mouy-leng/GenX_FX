@@ -253,7 +253,33 @@ Follow the prompts to set up each cloud provider:
 
 ## 8. Windows Automation Setup
 
-### Create Sync Script
+### Option 1: Use Ready-Made Scripts (Recommended)
+
+The GenX_FX repository includes ready-to-use cloud sync scripts:
+
+**Batch Script:**
+```batch
+cd /home/runner/work/GenX_FX/GenX_FX/scripts
+sync_to_clouds.bat
+```
+
+**PowerShell Script (with enhanced features):**
+```powershell
+cd /home/runner/work/GenX_FX/GenX_FX/scripts
+.\sync_to_clouds.ps1
+```
+
+Both scripts automatically:
+- Sync to Dropbox, Google Drive, and OneDrive
+- Exclude unnecessary files (.git, node_modules, .venv, etc.)
+- Show progress during sync
+- Provide error handling and status messages
+
+See [scripts/README.md](../scripts/README.md) for more details.
+
+### Option 2: Create Custom Sync Script
+
+If you prefer to customize the sync behavior, create your own script:
 
 Create a file: `D:\A6-9V\Scripts\sync_to_clouds.bat`
 
@@ -283,6 +309,8 @@ pause
 
 ### Schedule with Task Scheduler
 
+You can schedule either the ready-made scripts or your custom script to run automatically.
+
 1. **Open Task Scheduler:**
    - Press `Win + R`
    - Type `taskschd.msc` and press Enter
@@ -298,7 +326,9 @@ pause
 
 4. **Set Action:**
    - Action: "Start a program"
-   - Program/script: `D:\A6-9V\Scripts\sync_to_clouds.bat`
+   - Program/script: Path to your sync script, e.g.:
+     - `C:\path\to\GenX_FX\scripts\sync_to_clouds.bat` (for repository script)
+     - Or `D:\A6-9V\Scripts\sync_to_clouds.bat` (for custom script)
 
 5. **Finish and Test:**
    - Check "Open the Properties dialog"
