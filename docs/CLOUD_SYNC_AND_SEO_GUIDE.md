@@ -259,13 +259,13 @@ The GenX_FX repository includes ready-to-use cloud sync scripts:
 
 **Batch Script:**
 ```batch
-cd /home/runner/work/GenX_FX/GenX_FX/scripts
+cd scripts
 sync_to_clouds.bat
 ```
 
 **PowerShell Script (with enhanced features):**
 ```powershell
-cd /home/runner/work/GenX_FX/GenX_FX/scripts
+cd scripts
 .\sync_to_clouds.ps1
 ```
 

@@ -24,8 +24,10 @@ echo.
 REM Set the project path (modify if needed)
 set PROJECT_PATH=%~dp0..
 set PROJECT_NAME=GenX_FX
+set CLOUD_BASE_PATH=/A6-9V/Projects
 
 echo Project Path: %PROJECT_PATH%
+echo Cloud Base Path: %CLOUD_BASE_PATH%
 echo.
 
 REM Check if rclone is installed
@@ -45,7 +47,7 @@ REM Sync to Dropbox
 echo ============================================
 echo Syncing to Dropbox...
 echo ============================================
-rclone sync "%PROJECT_PATH%" remote_dropbox:/A6-9V/Projects/%PROJECT_NAME% ^
+rclone sync "%PROJECT_PATH%" remote_dropbox:%CLOUD_BASE_PATH%/%PROJECT_NAME% ^
     --progress ^
     --exclude ".git/**" ^
     --exclude "node_modules/**" ^
@@ -69,7 +71,7 @@ REM Sync to Google Drive
 echo ============================================
 echo Syncing to Google Drive...
 echo ============================================
-rclone sync "%PROJECT_PATH%" remote_gdrive:/A6-9V/Projects/%PROJECT_NAME% ^
+rclone sync "%PROJECT_PATH%" remote_gdrive:%CLOUD_BASE_PATH%/%PROJECT_NAME% ^
     --progress ^
     --exclude ".git/**" ^
     --exclude "node_modules/**" ^
@@ -93,7 +95,7 @@ REM Sync to OneDrive
 echo ============================================
 echo Syncing to OneDrive...
 echo ============================================
-rclone sync "%PROJECT_PATH%" remote_onedrive:/A6-9V/Projects/%PROJECT_NAME% ^
+rclone sync "%PROJECT_PATH%" remote_onedrive:%CLOUD_BASE_PATH%/%PROJECT_NAME% ^
     --progress ^
     --exclude ".git/**" ^
     --exclude "node_modules/**" ^
@@ -118,9 +120,9 @@ echo   Cloud Sync Complete!
 echo ============================================
 echo.
 echo Your GenX_FX project has been synced to:
-echo   - Dropbox: /A6-9V/Projects/%PROJECT_NAME%
-echo   - Google Drive: /A6-9V/Projects/%PROJECT_NAME%
-echo   - OneDrive: /A6-9V/Projects/%PROJECT_NAME%
+echo   - Dropbox: %CLOUD_BASE_PATH%/%PROJECT_NAME%
+echo   - Google Drive: %CLOUD_BASE_PATH%/%PROJECT_NAME%
+echo   - OneDrive: %CLOUD_BASE_PATH%/%PROJECT_NAME%
 echo.
 echo For more information, see: docs/CLOUD_SYNC_AND_SEO_GUIDE.md
 echo.

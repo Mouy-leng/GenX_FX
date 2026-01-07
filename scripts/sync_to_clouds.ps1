@@ -24,8 +24,10 @@ Write-Host ""
 $ScriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectPath = Split-Path -Parent $ScriptPath
 $ProjectName = "GenX_FX"
+$CloudBasePath = "/A6-9V/Projects"
 
 Write-Host "Project Path: $ProjectPath"
+Write-Host "Cloud Base Path: $CloudBasePath"
 Write-Host ""
 
 # Check if rclone is installed
@@ -66,7 +68,7 @@ function Sync-ToCloud {
     Write-Host "Syncing to $DisplayName..." -ForegroundColor Cyan
     Write-Host "============================================" -ForegroundColor Cyan
     
-    $RemotePath = "${RemoteName}:/A6-9V/Projects/$ProjectName"
+    $RemotePath = "${RemoteName}:${CloudBasePath}/$ProjectName"
     
     try {
         & rclone sync $ProjectPath $RemotePath --progress @Exclusions
@@ -95,9 +97,9 @@ Write-Host "  Cloud Sync Complete!" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Your GenX_FX project has been synced to:" -ForegroundColor Green
-Write-Host "  - Dropbox: /A6-9V/Projects/$ProjectName" -ForegroundColor White
-Write-Host "  - Google Drive: /A6-9V/Projects/$ProjectName" -ForegroundColor White
-Write-Host "  - OneDrive: /A6-9V/Projects/$ProjectName" -ForegroundColor White
+Write-Host "  - Dropbox: $CloudBasePath/$ProjectName" -ForegroundColor White
+Write-Host "  - Google Drive: $CloudBasePath/$ProjectName" -ForegroundColor White
+Write-Host "  - OneDrive: $CloudBasePath/$ProjectName" -ForegroundColor White
 Write-Host ""
 Write-Host "For more information, see: docs/CLOUD_SYNC_AND_SEO_GUIDE.md" -ForegroundColor Cyan
 Write-Host ""
