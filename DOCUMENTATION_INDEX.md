@@ -45,6 +45,7 @@ launch_cloned_branch.bat
 | **[A6-9V_Master_System_README.md](A6-9V_Master_System_README.md)** | System overview | System architecture understanding |
 | **[README-local.md](README-local.md)** | Local workspace info | Workspace organization |
 | **[VPS_CONFIGURATION.md](VPS_CONFIGURATION.md)** | VPS server details | VPS setup and monitoring |
+| **[docs/CLOUD_SYNC_AND_SEO_GUIDE.md](docs/CLOUD_SYNC_AND_SEO_GUIDE.md)** | Cloud sync and SEO indexing | Setting up multi-cloud backup and ensuring Google indexing |
 
 ### Script Documentation
 
@@ -88,6 +89,12 @@ launch_cloned_branch.bat
 1. [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md) - Troubleshooting section
 2. [MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md](MT5_EXPERT_ADVISORS_QUICK_REFERENCE.md) - Common issues
 3. [A6-9V_Master_System_README.md](A6-9V_Master_System_README.md) - System info
+
+### Task: Setting Up Cloud Sync and SEO
+**Read these in order:**
+1. [docs/CLOUD_SYNC_AND_SEO_GUIDE.md](docs/CLOUD_SYNC_AND_SEO_GUIDE.md) - Complete guide
+2. Install rclone and configure remotes
+3. Set up automated sync with Task Scheduler
 
 ---
 
@@ -255,6 +262,8 @@ Day 5+: Daily Operations
 | **Launch commands** | LAUNCH_WORKFLOW_DIAGRAM.md - Step 2 |
 | **Visual workflow** | LAUNCH_WORKFLOW_DIAGRAM.md - Full document |
 | **Complete guide** | REPOSITORY_LAUNCH_GUIDE.md - All sections |
+| **Cloud sync setup** | docs/CLOUD_SYNC_AND_SEO_GUIDE.md - Complete cloud sync and SEO guide |
+| **rclone commands** | docs/CLOUD_SYNC_AND_SEO_GUIDE.md - Section 9 |
 
 ---
 
