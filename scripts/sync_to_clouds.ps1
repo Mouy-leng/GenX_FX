@@ -24,7 +24,16 @@ Write-Host ""
 $ScriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectPath = Split-Path -Parent $ScriptPath
 $ProjectName = "GenX_FX"
-$CloudBasePath = "/A6-9V/Projects"
+
+# Determine cloud base path:
+# - Prefer environment variable GENXFX_CLOUD_BASE_PATH if set
+# - Fall back to a generic default ("/Projects") otherwise
+$EnvCloudBasePath = $env:GENXFX_CLOUD_BASE_PATH
+if ([string]::IsNullOrWhiteSpace($EnvCloudBasePath)) {
+    $CloudBasePath = "/Projects"
+} else {
+    $CloudBasePath = $EnvCloudBasePath
+}
 
 Write-Host "Project Path: $ProjectPath"
 Write-Host "Cloud Base Path: $CloudBasePath"

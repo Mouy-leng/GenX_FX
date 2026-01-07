@@ -179,13 +179,13 @@ To avoid conflicts and mess:
    - GitHub: `https://github.com/Mouy-leng/GenX_FX`
 
 2. **Local Workspace:**
-   - Windows 11 dev folder: `D:\A6-9V\Projects\GenX_FX`
+   - Windows 11 dev folder (example): `D:\Projects\GenX_FX` (replace with your own path)
 
 3. **Automation:**
-   - Script using `rclone` to sync local project to:
-     - `remote_dropbox:/A6-9V/Projects/GenX_FX`
-     - `remote_gdrive:/A6-9V/Projects/GenX_FX`
-     - `remote_onedrive:/A6-9V/Projects/GenX_FX`
+   - Script using `rclone` to sync local project to (example paths):
+     - `remote_dropbox:/Projects/GenX_FX`
+     - `remote_gdrive:/Projects/GenX_FX`
+     - `remote_onedrive:/Projects/GenX_FX`
 
 4. **SEO Target:**
    - Public GitHub repository
@@ -281,7 +281,7 @@ See [scripts/README.md](../scripts/README.md) for more details.
 
 If you prefer to customize the sync behavior, create your own script:
 
-Create a file: `D:\A6-9V\Scripts\sync_to_clouds.bat`
+Create a file: `D:\Scripts\sync_to_clouds.bat` (or your preferred location)
 
 ```batch
 @echo off
@@ -290,17 +290,17 @@ echo Syncing GenX_FX to cloud providers...
 REM Sync to Dropbox
 echo.
 echo Syncing to Dropbox...
-rclone sync "D:\A6-9V\Projects\GenX_FX" remote_dropbox:/A6-9V/Projects/GenX_FX --progress --exclude ".git/**" --exclude "node_modules/**" --exclude ".venv/**"
+rclone sync "D:\path\to\your\project" remote_dropbox:/path/to/your/project --progress --exclude ".git/**" --exclude "node_modules/**" --exclude ".venv/**"
 
 REM Sync to Google Drive
 echo.
 echo Syncing to Google Drive...
-rclone sync "D:\A6-9V\Projects\GenX_FX" remote_gdrive:/A6-9V/Projects/GenX_FX --progress --exclude ".git/**" --exclude "node_modules/**" --exclude ".venv/**"
+rclone sync "D:\path\to\your\project" remote_gdrive:/path/to/your/project --progress --exclude ".git/**" --exclude "node_modules/**" --exclude ".venv/**"
 
 REM Sync to OneDrive
 echo.
 echo Syncing to OneDrive...
-rclone sync "D:\A6-9V\Projects\GenX_FX" remote_onedrive:/A6-9V/Projects/GenX_FX --progress --exclude ".git/**" --exclude "node_modules/**" --exclude ".venv/**"
+rclone sync "D:\path\to\your\project" remote_onedrive:/path/to/your/project --progress --exclude ".git/**" --exclude "node_modules/**" --exclude ".venv/**"
 
 echo.
 echo Sync complete!
@@ -328,7 +328,7 @@ You can schedule either the ready-made scripts or your custom script to run auto
    - Action: "Start a program"
    - Program/script: Path to your sync script, e.g.:
      - `C:\path\to\GenX_FX\scripts\sync_to_clouds.bat` (for repository script)
-     - Or `D:\A6-9V\Scripts\sync_to_clouds.bat` (for custom script)
+     - Or `D:\Scripts\sync_to_clouds.bat` (example custom script path — replace with your own)
 
 5. **Finish and Test:**
    - Check "Open the Properties dialog"
@@ -345,7 +345,7 @@ rclone config show
 
 ### List Files in Remote
 ```bash
-rclone ls remote_dropbox:/A6-9V/Projects/GenX_FX
+rclone ls remote_dropbox:/Projects/GenX_FX
 ```
 
 ### Dry Run (Test Without Syncing)
@@ -436,7 +436,7 @@ rclone sync source dest --bwlimit=1M
 
 ### For GenX_FX Project
 - **Repository:** https://github.com/Mouy-leng/GenX_FX
-- **Documentation Index:** [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
+- **Documentation Index:** [../DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
 - **Main README:** [../docs/README.md](README.md)
 
 ---

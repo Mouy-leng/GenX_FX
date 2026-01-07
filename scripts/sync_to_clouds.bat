@@ -24,7 +24,11 @@ echo.
 REM Set the project path (modify if needed)
 set PROJECT_PATH=%~dp0..
 set PROJECT_NAME=GenX_FX
-set CLOUD_BASE_PATH=/A6-9V/Projects
+
+REM Allow CLOUD_BASE_PATH to be overridden by environment, with a generic default
+if not defined CLOUD_BASE_PATH (
+    set CLOUD_BASE_PATH=/Projects
+)
 
 echo Project Path: %PROJECT_PATH%
 echo Cloud Base Path: %CLOUD_BASE_PATH%
