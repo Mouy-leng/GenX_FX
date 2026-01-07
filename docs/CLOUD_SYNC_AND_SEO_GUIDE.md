@@ -436,8 +436,8 @@ rclone sync source dest --bwlimit=1M
 
 ### For GenX_FX Project
 - **Repository:** https://github.com/Mouy-leng/GenX_FX
-- **Documentation Index:** [../DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
-- **Main README:** [../docs/README.md](README.md)
+- **Documentation Index:** [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
+- **Main README:** [README.md](README.md)
 
 ---
 
