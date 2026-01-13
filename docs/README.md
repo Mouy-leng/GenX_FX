@@ -1,6 +1,7 @@
 # A6-9V Documentation
 
 ## Index
+- Cloud Sync and SEO Guide: [CLOUD_SYNC_AND_SEO_GUIDE.md](CLOUD_SYNC_AND_SEO_GUIDE.md)
 - GitHub App Setup: [GITHUB_APP_SETUP.md](GITHUB_APP_SETUP.md)
 - Plane Project Management: [PLANE_PROJECT_MANAGEMENT.md](PLANE_PROJECT_MANAGEMENT.md)
 - Repository Ownership: [../OWNERSHIP.md](../OWNERSHIP.md)
