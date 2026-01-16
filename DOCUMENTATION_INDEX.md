@@ -47,6 +47,20 @@ launch_cloned_branch.bat
 | **[VPS_CONFIGURATION.md](VPS_CONFIGURATION.md)** | VPS server details | VPS setup and monitoring |
 | **[docs/CLOUD_SYNC_AND_SEO_GUIDE.md](docs/CLOUD_SYNC_AND_SEO_GUIDE.md)** | Cloud sync and SEO indexing | Setting up multi-cloud backup and ensuring Google indexing |
 
+### 🗂️ Dropbox Organization System
+
+| Document | Purpose | When to Read |
+|----------|---------|--------------|
+| **[DROPBOX-INDEX.md](DROPBOX-INDEX.md)** | Documentation navigation | Finding Dropbox docs |
+| **[QUICKSTART-DROPBOX.md](QUICKSTART-DROPBOX.md)** | Quick start (5 min) | Ready to organize drive |
+| **[README-DROPBOX-AUTOMATION.md](README-DROPBOX-AUTOMATION.md)** | Complete automation guide | Full implementation |
+| **[DROPBOX_ORGANIZATION_BLUEPRINT.md](DROPBOX_ORGANIZATION_BLUEPRINT.md)** | Folder structure design | Planning organization |
+
+**Automation Scripts:**
+- `scripts/Analyze-DriveForDropbox.ps1` - Analyze current drive structure
+- `scripts/Create-DropboxStructure.ps1` - Create Dropbox folder hierarchy
+- `scripts/Migrate-ToDropbox.ps1` - Migrate files to Dropbox
+
 ### Script Documentation
 
 | Script | Platform | Purpose |
