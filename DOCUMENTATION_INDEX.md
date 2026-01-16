@@ -9,7 +9,7 @@ New to the project? Start here to get the system up and running.
 | Document | Purpose |
 |----------|---------|
 | [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md) | The primary guide for setting up and launching the repository for the first time. |
-| [LAUNCH_WORKFLOW_DIAGRAM.md](LAUNCH_WORKFLOW_DIAGRAM.md) | A visual guide to the system's launch and operation workflow. |
+| [LAUNCH_WORKFLOW_DIAGRAM.md](LAUNCH_WORKFLOW_DIagram.md) | A visual guide to the system's launch and operation workflow. |
 | [README-local.md](README-local.md) | Information about the local workspace and repository organization. |
 
 ## 📈 Trading Guides
@@ -48,6 +48,17 @@ Information for developers who want to contribute to the project or customize th
 
 Documentation for the various scripts used to automate the system.
 
+### 🗂️ Dropbox Organization System
+
+| Document | Purpose |
+|----------|---------|
+| [DROPBOX-INDEX.md](DROPBOX-INDEX.md) | Main index for Dropbox documentation. |
+| [QUICKSTART-DROPBOX.md](QUICKSTART-DROPBOX.md) | A 5-minute guide to organizing your drive. |
+| [README-DROPBOX-AUTOMATION.md](README-DROPBOX-AUTOMATION.md) | A complete guide to Dropbox automation. |
+| [DROPBOX_ORGANIZATION_BLUEPRINT.md](DROPBOX_ORGANIZATION_BLUEPRINT.md) | The blueprint for the Dropbox folder structure. |
+
+### Script Reference
+
 | Script | Platform | Purpose |
 |--------|----------|---------|
 | [launch_cloned_branch.sh](launch_cloned_branch.sh) | Unix/Linux/Mac | Repository launcher with verification. |
@@ -55,6 +66,10 @@ Documentation for the various scripts used to automate the system.
 | [A6-9V_Enhanced_Master_Launcher.bat](A6-9V_Enhanced_Master_Launcher.bat) | Windows | Full system launcher for daily operations. |
 | [MT_AutoLogin_Fixed.ps1](MT_AutoLogin_Fixed.ps1) | PowerShell | Automated login for MetaTrader 4/5. |
 | [Enable_MT_AutoTrading.ps1](Enable_MT_AutoTrading.ps1) | PowerShell | Enables Expert Advisors in MetaTrader. |
+| `scripts/Analyze-DriveForDropbox.ps1` | PowerShell | Analyze current drive structure. |
+| `scripts/Create-DropboxStructure.ps1` | PowerShell | Create Dropbox folder hierarchy. |
+| `scripts/Migrate-ToDropbox.ps1` | PowerShell | Migrate files to Dropbox. |
+
 
 ---
 
