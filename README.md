@@ -2,6 +2,22 @@
 
 🚀 **Production-Ready Forex Trading System** with MetaTrader 5 integration, Python automation, and Node.js backend infrastructure.
 
+<p align="center">
+  <a href="#">
+    <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Build Status">
+  </a>
+  <a href="OWNERSHIP.md">
+    <img src="https://img.shields.io/badge/license-Private-blue" alt="License">
+  </a>
+  <a href="https://github.com/Mouy-leng/GenX_FX/issues">
+    <img src="https://img.shields.io/github/issues/Mouy-leng/GenX_FX" alt="GitHub issues">
+  </a>
+</p>
+
+## What is GenX_FX?
+
+GenX_FX is a comprehensive, production-ready Forex trading system designed for automated trading with MetaTrader 5. It features a robust backend built with Node.js and Express, Python scripts for automation and monitoring, and a suite of eight Expert Advisors for executing trading strategies. The system is designed for secure, scalable, and reliable operation, with features like JWT-based authentication, Docker support for containerized deployment, and a CI/CD pipeline for automated testing and deployment.
+
 ## 🌐 Live Deployment
 
 **Production URL:** `https://your-domain.com` (Configure with your Namecheap domain)
