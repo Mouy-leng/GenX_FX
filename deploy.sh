@@ -3,7 +3,7 @@
 # GenX_FX Deployment Script
 # This script automates the deployment process for the ProductionApp
 
-set -e  # Exit on error
+set -eo pipefail # Exit on error and report pipe failures
 
 # Colors for output
 RED='\033[0;31m'
@@ -30,6 +30,26 @@ print_info() {
     echo -e "${YELLOW}ℹ️  $1${NC}"
 }
 
+# Error handling function
+handle_error() {
+    local exit_code=$?
+    local line_no=$1
+    print_error "Script failed on line $line_no with exit code $exit_code"
+
+    # If in app directory, try to get logs
+    if [ -d "$APP_DIR" ] && [ -f "$APP_DIR/docker-compose.yml" ]; then
+      cd "$APP_DIR"
+      print_info "Attempting to gather Docker logs..."
+      docker-compose logs --tail=50 || print_error "Could not retrieve Docker logs."
+    fi
+
+    print_error "Deployment failed."
+    exit $exit_code
+}
+
+# Trap errors
+trap 'handle_error $LINENO' ERR
+
 # Check if running as root or with sudo
 if [ "$EUID" -ne 0 ]; then 
     print_error "Please run as root or with sudo"
@@ -37,6 +57,17 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 print_info "Starting GenX_FX deployment..."
+
+# Check for dependencies
+if ! command -v docker &> /dev/null; then
+    print_error "Docker is not installed. Please install it to continue."
+    exit 1
+fi
+if ! command -v docker-compose &> /dev/null; then
+    print_error "Docker Compose is not installed. Please install it to continue."
+    exit 1
+fi
+print_success "Dependencies checked."
 
 # Step 1: Create backup directory
 print_info "Creating backup directory..."
@@ -55,11 +86,11 @@ print_info "Navigating to project directory..."
 cd "$PROJECT_DIR" || exit 1
 
 # Step 4: Pull latest changes
-print_info "Pulling latest changes from repository..."
+print_info "Pulling latest changes from main branch..."
 git fetch origin
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-git pull origin "$CURRENT_BRANCH"
-print_success "Repository updated"
+git checkout main
+git reset --hard origin/main
+print_success "Repository updated to latest main branch version"
 
 # Step 5: Navigate to ProductionApp
 cd "$APP_DIR" || exit 1
@@ -68,6 +99,12 @@ cd "$APP_DIR" || exit 1
 if [ ! -f .env ]; then
     print_error ".env file not found!"
     print_info "Please create .env file from .env.example"
+    exit 1
+fi
+
+# Check if docker-compose.yml exists
+if [ ! -f docker-compose.yml ]; then
+    print_error "docker-compose.yml file not found!"
     exit 1
 fi
 
