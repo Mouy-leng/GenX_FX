@@ -129,7 +129,7 @@ Prevent email spoofing:
 
 - **Type**: TXT Record
 - **Host**: @
-- **Value**: v=spf1 include:_spf.google.com ~all
+- **Value**: v=spf1 a mx include:_spf.google.com ~all
 - **TTL**: Automatic
 
 ### DMARC Record (Email Authentication)

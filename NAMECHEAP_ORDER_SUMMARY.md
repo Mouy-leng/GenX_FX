@@ -220,7 +220,7 @@ lengkundee01.org
 ### Domain Owner
 - **Name**: LengNuna
 - **Email**: lengkundee01@gmail.com
-- **Address**: Battambang, Cambodia
+- **Address**: [Private – on file with registrar]
 
 ### Technical Support
 - **Namecheap Support**: Available 24/7

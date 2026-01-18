@@ -128,7 +128,8 @@ server {
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';" always;
     
     location / {
         try_files $uri $uri/ =404;
@@ -199,18 +200,18 @@ User=www-data
 Group=www-data
 WorkingDirectory=/var/www/api.lengkundee01.org
 Environment="PATH=/var/www/api.lengkundee01.org/venv/bin"
-ExecStart=/var/www/api.lengkundee01.org/venv/bin/gunicorn \
-    --bind 127.0.0.1:5000 \
-    --workers 4 \
-    --timeout 120 \
-    wsgi:app
+ExecStart=/var/www/api.lengkundee01.org/venv/bin/gunicorn --bind 127.0.0.1:5000 --workers 4 --timeout 120 wsgi:app
 
 Restart=always
 RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
-EOF
+```
+
+Ensure correct ownership for the www-data service account:
+```bash
+sudo chown -R www-data:www-data /var/www/api.lengkundee01.org
 ```
 
 Enable and start service:
@@ -223,26 +224,44 @@ sudo systemctl status genx-api
 
 ### Step 2.4: Configure Nginx for API
 
-Create: `/etc/nginx/sites-available/api.lengkundee01.org`
+First, create rate limiting configuration in http context:
+
+Create: `/etc/nginx/conf.d/rate-limit.conf`
+```nginx
+# Rate limiting zone - must be in http context
+limit_req_zone $binary_remote_addr zone=api_limit:10m rate=10r/s;
+```
+
+Then create: `/etc/nginx/sites-available/api.lengkundee01.org`
 ```nginx
 server {
     listen 80;
     listen [::]:80;
     server_name api.lengkundee01.org;
     
-    # Rate limiting
-    limit_req_zone $binary_remote_addr zone=api_limit:10m rate=10r/s;
-    limit_req zone=api_limit burst=20;
-    
+    # Handle CORS preflight OPTIONS requests
     location / {
+        # Handle preflight requests
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' 'https://lengkundee01.org' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Content-Type' 'text/plain; charset=utf-8';
+            add_header 'Content-Length' 0;
+            return 204;
+        }
+        
+        # Rate limiting (zone defined in /etc/nginx/conf.d/rate-limit.conf)
+        limit_req zone=api_limit burst=20;
+        
         proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         
-        # CORS headers - Restrict to specific origins in production
-        # Replace '*' with actual domain(s), e.g., 'https://lengkundee01.org'
+        # CORS headers for actual requests
         add_header 'Access-Control-Allow-Origin' 'https://lengkundee01.org' always;
         add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
         add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
@@ -313,7 +332,14 @@ def performance():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    # Development server only - do NOT use in production
+    # In production, use Gunicorn via the systemd service
+    app.run(debug=True)
+```
+
+Create the templates directory and template file:
+```bash
+mkdir -p templates
 ```
 
 Create: `templates/dashboard.html`
@@ -350,6 +376,11 @@ Create: `templates/dashboard.html`
 
 ### Step 3.3: Create Systemd Service
 
+First, install Gunicorn for production use:
+```bash
+pip install gunicorn
+```
+
 Create: `/etc/systemd/system/genx-dashboard.service`
 ```ini
 [Unit]
@@ -357,19 +388,23 @@ Description=GenX FX Trading Dashboard
 After=network.target
 
 [Service]
-Type=simple
+Type=notify
 User=www-data
 Group=www-data
 WorkingDirectory=/var/www/trading.lengkundee01.org
 Environment="PATH=/var/www/trading.lengkundee01.org/venv/bin"
-ExecStart=/var/www/trading.lengkundee01.org/venv/bin/python app.py
+ExecStart=/var/www/trading.lengkundee01.org/venv/bin/gunicorn --bind 127.0.0.1:8000 --workers 2 --timeout 120 app:app
 
 Restart=always
 RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
-EOF
+```
+
+Ensure correct ownership for the www-data service account:
+```bash
+sudo chown -R www-data:www-data /var/www/trading.lengkundee01.org
 ```
 
 Enable and start:
@@ -511,8 +546,8 @@ Update all Nginx configs to include:
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 add_header X-Frame-Options "SAMEORIGIN" always;
 add_header X-Content-Type-Options "nosniff" always;
-add_header X-XSS-Protection "1; mode=block" always;
 add_header Referrer-Policy "no-referrer-when-downgrade" always;
+add_header Content-Security-Policy "default-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self';" always;
 
 # Hide Nginx version
 server_tokens off;
