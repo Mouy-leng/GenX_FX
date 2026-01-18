@@ -49,6 +49,21 @@ launch_cloned_branch.bat
 | **[DOMAIN_CONFIGURATION.md](DOMAIN_CONFIGURATION.md)** | Domain setup and management | Domain registration and DNS |
 | **[DNS_SETUP_GUIDE.md](DNS_SETUP_GUIDE.md)** | Step-by-step DNS configuration | Setting up domain DNS records |
 | **[WEBSITE_DEPLOYMENT_GUIDE.md](WEBSITE_DEPLOYMENT_GUIDE.md)** | Website deployment instructions | Deploying services to domain |
+| **[docs/CLOUD_SYNC_AND_SEO_GUIDE.md](docs/CLOUD_SYNC_AND_SEO_GUIDE.md)** | Cloud sync and SEO indexing | Setting up multi-cloud backup and ensuring Google indexing |
+
+### 🗂️ Dropbox Organization System
+
+| Document | Purpose | When to Read |
+|----------|---------|--------------|
+| **[DROPBOX-INDEX.md](DROPBOX-INDEX.md)** | Documentation navigation | Finding Dropbox docs |
+| **[QUICKSTART-DROPBOX.md](QUICKSTART-DROPBOX.md)** | Quick start (5 min) | Ready to organize drive |
+| **[README-DROPBOX-AUTOMATION.md](README-DROPBOX-AUTOMATION.md)** | Complete automation guide | Full implementation |
+| **[DROPBOX_ORGANIZATION_BLUEPRINT.md](DROPBOX_ORGANIZATION_BLUEPRINT.md)** | Folder structure design | Planning organization |
+
+**Automation Scripts:**
+- `scripts/Analyze-DriveForDropbox.ps1` - Analyze current drive structure
+- `scripts/Create-DropboxStructure.ps1` - Create Dropbox folder hierarchy
+- `scripts/Migrate-ToDropbox.ps1` - Migrate files to Dropbox
 
 ### Script Documentation
 
@@ -99,6 +114,13 @@ launch_cloned_branch.bat
 2. [DNS_SETUP_GUIDE.md](DNS_SETUP_GUIDE.md) - Step-by-step DNS setup
 3. [VPS_CONFIGURATION.md](VPS_CONFIGURATION.md) - VPS integration
 4. [REPOSITORY_LAUNCH_GUIDE.md](REPOSITORY_LAUNCH_GUIDE.md) - Deployment sections
+5. [WEBSITE_DEPLOYMENT_GUIDE.md](WEBSITE_DEPLOYMENT_GUIDE.md) - Website, API, and dashboard deployment steps
+
+### Task: Setting Up Cloud Sync and SEO
+**Read these in order:**
+1. [docs/CLOUD_SYNC_AND_SEO_GUIDE.md](docs/CLOUD_SYNC_AND_SEO_GUIDE.md) - Complete guide
+2. Install rclone and configure remotes
+3. Set up automated sync with Task Scheduler
 
 ---
 
@@ -278,6 +300,8 @@ Day 5+: Daily Operations
 | **Domain details** | DOMAIN_CONFIGURATION.md - Full domain information |
 | **DNS setup** | DNS_SETUP_GUIDE.md - Step-by-step DNS configuration |
 | **Website deployment** | WEBSITE_DEPLOYMENT_GUIDE.md - Deployment instructions |
+| **Cloud sync setup** | docs/CLOUD_SYNC_AND_SEO_GUIDE.md - Complete cloud sync and SEO guide |
+| **rclone commands** | docs/CLOUD_SYNC_AND_SEO_GUIDE.md - Section 9 |
 
 ---
 
